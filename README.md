@@ -89,4 +89,4 @@ do the following:
 Have a look here: https://www.baeldung.com/spring-boot-testing
 
 Testing SmartCommits
-Practicing SmartCommits  
+Practicing SmartCommits   
