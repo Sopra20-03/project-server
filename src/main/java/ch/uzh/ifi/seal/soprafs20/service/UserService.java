@@ -2,15 +2,18 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
+import ch.uzh.ifi.seal.soprafs20.exceptions.EmptyFieldException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.User.UsernameTakenException;
 import ch.uzh.ifi.seal.soprafs20.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,50 +31,114 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    //Password Encoding
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     public UserService(@Qualifier("userRepository") UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Returns a list of all users from table T_USERS
+     * @return List<User>
+     */
     public List<User> getUsers() {
         return this.userRepository.findAll();
     }
 
-    public User createUser(User newUser) {
-        newUser.setToken(UUID.randomUUID().toString());
-        newUser.setStatus(UserStatus.OFFLINE);
+    /**
+     * Returns user with given id from table "T_USERS"
+     * @param id of the user to be returned
+     * @return User
+     */
+    public User getUser(Long id){
+        User user = userRepository.findUserById(id);
 
-        checkIfUserExists(newUser);
+        if(user == null)
+            throw new UserNotFoundException("Id: "+id.toString());
 
-        // saves the given entity but data is only persisted in the database once flush() is called
-        newUser = userRepository.save(newUser);
-        userRepository.flush();
-
-        log.debug("Created Information for User: {}", newUser);
-        return newUser;
+        return user;
     }
 
     /**
-     * This is a helper method that will check the uniqueness criteria of the username and the name
-     * defined in the User entity. The method will do nothing if the input is unique and throw an error otherwise.
-     *
-     * @param userToBeCreated
-     * @throws org.springframework.web.server.ResponseStatusException
+     * Persists a user into table T_USERS
+     * @param user to be persisted
+     * @return User
+     */
+    public User createUser(User user) {
+
+        //CompleteDetails
+        bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setToken(UUID.randomUUID().toString());
+        user.setStatus(UserStatus.OFFLINE);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        //Check if username is available
+        checkIfUserAlreadyExists(user);
+
+        // saves the given entity but data is only persisted in the database once flush() is called
+        userRepository.save(user);
+        userRepository.flush();
+
+        log.debug("Created Information for User: {}", user);
+        return user;
+    }
+
+    /**
+     * Updates user details for a user in table T_USERS
+     * @param id of the user to be updated
+     * @param user instance with updated details
+     * @return User
+     */
+    public User updateUser(Long id, User user) {
+
+        if(id == null)
+            throw new EmptyFieldException("Id");
+
+        //Find User by Id
+        User findUserById = getUser(id);
+
+        //Only update the necessary details
+        findUserById.setName(user.getName() == null ? findUserById.getName() : user.getName());
+        //Update Username
+        if(!user.getUsername().equals(findUserById.getUsername())){
+            checkIfUsernameTaken(user.getUsername());
+            findUserById.setUsername(user.getUsername() == null ? findUserById.getUsername() : user.getUsername());
+        }
+
+        userRepository.save(findUserById);
+        userRepository.flush();
+
+        return findUserById;
+    }
+
+    /**
+     * This is a helper method that will check the uniqueness criteria of the username
+     * in the User entity to be persisted.
+     * The method will do nothing if the input is unique and throw an error otherwise.
+     * @param user
+     * @throws UserAlreadyExistsException
      * @see User
      */
-    private void checkIfUserExists(User userToBeCreated) {
-        User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-        User userByName = userRepository.findByName(userToBeCreated.getName());
+    private void checkIfUserAlreadyExists(User user) {
 
-        String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
-        if (userByUsername != null && userByName != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "username and the name", "are"));
+        if(userRepository.findUserByUsername(user.getUsername())!=null){
+            //User with given username already exists.
+            throw new UserAlreadyExistsException(user.getUsername());
         }
-        else if (userByUsername != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "username", "is"));
-        }
-        else if (userByName != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "name", "is"));
-        }
+        //User doesn't exist
+    }
+
+    /**
+     * This is a helper method that will check if the username is available or not.
+     * The method will do nothing if the username is not already taken and throw an error otherwise.
+     * @param username
+     * @throws UsernameTakenException
+     * @see User
+     */
+    private void checkIfUsernameTaken(String username){
+        if(userRepository.findUserByUsername(username)!=null)
+            throw new UsernameTakenException(username);
     }
 }
