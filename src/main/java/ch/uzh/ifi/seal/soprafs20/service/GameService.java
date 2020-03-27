@@ -62,7 +62,7 @@ public class GameService {
      * @param game to be persisted
      * @return Game
      */
-    public Game createUser(Game game) {
+    public Game createGame(Game game) {
 
         //CompleteDetails
         game.setGameStatus(GameStatus.INITIALIZED);

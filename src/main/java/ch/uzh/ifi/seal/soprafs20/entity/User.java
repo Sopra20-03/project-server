@@ -41,11 +41,6 @@ public class User implements Serializable {
     @Column(nullable = false)
     private LocalDate dateCreated;
 
-    public User() {
-        System.out.println("User Entity created");
-        dateCreated = LocalDate.now();
-    }
-
     public LocalDate getDateCreated() {
         return dateCreated;
     }

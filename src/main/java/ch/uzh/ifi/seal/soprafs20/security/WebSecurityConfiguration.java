@@ -22,4 +22,39 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().sameOrigin();
     }
+
+    /*
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .cors()
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/users","/users/**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2","/h2/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll().successHandler(authSuccessHandler).failureHandler(authFailureHandler)
+                .and()
+                .csrf().disable()
+                .headers().frameOptions().sameOrigin()
+                .and()
+                .logout().logoutSuccessHandler(logoutHandler)
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll();
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+     */
 }

@@ -57,7 +57,7 @@ public class GameController {
         Game game = DTOMapper.INSTANCE.convertGamePostDTOtoGameEntity(gamePostDTO);
 
         // Create game
-        Game newGame = gameService.createUser(game);
+        Game newGame = gameService.createGame(game);
 
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(newGame);
