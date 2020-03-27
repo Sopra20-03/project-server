@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,6 +73,7 @@ public class UserService {
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setToken(UUID.randomUUID().toString());
         user.setStatus(UserStatus.OFFLINE);
+        user.setDateCreated(LocalDate.now());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         //Check if username is available
