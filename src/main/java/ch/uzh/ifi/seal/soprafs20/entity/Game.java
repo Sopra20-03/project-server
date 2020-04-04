@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "T_GAMES")
@@ -18,13 +19,27 @@ public class Game implements Serializable {
     private long gameId;
 
     @Column(nullable = false)
+    private String gameName;
+
+    @Column(nullable = false)
     private GameStatus gameStatus;
 
     @Column(nullable = false)
     private GameMode gameMode;
 
+    @Column(nullable = false)
+    private Date timeCreated;
+
 
     public Game() {
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 
     public GameStatus getGameStatus() {
@@ -43,11 +58,19 @@ public class Game implements Serializable {
         this.gameId = gameId;
     }
 
+    public GameMode getGameMode() {
+        return gameMode;
+    }
+
     public void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
     }
 
-    public GameMode getGameMode() {
-        return gameMode;
+    public Date getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(Date timeCreated) {
+        this.timeCreated = timeCreated;
     }
 }

@@ -24,8 +24,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -84,8 +86,13 @@ public class GameControllerTest {
         // given
         testGame = new Game();
         testGame.setGameId(1L);
+        testGame.setGameName("testGame");
         testGame.setGameMode(GameMode.RIVAL);
         testGame.setGameStatus(GameStatus.INITIALIZED);
+        testGame.setTimeCreated(new Date());
+
+        //Time Format
+        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
 
         List<Game> allGames = Collections.singletonList(testGame);
 
@@ -101,8 +108,10 @@ public class GameControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].gameName", is(testGame.getGameName())))
                 .andExpect(jsonPath("$[0].gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$[0].gameMode", is(testGame.getGameMode().toString())))
+                .andExpect(jsonPath("$[0].timeCreated", is(ft.format(testGame.getTimeCreated()))))
                 .andReturn();
 
         //Assertions
@@ -127,8 +136,14 @@ public class GameControllerTest {
         // given
         testGame = new Game();
         testGame.setGameId(1L);
+        testGame.setGameName("testGame");
         testGame.setGameMode(GameMode.RIVAL);
         testGame.setGameStatus(GameStatus.INITIALIZED);
+        Date dateNow = new Date();
+        testGame.setTimeCreated(dateNow);
+
+        //Time Format
+        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
 
         given(gameService.getGame(Mockito.any())).willReturn(testGame);
 
@@ -139,8 +154,10 @@ public class GameControllerTest {
         MvcResult result = mockMvc.perform(getRequest)
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameName", is(testGame.getGameName())))
                 .andExpect(jsonPath("$.gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$.gameMode", is(testGame.getGameMode().toString())))
+                .andExpect(jsonPath("$.timeCreated", is(ft.format(testGame.getTimeCreated()))))
                 .andReturn();
 
         //Assertions
@@ -149,7 +166,7 @@ public class GameControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"gameId\":1,\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"timeCreated\":\""+ ft.format(dateNow)+"\"}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
@@ -196,8 +213,14 @@ public class GameControllerTest {
         // given
         testGame = new Game();
         testGame.setGameId(1L);
+        testGame.setGameName("testGame");
         testGame.setGameMode(GameMode.RIVAL);
         testGame.setGameStatus(GameStatus.INITIALIZED);
+        Date dateNow = new Date();
+        testGame.setTimeCreated(dateNow);
+
+        //Time Format
+        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
 
 
         //Game from PostDTO
@@ -217,8 +240,10 @@ public class GameControllerTest {
         MvcResult result = mockMvc.perform(postRequest)
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.gameName", is(testGame.getGameName())))
                 .andExpect(jsonPath("$.gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$.gameMode", is(testGame.getGameMode().toString())))
+                .andExpect(jsonPath("$.timeCreated", is(ft.format(testGame.getTimeCreated()))))
                 .andReturn();
 
         //Assertions
@@ -227,7 +252,7 @@ public class GameControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"gameId\":1,\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"timeCreated\":\""+ ft.format(dateNow)+"\"}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing

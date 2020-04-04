@@ -30,7 +30,7 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String lobby() {
-        return "SoPra Group 03 Server Application is Running. Path: /lobby";
+        return "SoPra Group 03 Server Application is Running. Path: /";
     }
 
     @GetMapping("/games")
