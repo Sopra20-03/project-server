@@ -18,7 +18,6 @@ import java.util.List;
  * The controller will receive the request and delegate the execution to the GameService and finally return the result.
  */
 @RestController
-@RequestMapping("/lobby")
 public class GameController {
 
     private final GameService gameService;
@@ -27,7 +26,7 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @GetMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String lobby() {

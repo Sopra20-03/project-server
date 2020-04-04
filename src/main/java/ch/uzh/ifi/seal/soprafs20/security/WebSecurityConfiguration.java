@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * Web Security Configuration Class for Spring Security
- * Enalble Security for authentication later.
+ * Enable Security for authentication later.
  */
 @Configuration
 @EnableWebSecurity

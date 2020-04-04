@@ -68,8 +68,8 @@ public class GameControllerTest {
 
     //Test case 5 : GET /lobby/games
     /**
-     GET /lobby/games
-     Test: GET /lobby/games
+     GET /games
+     Test: GET /games
      Result: 200 Success & list of games should be given back
      */
     @Test
@@ -84,7 +84,7 @@ public class GameControllerTest {
         given(gameService.getGames()).willReturn(allGames);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get("/lobby/games")
+        MockHttpServletRequestBuilder getRequest = get("/games")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8");
 
@@ -107,10 +107,10 @@ public class GameControllerTest {
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
     }
 
-    //Test case 6 : GET /lobby/games/{gameId}
+    //Test case 6 : GET /games/{gameId}
     /**
-     GET /lobby/games/{gameId}
-     Test: GET /lobby/games/{gameId} with valid game id for which the game exists
+     GET games/{gameId}
+     Test: GET /games/{gameId} with valid game id for which the game exists
      Result: 200 Success with game details
      */
     @Test
@@ -123,7 +123,7 @@ public class GameControllerTest {
         given(gameService.getGame(Mockito.any())).willReturn(testGame);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get("/lobby/games/1");
+        MockHttpServletRequestBuilder getRequest = get("/games/1");
 
         // then
         MvcResult result = mockMvc.perform(getRequest)
@@ -145,8 +145,8 @@ public class GameControllerTest {
     }
 
     /**
-     GET /users/{id}
-     Test: GET /users/{id} with invalid game id for which the game doesn't exists
+     GET /games/{id}
+     Test: GET /games/{id} with invalid game id for which the game doesn't exists
      Result: 404 Not Found Error
      */
     @Test
@@ -159,7 +159,7 @@ public class GameControllerTest {
         given(gameService.getGame(Mockito.any())).willThrow(GameNotFoundException.class);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get("/lobby/games/2");
+        MockHttpServletRequestBuilder getRequest = get("/games/2");
 
         // then
         MvcResult result = mockMvc.perform(getRequest)
