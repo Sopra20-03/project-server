@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
 import javax.persistence.*;
@@ -19,6 +20,10 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private GameStatus gameStatus;
 
+    @Column(nullable = false)
+    private GameMode gameMode;
+
+
     public Game() {
     }
 
@@ -36,5 +41,13 @@ public class Game implements Serializable {
 
     public void setGameId(long gameId) {
         this.gameId = gameId;
+    }
+
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
+    }
+
+    public GameMode getGameMode() {
+        return gameMode;
     }
 }

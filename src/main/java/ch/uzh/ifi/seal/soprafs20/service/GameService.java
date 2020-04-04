@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
@@ -66,6 +67,9 @@ public class GameService {
 
         //CompleteDetails
         game.setGameStatus(GameStatus.INITIALIZED);
+
+        //if gameMode is not specified, set to STANDARD
+        if(game.getGameMode()==null){game.setGameMode(GameMode.STANDARD);}
 
         // saves the given entity but data is only persisted in the database once flush() is called
         gameRepository.save(game);

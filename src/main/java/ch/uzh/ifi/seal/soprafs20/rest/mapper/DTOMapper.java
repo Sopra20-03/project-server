@@ -45,9 +45,11 @@ public interface DTOMapper {
 
     @Mapping(source = "gameId", target = "gameId")
     @Mapping(source = "gameStatus", target = "gameStatus")
+    @Mapping(source = "gameMode", target = "gameMode")
     GameGetDTO convertGameEntityToGameGetDTO(Game game);
 
     //gameId is auto-generated
     //gameStatus is set to INITIALIZED on creation
+    @Mapping(source = "gameMode", target = "gameMode")
     Game convertGamePostDTOtoGameEntity(GamePostDTO gamePostDTO);
 }
