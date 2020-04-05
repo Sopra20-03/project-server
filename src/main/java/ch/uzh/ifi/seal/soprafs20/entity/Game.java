@@ -5,7 +5,9 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "T_GAMES")
@@ -29,6 +31,9 @@ public class Game implements Serializable {
 
     @Column(nullable = false)
     private Date timeCreated;
+
+    @OneToMany(mappedBy = "game")
+    private List<Round> rounds;
 
 
     public Game() {
@@ -72,5 +77,13 @@ public class Game implements Serializable {
 
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(List<Round> rounds) {
+        this.rounds = rounds;
     }
 }

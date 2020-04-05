@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "T_Round")
+@Table(name = "T_ROUNDS")
 @SequenceGenerator(name="roundSeq", initialValue=1, allocationSize=100)
 public class Round implements Serializable {
 
@@ -12,7 +12,11 @@ public class Round implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roundSeq")
-    private Long roundID;
+    private long Id;
+
+    @ManyToOne
+    @JoinColumn(name="gameId")
+    private Game game;
 
     @Column(nullable = false)
     private int roundNum;
@@ -35,5 +39,28 @@ public class Round implements Serializable {
     @Column
     private boolean correctGuessed;
      */
+    public Round(){}
+    public Long getId() {
+        return Id;
+    }
 
+    public void setId(Long id) {
+        this.Id = id;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public int getRoundNum() {
+        return roundNum;
+    }
+
+    public void setRoundNum(int roundNum) {
+        this.roundNum = roundNum;
+    }
 }

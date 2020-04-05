@@ -8,7 +8,6 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,7 +25,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +50,6 @@ public class GameControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-
     private MockMvc mockMvc;
 
     @MockBean

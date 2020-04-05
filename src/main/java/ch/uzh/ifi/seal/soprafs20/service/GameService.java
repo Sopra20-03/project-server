@@ -3,8 +3,10 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
+import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +26,11 @@ import java.util.List;
 @Service
 @Transactional
 public class GameService {
-    private final Logger log = LoggerFactory.getLogger(UserService.class);
+    private final Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final GameRepository gameRepository;
+
+
 
     @Autowired
     public GameService(@Qualifier("gameRepository") GameRepository gameRepository) {
@@ -71,6 +76,10 @@ public class GameService {
         //if gameName is not specified, set to "Game+ unique integer"
         if(game.getGameName()==null){game.setGameName("Game"+game.getTimeCreated().hashCode());}
 
+        //set rounds to an empty list
+        List<Round> rounds = new ArrayList<Round>();
+        game.setRounds(rounds);
+
         // saves the given entity but data is only persisted in the database once flush() is called
         gameRepository.save(game);
         gameRepository.flush();
@@ -78,4 +87,5 @@ public class GameService {
         log.debug("Created Information for Game: {}", game);
         return game;
     }
+
 }
