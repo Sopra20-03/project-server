@@ -2,19 +2,29 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "T_Players")
-public class RealPlayer implements Player {
+@SequenceGenerator(name="playerSeq", initialValue=1, allocationSize=100)
+public class RealPlayer implements Player, Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playerSeq")
+    private Long playerId;
+
     @Column
     private User user;
 
     @Column
     private Role role;
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public Role getRole() { return role; }
+
+    public void setRole(Role role) { this.role = role; }
 }
