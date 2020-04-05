@@ -14,7 +14,7 @@ public class RealPlayer implements Player, Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playerSeq")
     private Long playerId;
 
-    @Column
+    @Column (nullable = false)
     private User user;
 
     @Column
