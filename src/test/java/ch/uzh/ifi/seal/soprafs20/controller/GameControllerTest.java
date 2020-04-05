@@ -8,6 +8,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -56,14 +57,24 @@ public class GameControllerTest {
 
     @MockBean
     private GameService gameService;
-
     private Game testGame;
+    private Date dateNow;
+    private SimpleDateFormat ft;
 
     @BeforeEach
     public void setup(){
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+        //init testGame
+        testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame.setGameMode(GameMode.RIVAL);
+        testGame.setGameStatus(GameStatus.INITIALIZED);
+        dateNow = new Date();
+        testGame.setTimeCreated(dateNow);
+        //init Time format
+        ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
     }
-
 
     @Test
     public void test() throws Exception {
@@ -83,16 +94,6 @@ public class GameControllerTest {
      */
     @Test
     public void getGamesSuccess() throws Exception {
-        // given
-        testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame.setGameMode(GameMode.RIVAL);
-        testGame.setGameStatus(GameStatus.INITIALIZED);
-        testGame.setTimeCreated(new Date());
-
-        //Time Format
-        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
 
         List<Game> allGames = Collections.singletonList(testGame);
 
@@ -134,17 +135,6 @@ public class GameControllerTest {
     @Test
     public void getGameSuccess() throws Exception {
         // given
-        testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame.setGameMode(GameMode.RIVAL);
-        testGame.setGameStatus(GameStatus.INITIALIZED);
-        Date dateNow = new Date();
-        testGame.setTimeCreated(dateNow);
-
-        //Time Format
-        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
-
         given(gameService.getGame(Mockito.any())).willReturn(testGame);
 
         // when
@@ -180,10 +170,6 @@ public class GameControllerTest {
     @Test
     public void getGameError() throws Exception {
         // given
-        testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameStatus(GameStatus.INITIALIZED);
-
         given(gameService.getGame(Mockito.any())).willThrow(GameNotFoundException.class);
 
         // when
@@ -210,18 +196,6 @@ public class GameControllerTest {
      */
     @Test
     public void createGameSuccess() throws Exception {
-        // given
-        testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame.setGameMode(GameMode.RIVAL);
-        testGame.setGameStatus(GameStatus.INITIALIZED);
-        Date dateNow = new Date();
-        testGame.setTimeCreated(dateNow);
-
-        //Time Format
-        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
-
 
         //Game from PostDTO
         GamePostDTO gamePostDTO = new GamePostDTO();
