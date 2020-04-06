@@ -1,7 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.entity.Player;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,21 +19,24 @@ public class PlayerService {
 
     private final PlayerRepository playerRepository;
 
+
     @Autowired
     public PlayerService(@Qualifier("playerRepository") PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
 
+
     /**
      * Persists a player into table T_PLAYERS
      * (works only on RealPlayers atm)
-     * @param player to be persisted
+     * @param user to be persisted as a player
      * @return Player
      */
-    public Player createPlayer(RealPlayer player) {
+    public RealPlayer createPlayer(User user) {
 
         //CompleteDetails
-        player.setUser(player.getUser());
+        RealPlayer player = new RealPlayer();
+        player.setUser(user);
 
         // saves the given entity but data is only persisted in the database once flush() is called
         playerRepository.save(player);

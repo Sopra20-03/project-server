@@ -20,6 +20,10 @@ public class RealPlayer implements Player, Serializable {
     @Column
     private Role role;
 
+    public Long getPlayerId() { return playerId; }
+
+    public void setPlayerId(Long playerId) { this.playerId = playerId; }
+
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }
