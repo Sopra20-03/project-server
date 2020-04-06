@@ -22,7 +22,6 @@ class RoundServiceTest {
     private GameService gameService;
     @Autowired
     private RoundService roundService;
-
     @MockBean
     private Game testGame;
 
@@ -33,10 +32,19 @@ class RoundServiceTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
-        gameService.createGame(testGame);
+
+
     }
     @Test
     void createRounds() {
-        roundService.createRounds(testGame);
+        gameService.createGame(testGame);
+        //roundService.createRounds(testGame);
+        //check if 2 rounds are created in ROUNDS_T
+        assertEquals(2,gameService.getRounds(1L).size());
+        assertEquals(2,roundService.getRoundsOfGame(testGame).size());
+
+
+
+
     }
 }

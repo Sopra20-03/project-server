@@ -56,5 +56,6 @@ class GameServiceTest {
         assertEquals(testGame.getGameStatus(),GameStatus.INITIALIZED);
         //check if default GameMode is STANDARD
         assertEquals(testGame.getGameMode(),GameMode.STANDARD);
+
     }
 }

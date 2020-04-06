@@ -8,7 +8,7 @@ import java.io.Serializable;
 @SequenceGenerator(name="roundSeq", initialValue=1, allocationSize=100)
 public class Round implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roundSeq")

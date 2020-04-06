@@ -32,7 +32,7 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private Date timeCreated;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private List<Round> rounds;
 
 

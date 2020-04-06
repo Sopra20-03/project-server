@@ -29,12 +29,14 @@ public class GameService {
     private final Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final GameRepository gameRepository;
+    private final RoundService roundService;
 
 
 
     @Autowired
-    public GameService(@Qualifier("gameRepository") GameRepository gameRepository) {
+    public GameService(@Qualifier("gameRepository") GameRepository gameRepository, RoundService roundService) {
         this.gameRepository = gameRepository;
+        this.roundService = roundService;
     }
 
     /**
@@ -76,16 +78,20 @@ public class GameService {
         //if gameName is not specified, set to "Game+ unique integer"
         if(game.getGameName()==null){game.setGameName("Game"+game.getTimeCreated().hashCode());}
 
-        //set rounds to an empty list
-        List<Round> rounds = new ArrayList<Round>();
-        game.setRounds(rounds);
+
 
         // saves the given entity but data is only persisted in the database once flush() is called
         gameRepository.save(game);
         gameRepository.flush();
 
+        roundService.createRounds(game);
+
         log.debug("Created Information for Game: {}", game);
         return game;
+    }
+
+    public List<Round> getRounds(Long gameId){
+        return gameRepository.getOne(gameId).getRounds();
     }
 
 }

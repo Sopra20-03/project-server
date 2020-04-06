@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class RoundService {
     private final Logger log = LoggerFactory.getLogger(RoundService.class);
 
     private final RoundRepository roundRepository;
-    private final int NUMBER_OF_ROUNDS = 12;
+    private final int NUMBER_OF_ROUNDS = 2;
 
     @Autowired
     public RoundService(@Qualifier("roundRepository") RoundRepository roundRepository) {
@@ -36,19 +37,36 @@ public class RoundService {
      * @param game creates rounds for game
      * @return Round
      */
-    public Game createRounds(Game game){
+    public void createRounds(Game game){
 
         for(int roundNum = 1; roundNum <= NUMBER_OF_ROUNDS; roundNum++){
             //create round
             Round round = new Round();
             round.setGame(game);
             round.setRoundNum(roundNum);
-            game.getRounds().add(round);
+
             //save round
             roundRepository.save(round);
             roundRepository.flush();
         }
 
-        return game;
+    }
+    /**
+     * Gets all rounds stored in T_ROUNDS
+     * @return List<Round>
+     */
+    public List <Round> getRounds(){
+        return this.roundRepository.findAll();
+    }
+
+    /**
+     * Returns all Rounds of a given game
+     * @param game of the rounds
+     * @return List<Round>
+     */
+    public List<Round> getRoundsOfGame(Game game){
+        return roundRepository.findRoundsByGame(game);
+
+
     }
 }
