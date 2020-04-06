@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -58,6 +58,20 @@ public class UserService {
 
         if(user == null)
             throw new UserNotFoundException("Id: "+id.toString());
+
+        return user;
+    }
+
+    /**
+     * Returns a user with given token from table "T_USERS"
+     * @param token of the user to be returned
+     * @return User
+     */
+    public User getUserByToken(String token) {
+        User user = userRepository.findUserByToken(token);
+
+        if(user == null)
+            throw new UserNotFoundException("token: "+token);
 
         return user;
     }
