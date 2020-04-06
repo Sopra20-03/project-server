@@ -2,22 +2,21 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class GameServiceTest {
@@ -27,6 +26,9 @@ class GameServiceTest {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private PlayerService playerService;
 
     @BeforeEach
     public void setup(){
@@ -56,6 +58,41 @@ class GameServiceTest {
         assertEquals(testGame.getGameStatus(),GameStatus.INITIALIZED);
         //check if default GameMode is STANDARD
         assertEquals(testGame.getGameMode(),GameMode.STANDARD);
+
+    }
+
+    @Test
+    void addPlayer() {
+        //create player to add
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setToken("testToken");
+        testUser.setStatus(UserStatus.OFFLINE);
+        testUser.setDateCreated(LocalDate.now());
+        testUser.setId(1L);
+
+        Game testGame = new Game();
+        testGame.setGameMode(GameMode.RIVAL);
+        testGame.setGameName("testGame");
+        testGame.setGameStatus(GameStatus.INITIALIZED);
+        testGame.setGameId(1L);
+        testGame.setTimeCreated(new Date());
+
+
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setPlayerId(1L);
+        testPlayer.setUser(testUser);
+        testPlayer.setGame(testGame);
+
+        testPlayer = playerService.createPlayer(testUser);
+
+        //add player to game
+        testGame = gameService.addPlayer(testGame.getGameId(), testPlayer);
+
+        //Assertions
+        assertTrue(Arrays.asList(testGame.getPlayers()).contains(testPlayer));
 
     }
 }
