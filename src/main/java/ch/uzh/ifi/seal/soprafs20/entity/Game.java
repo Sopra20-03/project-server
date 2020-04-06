@@ -5,7 +5,6 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +33,9 @@ public class Game implements Serializable {
 
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private List<Round> rounds;
+
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    private List<RealPlayer> players;
 
 
     public Game() {
@@ -85,5 +87,13 @@ public class Game implements Serializable {
 
     public void setRounds(List<Round> rounds) {
         this.rounds = rounds;
+    }
+
+    public List<RealPlayer> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<RealPlayer> players) {
+        this.players = players;
     }
 }

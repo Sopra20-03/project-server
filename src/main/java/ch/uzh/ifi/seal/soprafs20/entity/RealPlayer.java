@@ -20,6 +20,10 @@ public class RealPlayer implements Player, Serializable {
     @Column
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "gameId")
+    private Game game;
+
     public Long getPlayerId() { return playerId; }
 
     public void setPlayerId(Long playerId) { this.playerId = playerId; }
@@ -31,4 +35,8 @@ public class RealPlayer implements Player, Serializable {
     public Role getRole() { return role; }
 
     public void setRole(Role role) { this.role = role; }
+
+    public Game getGame() { return game; }
+
+    public void setGame(Game game) { this.game = game; }
 }
