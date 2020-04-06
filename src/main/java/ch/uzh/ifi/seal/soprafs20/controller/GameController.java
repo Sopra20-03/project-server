@@ -1,10 +1,14 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
+import ch.uzh.ifi.seal.soprafs20.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +25,13 @@ import java.util.List;
 public class GameController {
 
     private final GameService gameService;
+    private final UserService userService;
+    private final PlayerService playerService;
 
-    public GameController(GameService gameService) {
+    public GameController(GameService gameService, UserService userService, PlayerService playerService) {
         this.gameService = gameService;
+        this.userService = userService;
+        this.playerService = playerService;
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -67,6 +75,21 @@ public class GameController {
     @ResponseBody
     public GameGetDTO getUser(@PathVariable Long id) {
         Game game = gameService.getGame(id);
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+        return gameGetDTO;
+    }
+
+    @PutMapping("games/{id}/player")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public GameGetDTO addPlayer(@PathVariable Long id, String token) {
+        User user = new User();
+        user = userService.getUserByToken(token);
+
+        RealPlayer player = playerService.createPlayer(user);
+
+        Game game = new Game();
+        game = gameService.addPlayer(id, player);
+
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
         return gameGetDTO;
     }
