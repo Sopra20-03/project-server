@@ -82,15 +82,17 @@ public class GameController {
     @PutMapping("games/{id}/player")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public GameGetDTO addPlayer(@PathVariable Long id, String token) {
-        User user = new User();
-        user = userService.getUserByToken(token);
+
+        User user = userService.getUserByToken(token);
+
+        Game game = gameService.getGame(id);
 
         RealPlayer player = playerService.createPlayer(user);
 
-        Game game = new Game();
         game = gameService.addPlayer(id, player);
 
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+
         return gameGetDTO;
     }
 }

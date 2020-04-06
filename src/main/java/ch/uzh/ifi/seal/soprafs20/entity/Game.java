@@ -34,7 +34,7 @@ public class Game implements Serializable {
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private List<Round> rounds;
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game")
     private List<RealPlayer> players;
 
 

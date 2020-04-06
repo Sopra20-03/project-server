@@ -8,13 +8,13 @@ import java.io.Serializable;
 @Entity
 @Table(name = "T_Players")
 @SequenceGenerator(name="playerSeq", initialValue=1, allocationSize=100)
-public class RealPlayer implements Player, Serializable {
+public class RealPlayer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playerSeq")
     private Long playerId;
 
-    @Column (nullable = false)
+    @Column (nullable = false, columnDefinition = "TEXT")
     private User user;
 
     @Column
