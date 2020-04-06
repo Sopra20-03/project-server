@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.RoundService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,11 @@ import java.util.List;
 public class GameController {
 
     private final GameService gameService;
+    private final RoundService roundService;
 
-    public GameController(GameService gameService) {
+    public GameController(GameService gameService, RoundService roundService) {
         this.gameService = gameService;
+        this.roundService = roundService;
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -57,6 +60,9 @@ public class GameController {
 
         // Create game
         Game newGame = gameService.createGame(game);
+
+        //create rounds
+        roundService.createRounds(newGame);
 
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(newGame);

@@ -14,8 +14,9 @@ public class Round implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roundSeq")
     private long Id;
 
-    @ManyToOne
-    @JoinColumn(name="gameId")
+    //@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    //@JoinColumn(name="game_Id", nullable = false)
+    @Column(nullable = false, columnDefinition="text")
     private Game game;
 
     @Column(nullable = false)
@@ -40,6 +41,7 @@ public class Round implements Serializable {
     private boolean correctGuessed;
      */
     public Round(){}
+
     public Long getId() {
         return Id;
     }

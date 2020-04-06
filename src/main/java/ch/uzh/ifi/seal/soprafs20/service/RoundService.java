@@ -35,7 +35,6 @@ public class RoundService {
     /**
      * Creates 12 rounds of a game & save it into table T_ROUNDS
      * @param game creates rounds for game
-     * @return Round
      */
     public void createRounds(Game game){
 
@@ -44,12 +43,12 @@ public class RoundService {
             Round round = new Round();
             round.setGame(game);
             round.setRoundNum(roundNum);
-
             //save round
             roundRepository.save(round);
             roundRepository.flush();
-        }
 
+            log.debug("Created Round: {}", round);
+        }
     }
     /**
      * Gets all rounds stored in T_ROUNDS
