@@ -3,10 +3,10 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
-import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,6 +91,22 @@ public class GameService {
 
     public List<Round> getRounds(Long gameId){
         return gameRepository.getOne(gameId).getRounds();
+    }
+
+    public Game addPlayer(Long id, RealPlayer player) {
+
+        //TODO: add exception if Id doesn't exist
+
+        //find game by id and get players already in the game
+        Game game = getGame(id);
+        List<RealPlayer> players = game.getPlayers();
+
+        //TODO: add exception if game already has five players
+
+        //add player to list and add it to game
+        players.add(player);
+
+        return game;
     }
 
 }
