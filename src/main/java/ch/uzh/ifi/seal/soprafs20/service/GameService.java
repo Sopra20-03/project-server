@@ -2,22 +2,21 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.User;
+import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
+import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Game Service
@@ -27,13 +26,17 @@ import java.util.UUID;
 @Service
 @Transactional
 public class GameService {
-    private final Logger log = LoggerFactory.getLogger(UserService.class);
+    private final Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final GameRepository gameRepository;
+    private final RoundService roundService;
+
+
 
     @Autowired
-    public GameService(@Qualifier("gameRepository") GameRepository gameRepository) {
+    public GameService(@Qualifier("gameRepository") GameRepository gameRepository, RoundService roundService) {
         this.gameRepository = gameRepository;
+        this.roundService = roundService;
     }
 
     /**
@@ -67,15 +70,28 @@ public class GameService {
 
         //CompleteDetails
         game.setGameStatus(GameStatus.INITIALIZED);
+        game.setTimeCreated(new Date());
 
         //if gameMode is not specified, set to STANDARD
         if(game.getGameMode()==null){game.setGameMode(GameMode.STANDARD);}
+
+        //if gameName is not specified, set to "Game+ unique integer"
+        if(game.getGameName()==null){game.setGameName("Game"+game.getTimeCreated().hashCode());}
+
+
 
         // saves the given entity but data is only persisted in the database once flush() is called
         gameRepository.save(game);
         gameRepository.flush();
 
+        roundService.createRounds(game);
+
         log.debug("Created Information for Game: {}", game);
         return game;
     }
+
+    public List<Round> getRounds(Long gameId){
+        return gameRepository.getOne(gameId).getRounds();
+    }
+
 }

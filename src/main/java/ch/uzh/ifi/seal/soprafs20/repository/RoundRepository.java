@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("gameRepository")
-public interface GameRepository extends JpaRepository<Game, Long> {
-    Game findGameByGameId(long gameId);
+@Repository("roundRepository")
+public interface RoundRepository extends JpaRepository<Round, Long> {
+    List<Round> findRoundsByGame(Game game);
 }
