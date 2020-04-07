@@ -87,7 +87,7 @@ public class GameController {
 
         Game game = gameService.getGame(id);
 
-        RealPlayer player = playerService.createPlayer(user);
+        RealPlayer player = playerService.createPlayer(user, game);
 
         game = gameService.addPlayer(id, player);
 

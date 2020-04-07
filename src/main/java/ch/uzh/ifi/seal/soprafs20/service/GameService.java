@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Game Service
@@ -99,7 +100,7 @@ public class GameService {
 
         //find game by id and get players already in the game
         Game game = getGame(id);
-        List<RealPlayer> players = game.getPlayers();
+        Set<RealPlayer> players = game.getPlayers();
 
         //TODO: add exception if game already has five players
 

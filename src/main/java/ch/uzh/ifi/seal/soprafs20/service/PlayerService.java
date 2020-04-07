@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.repository.PlayerRepository;
@@ -32,11 +33,12 @@ public class PlayerService {
      * @param user to be persisted as a player
      * @return Player
      */
-    public RealPlayer createPlayer(User user) {
+    public RealPlayer createPlayer(User user, Game game) {
 
         //CompleteDetails
         RealPlayer player = new RealPlayer();
         player.setUser(user);
+        player.setGame(game);
 
         // saves the given entity but data is only persisted in the database once flush() is called
         playerRepository.save(player);

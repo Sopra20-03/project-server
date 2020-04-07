@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_GAMES")
@@ -35,7 +36,7 @@ public class Game implements Serializable {
     private List<Round> rounds;
 
     @OneToMany(mappedBy = "game")
-    private List<RealPlayer> players;
+    private Set<RealPlayer> players;
 
 
     public Game() {
@@ -89,11 +90,11 @@ public class Game implements Serializable {
         this.rounds = rounds;
     }
 
-    public List<RealPlayer> getPlayers() {
+    public Set<RealPlayer> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<RealPlayer> players) {
+    public void setPlayers(Set<RealPlayer> players) {
         this.players = players;
     }
 }
