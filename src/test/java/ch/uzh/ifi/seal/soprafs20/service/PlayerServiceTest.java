@@ -38,7 +38,7 @@ public class PlayerServiceTest {
 
         RealPlayer testPlayer = playerService.createPlayer(testUser, testGame);
 
-        assertEquals(testPlayer.getUser(), testUser);
+        assertEquals(testPlayer.getUserId(), testUser.getId());
         assertEquals(testPlayer.getGame(), testGame);
     }
 }

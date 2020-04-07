@@ -16,8 +16,8 @@ public class RealPlayer implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playerSeq")
     private Long playerId;
 
-    @Column (nullable = false, columnDefinition = "TEXT")
-    private User user;
+    @Column (nullable = false)
+    private Long userId;
 
     @Column
     private Role role;
@@ -30,9 +30,9 @@ public class RealPlayer implements Serializable {
 
     public void setPlayerId(Long playerId) { this.playerId = playerId; }
 
-    public User getUser() { return user; }
+    public Long getUserId() { return userId; }
 
-    public void setUser(User user) { this.user = user; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
     public Role getRole() { return role; }
 

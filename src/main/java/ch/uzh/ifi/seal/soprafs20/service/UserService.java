@@ -62,6 +62,7 @@ public class UserService {
         return user;
     }
 
+    //don't need this anymore I think...
     /**
      * Returns a user with given token from table "T_USERS"
      * @param token of the user to be returned

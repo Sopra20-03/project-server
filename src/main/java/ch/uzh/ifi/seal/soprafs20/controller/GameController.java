@@ -9,12 +9,10 @@ import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
-
-
+import ch.uzh.ifi.seal.soprafs20.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +28,13 @@ public class GameController {
     private final GameService gameService;
     private final RoundService roundService;
     private final PlayerService playerService;
+    private final UserService userService;
 
-    public GameController(GameService gameService, RoundServiec roundService, PlayerService playerService) {
+    public GameController(GameService gameService, RoundService roundService, PlayerService playerService, UserService userService) {
         this.gameService = gameService;
-        this.roundService = roundService
+        this.roundService = roundService;
         this.playerService = playerService;
-
-
-
+        this.userService = userService;
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -90,9 +87,9 @@ public class GameController {
 
     @PutMapping("games/{id}/player")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody String token) {
+    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody Long userId) {
 
-        User user = userService.getUserByToken(token);
+        User user = userService.getUser(userId);
 
         Game game = gameService.getGame(id);
 

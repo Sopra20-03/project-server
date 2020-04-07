@@ -38,7 +38,7 @@ public class PlayerService {
 
         //CompleteDetails
         RealPlayer player = new RealPlayer();
-        player.setUser(user);
+        player.setUserId(user.getId());
         player.setGame(game);
 
         // saves the given entity but data is only persisted in the database once flush() is called
