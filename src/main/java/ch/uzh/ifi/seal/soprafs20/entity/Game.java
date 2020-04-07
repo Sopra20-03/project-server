@@ -32,8 +32,8 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private Date timeCreated;
 
-    //@OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //private List<Round> rounds = new ArrayList<Round>();
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private List<Round> rounds;
 
 
     public Game() {
@@ -79,4 +79,11 @@ public class Game implements Serializable {
         this.timeCreated = timeCreated;
     }
 
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(List<Round> rounds) {
+        this.rounds = rounds;
+    }
 }

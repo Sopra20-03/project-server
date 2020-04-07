@@ -4,7 +4,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.Game;
 
 public class RoundGetDTO {
     private long roundId;
-    private long gameId;
+    // private long gameId;
     private int roundNum;
 
     public long getRoundId() {
@@ -15,13 +15,6 @@ public class RoundGetDTO {
         this.roundId = roundId;
     }
 
-    public long getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(long gameId) {
-        this.gameId = gameId;
-    }
 
     public int getRoundNum() {
         return roundNum;

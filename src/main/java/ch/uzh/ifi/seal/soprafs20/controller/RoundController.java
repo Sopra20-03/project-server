@@ -14,10 +14,11 @@ import java.util.List;
 
 @RestController
 public class RoundController {
-    private final GameService gameService;
-    private final RoundService roundService;
 
-    public RoundController(GameService gameService, RoundService roundService) {
+    private final RoundService roundService;
+    private final GameService gameService;
+
+    public RoundController(RoundService roundService, GameService gameService) {
         this.gameService = gameService;
         this.roundService = roundService;
     }
@@ -26,8 +27,9 @@ public class RoundController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<RoundGetDTO> getRoundsOfGame(@PathVariable Long id) {
+        Game game = gameService.getGame(id);
         //get all rounds of this game
-        List<Round> rounds = roundService.getRoundsOfGame(id);
+        List<Round> rounds = roundService.getRoundsOfGame(game);
         //convert all rounds to RoundGetDTO
         List<RoundGetDTO> roundGetDTOs= new ArrayList<>();
         for (Round round: rounds){

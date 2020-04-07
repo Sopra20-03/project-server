@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class GameController {
         game = gameService.createGame(game);
 
         //create rounds
-        roundService.createRounds(game.getGameId());
+        game = roundService.createRounds(game);
 
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
