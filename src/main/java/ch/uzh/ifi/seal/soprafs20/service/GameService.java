@@ -32,14 +32,13 @@ public class GameService {
     private final Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final GameRepository gameRepository;
-    private final RoundService roundService;
+
 
 
 
     @Autowired
-    public GameService(@Qualifier("gameRepository") GameRepository gameRepository, RoundService roundService) {
+    public GameService(@Qualifier("gameRepository") GameRepository gameRepository) {
         this.gameRepository = gameRepository;
-        this.roundService = roundService;
     }
 
     /**
@@ -83,19 +82,13 @@ public class GameService {
 
 
 
-        // saves the given entity but data is only persisted in the database once flush() is called
         gameRepository.save(game);
         gameRepository.flush();
-
-        roundService.createRounds(game);
 
         log.debug("Created Information for Game: {}", game);
         return game;
     }
 
-    public List<Round> getRounds(Long gameId){
-        return gameRepository.getOne(gameId).getRounds();
-    }
 
     public Game addPlayer(Long id, RealPlayer player) {
 
