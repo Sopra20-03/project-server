@@ -1,11 +1,16 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +29,15 @@ public class GameController {
 
     private final GameService gameService;
     private final RoundService roundService;
+    private final PlayerService playerService;
 
-    public GameController(GameService gameService, RoundService roundService) {
+    public GameController(GameService gameService, RoundServiec roundService, PlayerService playerService) {
         this.gameService = gameService;
-        this.roundService = roundService;
+        this.roundService = roundService
+        this.playerService = playerService;
+
+
+
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -75,6 +85,23 @@ public class GameController {
     public GameGetDTO getGame(@PathVariable Long id) {
         Game game = gameService.getGame(id);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+        return gameGetDTO;
+    }
+
+    @PutMapping("games/{id}/player")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody String token) {
+
+        User user = userService.getUserByToken(token);
+
+        Game game = gameService.getGame(id);
+
+        RealPlayer player = playerService.createPlayer(user, game);
+
+        game = gameService.addPlayer(id, player);
+
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+
         return gameGetDTO;
     }
 }

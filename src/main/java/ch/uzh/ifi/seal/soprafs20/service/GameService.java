@@ -3,10 +3,10 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
-import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Game Service
@@ -86,5 +87,32 @@ public class GameService {
         return game;
     }
 
+
+    public Game addPlayer(Long id, RealPlayer player) {
+
+        //TODO: add exception if Id doesn't exist
+
+        //find game by id
+        Game game = getGame(id);
+
+        //create new set and add player if game has no players yet
+        if(game.getPlayers() == null) {
+            Set<RealPlayer> players = new HashSet<>();
+            players.add(player);
+            game.setPlayers(players);
+        }
+
+        //get players already in the game and add new player
+        else {
+            Set<RealPlayer> players = game.getPlayers();
+            players.add(player);
+            game.setPlayers(players);
+        }
+
+        //TODO: add exception if game already has five players
+
+        log.debug("Added player: {} to game: {}", player, game);
+        return game;
+    }
 
 }
