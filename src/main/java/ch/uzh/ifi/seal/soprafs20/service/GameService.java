@@ -71,13 +71,15 @@ public class GameService {
 
         //CompleteDetails
         game.setGameStatus(GameStatus.INITIALIZED);
-        game.setTimeCreated(new Date());
+        //set start score to zero
+        game.setScore(0);
 
         //if gameMode is not specified, set to STANDARD
         if(game.getGameMode()==null){game.setGameMode(GameMode.STANDARD);}
 
         //if gameName is not specified, set to "Game+ unique integer"
-        if(game.getGameName()==null){game.setGameName("Game"+game.getTimeCreated().hashCode());}
+        Date date = new Date();
+        if(game.getGameName()==null){game.setGameName("Game"+date.hashCode());}
 
 
 

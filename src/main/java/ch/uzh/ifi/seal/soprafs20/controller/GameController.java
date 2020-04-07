@@ -9,7 +9,8 @@ import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
-import ch.uzh.ifi.seal.soprafs20.service.UserService;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,8 @@ public class GameController {
         this.roundService = roundService;
         this.playerService = playerService;
         this.userService = userService;
+
+
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
