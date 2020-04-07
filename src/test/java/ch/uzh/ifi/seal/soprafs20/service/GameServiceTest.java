@@ -83,6 +83,7 @@ class GameServiceTest {
 
         //Assertions
         assertTrue((testGame.getPlayers()).contains(testPlayer));
-
     }
+
+
 }

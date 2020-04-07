@@ -5,7 +5,9 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,10 +94,23 @@ public class GameService {
 
     public Game addPlayer(Long id, RealPlayer player) {
 
-        //TODO: add exception if Id doesn't exist
-
         //find game by id
         Game game = getGame(id);
+
+        //exception thrown if game doesn't exist
+        if(game == null) {
+            throw new GameNotFoundException("Id: " + id.toString());
+        }
+
+        //exception if game already has five players
+        if(game.getPlayers().size() >= 5) {
+            throw new GameFullException(" : Game already has five players.");
+        }
+
+        //exception if player is already in the game
+        if(game.getPlayers().contains(player)) {
+            throw new PlayerAlreadyInGameException("Id: " + player.getPlayerId().toString());
+        }
 
         //create new set and add player if game has no players yet
         if(game.getPlayers() == null) {
