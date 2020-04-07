@@ -22,7 +22,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String name;
@@ -50,11 +50,11 @@ public class User implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

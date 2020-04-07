@@ -1,22 +1,25 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.User;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 /**
  * Game Service
@@ -26,9 +29,12 @@ import java.util.UUID;
 @Service
 @Transactional
 public class GameService {
-    private final Logger log = LoggerFactory.getLogger(UserService.class);
+    private final Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final GameRepository gameRepository;
+
+
+
 
     @Autowired
     public GameService(@Qualifier("gameRepository") GameRepository gameRepository) {
@@ -66,12 +72,64 @@ public class GameService {
 
         //CompleteDetails
         game.setGameStatus(GameStatus.INITIALIZED);
+        //set start score to zero
+        game.setScore(0);
 
-        // saves the given entity but data is only persisted in the database once flush() is called
+        //if gameMode is not specified, set to STANDARD
+        if(game.getGameMode()==null){game.setGameMode(GameMode.STANDARD);}
+
+        //if gameName is not specified, set to "Game+ unique integer"
+        Date date = new Date();
+        if(game.getGameName()==null){game.setGameName("Game"+date.hashCode());}
+
+
+
         gameRepository.save(game);
         gameRepository.flush();
 
         log.debug("Created Information for Game: {}", game);
         return game;
     }
+
+
+    public Game addPlayer(Long id, RealPlayer player) {
+
+        //find game by id
+        Game game = getGame(id);
+
+        //exception thrown if game doesn't exist
+        if(game == null) {
+            throw new GameNotFoundException("Id: " + id.toString());
+        }
+
+        //exception if game already has five players
+        if(game.getPlayers().size() >= 5) {
+            throw new GameFullException(" : Game already has five players.");
+        }
+
+        //exception if player is already in the game
+        if(game.getPlayers().contains(player)) {
+            throw new PlayerAlreadyInGameException("Id: " + player.getPlayerId().toString());
+        }
+
+        //create new set and add player if game has no players yet
+        if(game.getPlayers() == null) {
+            Set<RealPlayer> players = new HashSet<>();
+            players.add(player);
+            game.setPlayers(players);
+        }
+
+        //get players already in the game and add new player
+        else {
+            Set<RealPlayer> players = game.getPlayers();
+            players.add(player);
+            game.setPlayers(players);
+        }
+
+        //TODO: add exception if game already has five players
+
+        log.debug("Added player: {} to game: {}", player, game);
+        return game;
+    }
+
 }
