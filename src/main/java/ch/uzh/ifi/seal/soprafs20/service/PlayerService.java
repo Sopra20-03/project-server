@@ -31,6 +31,7 @@ public class PlayerService {
      * Persists a player into table T_PLAYERS
      * (works only on RealPlayers atm)
      * @param user to be persisted as a player
+     * @param game the user wants to join
      * @return Player
      */
     public RealPlayer createPlayer(User user, Game game) {

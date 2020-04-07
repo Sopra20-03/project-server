@@ -81,7 +81,7 @@ public class GameController {
 
     @PutMapping("games/{id}/player")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public GameGetDTO addPlayer(@PathVariable Long id, String token) {
+    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody String token) {
 
         User user = userService.getUserByToken(token);
 

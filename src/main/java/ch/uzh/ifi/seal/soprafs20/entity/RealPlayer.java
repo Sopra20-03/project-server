@@ -10,6 +10,8 @@ import java.io.Serializable;
 @SequenceGenerator(name="playerSeq", initialValue=1, allocationSize=100)
 public class RealPlayer implements Serializable {
 
+    private static final long serialVersionUID = 4L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playerSeq")
     private Long playerId;
