@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -74,25 +72,17 @@ class GameServiceTest {
         testUser.setId(1L);
 
         Game testGame = new Game();
-        testGame.setGameMode(GameMode.RIVAL);
-        testGame.setGameName("testGame");
-        testGame.setGameStatus(GameStatus.INITIALIZED);
         testGame.setGameId(1L);
-        testGame.setTimeCreated(new Date());
+        testGame.setGameName("testGame");
+        testGame = gameService.createGame(testGame);
 
-
-        RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setPlayerId(1L);
-        testPlayer.setUser(testUser);
-        testPlayer.setGame(testGame);
-
-        testPlayer = playerService.createPlayer(testUser);
+        RealPlayer testPlayer = playerService.createPlayer(testUser, testGame);
 
         //add player to game
         testGame = gameService.addPlayer(testGame.getGameId(), testPlayer);
 
         //Assertions
-        assertTrue(Arrays.asList(testGame.getPlayers()).contains(testPlayer));
+        assertTrue((testGame.getPlayers()).contains(testPlayer));
 
     }
 }

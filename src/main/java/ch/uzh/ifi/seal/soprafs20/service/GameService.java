@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -98,15 +99,26 @@ public class GameService {
 
         //TODO: add exception if Id doesn't exist
 
-        //find game by id and get players already in the game
+        //find game by id
         Game game = getGame(id);
-        Set<RealPlayer> players = game.getPlayers();
+
+        //create new set and add player if game has no players yet
+        if(game.getPlayers() == null) {
+            Set<RealPlayer> players = new HashSet<>();
+            players.add(player);
+            game.setPlayers(players);
+        }
+
+        //get players already in the game and add new player
+        else {
+            Set<RealPlayer> players = game.getPlayers();
+            players.add(player);
+            game.setPlayers(players);
+        }
 
         //TODO: add exception if game already has five players
 
-        //add player to list and add it to game
-        players.add(player);
-
+        log.debug("Added player: {} to game: {}", player, game);
         return game;
     }
 
