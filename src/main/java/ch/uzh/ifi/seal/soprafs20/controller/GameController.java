@@ -8,10 +8,13 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
-import ch.uzh.ifi.seal.soprafs20.service.UserService;
+import ch.uzh.ifi.seal.soprafs20.service.RoundService;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +28,16 @@ import java.util.List;
 public class GameController {
 
     private final GameService gameService;
-    private final UserService userService;
+    private final RoundService roundService;
     private final PlayerService playerService;
 
-    public GameController(GameService gameService, UserService userService, PlayerService playerService) {
+    public GameController(GameService gameService, RoundServiec roundService, PlayerService playerService) {
         this.gameService = gameService;
-        this.userService = userService;
+        this.roundService = roundService
         this.playerService = playerService;
+
+
+
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -64,16 +70,19 @@ public class GameController {
         Game game = DTOMapper.INSTANCE.convertGamePostDTOtoGameEntity(gamePostDTO);
 
         // Create game
-        Game newGame = gameService.createGame(game);
+        game = gameService.createGame(game);
+
+        //create rounds
+        game = roundService.createRounds(game);
 
         // Convert POJO to JSON
-        return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(newGame);
+        return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
     }
 
     @GetMapping("/games/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public GameGetDTO getUser(@PathVariable Long id) {
+    public GameGetDTO getGame(@PathVariable Long id) {
         Game game = gameService.getGame(id);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
         return gameGetDTO;

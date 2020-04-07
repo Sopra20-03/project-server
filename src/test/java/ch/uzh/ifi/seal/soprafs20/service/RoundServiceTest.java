@@ -24,6 +24,7 @@ class RoundServiceTest {
     private RoundService roundService;
     @MockBean
     private Game testGame;
+    private Game testGame2;
 
 
     @BeforeEach
@@ -37,14 +38,14 @@ class RoundServiceTest {
     }
     @Test
     void createRounds() {
-        gameService.createGame(testGame);
-        //roundService.createRounds(testGame);
+        testGame = gameService.createGame(testGame);
+        roundService.createRounds(testGame);
+        //loads testGame again out of Database
+        testGame = gameService.getGame(1L);
+
         //check if 2 rounds are created in ROUNDS_T
-        assertEquals(2,gameService.getRounds(1L).size());
         assertEquals(2,roundService.getRoundsOfGame(testGame).size());
-
-
-
-
+        // check if the rounds are stored in GameTable
+        assertEquals(2,testGame.getRounds().size());
     }
 }

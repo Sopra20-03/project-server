@@ -2,9 +2,13 @@ package ch.uzh.ifi.seal.soprafs20.rest.dto.Game;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs20.entity.Round;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 
 public class GameGetDTO {
 
@@ -54,4 +58,5 @@ public class GameGetDTO {
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
     }
+
 }

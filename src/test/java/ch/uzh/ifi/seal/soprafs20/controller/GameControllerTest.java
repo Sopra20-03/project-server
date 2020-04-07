@@ -134,6 +134,7 @@ public class GameControllerTest {
         // given
         given(gameService.getGame(Mockito.any())).willReturn(testGame);
 
+
         // when
         MockHttpServletRequestBuilder getRequest = get("/games/1");
 
