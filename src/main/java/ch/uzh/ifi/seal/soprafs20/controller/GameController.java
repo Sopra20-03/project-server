@@ -59,19 +59,19 @@ public class GameController {
         Game game = DTOMapper.INSTANCE.convertGamePostDTOtoGameEntity(gamePostDTO);
 
         // Create game
-        Game newGame = gameService.createGame(game);
+        game = gameService.createGame(game);
 
         //create rounds
-        roundService.createRounds(newGame);
+        roundService.createRounds(game.getGameId());
 
         // Convert POJO to JSON
-        return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(newGame);
+        return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
     }
 
     @GetMapping("/games/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public GameGetDTO getUser(@PathVariable Long id) {
+    public GameGetDTO getGame(@PathVariable Long id) {
         Game game = gameService.getGame(id);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
         return gameGetDTO;

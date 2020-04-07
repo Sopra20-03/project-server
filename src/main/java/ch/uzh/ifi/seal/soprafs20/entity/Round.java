@@ -12,12 +12,12 @@ public class Round implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roundSeq")
-    private long Id;
+    private long roundId;
 
     //@ManyToOne(fetch = FetchType.LAZY, optional = false)
     //@JoinColumn(name="game_Id", nullable = false)
-    @Column(nullable = false, columnDefinition="text")
-    private Game game;
+    @Column(nullable = false)
+    private long gameId;
 
     @Column(nullable = false)
     private int roundNum;
@@ -42,20 +42,20 @@ public class Round implements Serializable {
      */
     public Round(){}
 
-    public Long getId() {
-        return Id;
+    public Long getRoundId() {
+        return roundId;
     }
 
-    public void setId(Long id) {
-        this.Id = id;
+    public void setRoundId(Long roundId) {
+        this.roundId = roundId;
     }
 
-    public Game getGame() {
-        return game;
+    public long getGameId() {
+        return gameId;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
     }
 
     public int getRoundNum() {

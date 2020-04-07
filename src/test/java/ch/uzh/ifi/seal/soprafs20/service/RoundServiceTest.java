@@ -38,13 +38,9 @@ class RoundServiceTest {
     @Test
     void createRounds() {
         gameService.createGame(testGame);
-        roundService.createRounds(testGame);
-        //roundService.createRounds(testGame);
+        roundService.createRounds(testGame.getGameId());
         //check if 2 rounds are created in ROUNDS_T
-        assertEquals(2,roundService.getRoundsOfGame(testGame).size());
-
-
-
+        assertEquals(2,roundService.getRoundsOfGame(testGame.getGameId()).size());
 
     }
 }

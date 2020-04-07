@@ -34,14 +34,14 @@ public class RoundService {
 
     /**
      * Creates 12 rounds of a game & save it into table T_ROUNDS
-     * @param game creates rounds for game
+     * @param gameId creates rounds for game with gameId
      */
-    public void createRounds(Game game){
+    public void createRounds(long gameId){
 
         for(int roundNum = 1; roundNum <= NUMBER_OF_ROUNDS; roundNum++){
             //create round
             Round round = new Round();
-            round.setGame(game);
+            round.setGameId(gameId);
             round.setRoundNum(roundNum);
             //save round
             roundRepository.save(round);
@@ -59,12 +59,12 @@ public class RoundService {
     }
 
     /**
-     * Returns all Rounds of a given game
-     * @param game of the rounds
+     * Returns all Rounds of a given gameId
+     * @param gameId of the game
      * @return List<Round>
      */
-    public List<Round> getRoundsOfGame(Game game){
-        return roundRepository.findRoundsByGame(game);
+    public List<Round> getRoundsOfGame(long gameId){
+        return roundRepository.findRoundsByGameId(gameId);
 
 
     }
