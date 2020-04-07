@@ -85,7 +85,7 @@ public class GameController {
         return gameGetDTO;
     }
 
-    @PutMapping("games/{id}/player")
+    @PutMapping("games/{id}/players")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody Long userId) {
 

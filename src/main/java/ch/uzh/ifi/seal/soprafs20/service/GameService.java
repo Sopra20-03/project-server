@@ -4,7 +4,6 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
@@ -123,8 +122,6 @@ public class GameService {
             players.add(player);
             game.setPlayers(players);
         }
-
-        //TODO: add exception if game already has five players
 
         log.debug("Added player: {} to game: {}", player, game);
         return game;

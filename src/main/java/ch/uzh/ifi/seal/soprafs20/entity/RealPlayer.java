@@ -22,8 +22,8 @@ public class RealPlayer implements Serializable {
     @Column
     private Role role;
 
-    @ManyToOne
-    @JoinColumn(name = "gameId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gameId", nullable = false)
     private Game game;
 
     public Long getPlayerId() { return playerId; }

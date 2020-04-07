@@ -13,8 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class GameServiceTest {
@@ -83,6 +82,7 @@ class GameServiceTest {
 
         //Assertions
         assertTrue((testGame.getPlayers()).contains(testPlayer));
+        assertFalse(testGame.getPlayers().isEmpty());
     }
 
 

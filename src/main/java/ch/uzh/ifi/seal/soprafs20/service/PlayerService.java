@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,6 +27,9 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
+    public List<RealPlayer> getPlayersByGame(Game game) {
+        return playerRepository.findRealPlayersByGame(game);
+    }
 
     /**
      * Persists a player into table T_PLAYERS
