@@ -11,6 +11,7 @@ import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
 
 
+import ch.uzh.ifi.seal.soprafs20.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +31,13 @@ public class GameController {
     private final GameService gameService;
     private final RoundService roundService;
     private final PlayerService playerService;
+    private final UserService userService;
 
-    public GameController(GameService gameService, RoundServiec roundService, PlayerService playerService) {
+    public GameController(GameService gameService, RoundService roundService, PlayerService playerService, UserService userService) {
         this.gameService = gameService;
-        this.roundService = roundService
+        this.roundService = roundService;
         this.playerService = playerService;
+        this.userService = userService;
 
 
 

@@ -16,7 +16,7 @@ public class GameGetDTO {
     private String gameName;
     private GameStatus gameStatus;
     private GameMode gameMode;
-    private Date timeCreated;
+    private int score;
 
     public long getGameId() {
         return gameId;
@@ -50,13 +50,12 @@ public class GameGetDTO {
         this.gameMode = gameMode;
     }
 
-    public String getTimeCreated() {
-        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss");
-        return ft.format(timeCreated) ;
+
+    public int getScore() {
+        return score;
     }
 
-    public void setTimeCreated(Date timeCreated) {
-        this.timeCreated = timeCreated;
+    public void setScore(int score) {
+        this.score = score;
     }
-
 }
