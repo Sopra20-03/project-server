@@ -106,4 +106,21 @@ public class GameController {
 
         return gameGetDTO;
     }
+
+    @DeleteMapping("games/{gameId}/players/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public GameGetDTO removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
+
+        //get Game to remove player from
+        Game game = gameService.getGame(gameId);
+
+        //create player
+        RealPlayer player = playerService.getPlayer(userId);
+
+        game = gameService.removePlayer(gameId, player);
+
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+
+        return gameGetDTO;
+    }
 }
