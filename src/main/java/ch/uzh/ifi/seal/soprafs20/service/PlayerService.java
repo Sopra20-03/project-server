@@ -30,6 +30,11 @@ public class PlayerService {
         return playerRepository.findRealPlayersByGame(game);
     }
 
+
+    public RealPlayer getPlayer(Long id) {
+        return playerRepository.findRealPlayerByUserId(id);
+    }
+
     /**
      * Persists a player into table T_PLAYERS
      * (works only on RealPlayers atm)

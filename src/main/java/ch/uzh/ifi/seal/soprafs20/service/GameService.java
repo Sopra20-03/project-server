@@ -7,6 +7,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,6 +127,31 @@ public class GameService {
         }
 
         log.debug("Added player: {} to game: {}", player, game);
+        return game;
+    }
+
+
+    public Game removePlayer(Long gameId, RealPlayer player) {
+
+        //find game by id
+        Game game = getGame(gameId);
+
+        //exception thrown if game doesn't exist
+        if(game == null) {
+            throw new GameNotFoundException("Id: " + gameId.toString());
+        }
+
+        //exception if player is not in the game
+        if(!game.getPlayers().contains(player)) {
+            throw new PlayerNotInGameException("Id: " + player.getPlayerId().toString());
+        }
+
+        //get players already in the game and remove player
+        Set<RealPlayer> players = game.getPlayers();
+        players.remove(player);
+        game.setPlayers(players);
+
+        log.debug("Removed player: {} to game: {}", player, game);
         return game;
     }
 
