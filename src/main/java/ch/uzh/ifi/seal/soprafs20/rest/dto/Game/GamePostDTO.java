@@ -4,6 +4,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 
 public class GamePostDTO {
     private String gameName;
+    private String creatorUsername;
     private GameMode gameMode;
 
     public void setGameName(String gameName) {
@@ -12,6 +13,14 @@ public class GamePostDTO {
 
     public String getGameName() {
         return gameName;
+    }
+
+    public void setCreatorUsername(String creatorUsername) {
+        this.creatorUsername = creatorUsername;
+    }
+
+    public String getCreatorUsername() {
+        return creatorUsername;
     }
 
     public void setGameMode(GameMode gameMode) {

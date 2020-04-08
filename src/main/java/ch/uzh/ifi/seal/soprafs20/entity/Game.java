@@ -24,6 +24,9 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private String gameName;
 
+    @Column
+    private String creatorUsername;
+
     @Column(nullable = false)
     private GameStatus gameStatus;
 
@@ -51,6 +54,15 @@ public class Game implements Serializable {
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
+
+    public String getCreatorUsername() {
+        return creatorUsername;
+    }
+
+    public void setCreatorUsername(String creatorUsername) {
+        this.creatorUsername = creatorUsername;
+    }
+
 
     public GameStatus getGameStatus() {
         return gameStatus;
