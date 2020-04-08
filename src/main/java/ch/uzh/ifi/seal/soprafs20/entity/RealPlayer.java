@@ -23,7 +23,7 @@ public class RealPlayer implements Serializable {
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gameId", nullable = false)
+    @JoinColumn(name = "gameId")
     private Game game;
 
     public Long getPlayerId() { return playerId; }

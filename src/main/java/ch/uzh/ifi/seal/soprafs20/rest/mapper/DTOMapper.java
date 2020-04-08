@@ -7,6 +7,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPostDTO;
@@ -86,4 +87,7 @@ public interface DTOMapper {
     @Mapping(source = "playerId", target = "playerId")
     @Mapping(source = "userId", target = "userId")
     PlayerGetDTO convertPlayerEntityToPlayerGetDTO(RealPlayer player);
+
+    @Mapping(source = "userId", target = "userId")
+    RealPlayer convertPlayerPutDTOtoPlayerEntity(PlayerPutDTO playerPutDTO);
 }

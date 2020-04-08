@@ -2,15 +2,14 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
-
-
+import ch.uzh.ifi.seal.soprafs20.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -89,14 +88,17 @@ public class GameController {
     }
 
     @PutMapping("games/{id}/players")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody Long userId) {
+    @ResponseStatus(HttpStatus.OK)
+    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody PlayerPutDTO playerPutDTO) {
 
-        User user = userService.getUser(userId);
+        //convert JSON
+        RealPlayer player = DTOMapper.INSTANCE.convertPlayerPutDTOtoPlayerEntity(playerPutDTO);
 
+        //get Game to add player to
         Game game = gameService.getGame(id);
 
-        RealPlayer player = playerService.createPlayer(user, game);
+        //create player
+        player = playerService.createPlayer(player, game);
 
         game = gameService.addPlayer(id, player);
 

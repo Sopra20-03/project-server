@@ -2,7 +2,6 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +37,9 @@ public class PlayerService {
      * @param game the user wants to join
      * @return Player
      */
-    public RealPlayer createPlayer(User user, Game game) {
+    public RealPlayer createPlayer(RealPlayer player, Game game) {
 
         //CompleteDetails
-        RealPlayer player = new RealPlayer();
-        player.setUserId(user.getId());
         player.setGame(game);
 
         // saves the given entity but data is only persisted in the database once flush() is called
