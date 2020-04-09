@@ -37,4 +37,22 @@ public class RoundController {
         }
         return roundGetDTOs;
     }
+
+    @GetMapping("/games/{id}/rounds/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public RoundGetDTO getRoundById(@PathVariable Long gameId, @PathVariable Long roundId) {
+
+        //get Game
+        Game game = gameService.getGame(gameId);
+
+        //get Round
+        Round round = roundService.getRoundById(game, roundId);
+
+        //convert Round to RoundGetDTO
+        RoundGetDTO roundGetDTO = DTOMapper.INSTANCE.convertRoundEntityToRoundGetDTO(round);
+
+        return roundGetDTO;
+
+    }
 }
