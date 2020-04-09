@@ -2,7 +2,9 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
@@ -90,7 +92,20 @@ public class GameService {
         log.debug("Created Information for Game: {}", game);
         return game;
     }
-
+    /**
+     * starts a game if it exists
+     * @param gameId of game to be started
+     * @return Game
+     */
+    public Game startGame(Long gameId){
+        //get game by id
+        Game game = getGame(gameId);
+        game.setGameStatus(GameStatus.RUNNING);
+        //store changes
+        gameRepository.save(game);
+        gameRepository.flush();
+        return game;
+    }
 
     public Game addPlayer(Long id, RealPlayer player) {
 

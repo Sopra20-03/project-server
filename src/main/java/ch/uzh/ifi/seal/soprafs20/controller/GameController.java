@@ -87,11 +87,21 @@ public class GameController {
         return gameGetDTO;
     }
 
+    @PutMapping("games/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public GameGetDTO startGame(@PathVariable Long id){
+        Game game = gameService.startGame(id);
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+        return gameGetDTO;
+    }
+
+
     @PutMapping("games/{id}/players")
     @ResponseStatus(HttpStatus.OK)
     public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody PlayerPutDTO playerPutDTO) {
 
-        //convert JSON
+        //gets userId as playerPutDTO
         RealPlayer player = DTOMapper.INSTANCE.convertPlayerPutDTOtoPlayerEntity(playerPutDTO);
 
         //get Game to add player to

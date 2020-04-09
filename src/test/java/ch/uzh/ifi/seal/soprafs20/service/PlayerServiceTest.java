@@ -19,9 +19,12 @@ public class PlayerServiceTest {
     private PlayerService playerService;
     @Autowired
     private GameService gameService;
+    private Game game;
+
 
     @Test
     void createPlayer() {
+        //create test User
         User testUser = new User();
         testUser.setName("testName");
         testUser.setUsername("testUsername");
@@ -30,13 +33,17 @@ public class PlayerServiceTest {
         testUser.setStatus(UserStatus.OFFLINE);
         testUser.setDateCreated(LocalDate.now());
         testUser.setId(1L);
-
+        //create test Game
         Game testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
+        //create test Player
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setUserId(1L);
 
-        RealPlayer testPlayer = playerService.createPlayer(testUser, testGame);
+
+        testPlayer = playerService.createPlayer(testPlayer, testGame);
 
         assertEquals(testPlayer.getUserId(), testUser.getId());
         assertEquals(testPlayer.getGame(), testGame);
