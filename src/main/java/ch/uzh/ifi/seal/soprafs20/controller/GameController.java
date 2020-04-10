@@ -2,14 +2,12 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
-import ch.uzh.ifi.seal.soprafs20.service.GameService;
-import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
-import ch.uzh.ifi.seal.soprafs20.service.RoundService;
-import ch.uzh.ifi.seal.soprafs20.service.UserService;
+import ch.uzh.ifi.seal.soprafs20.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +27,14 @@ public class GameController {
     private final RoundService roundService;
     private final PlayerService playerService;
     private final UserService userService;
+    private final WordCardService wordCardService;
 
-    public GameController(GameService gameService, RoundService roundService, PlayerService playerService, UserService userService) {
+    public GameController(GameService gameService, RoundService roundService, PlayerService playerService, UserService userService, WordCardService wordCardService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.playerService = playerService;
         this.userService = userService;
-
-
+        this.wordCardService = wordCardService;
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -71,8 +69,11 @@ public class GameController {
         // Create game
         game = gameService.createGame(game);
 
+        //get shuffled cards
+        List<WordCard> cards = wordCardService.getShuffleddWordCards();
+
         //create rounds
-        game = roundService.createRounds(game);
+        game = roundService.createRounds(game, cards);
 
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);

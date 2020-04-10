@@ -66,4 +66,8 @@ public class Round implements Serializable {
     public void setRoundNum(int roundNum) {
         this.roundNum = roundNum;
     }
+
+    public WordCard getCard() { return card; }
+
+    public void setCard(WordCard card) { this.card = card; }
 }
