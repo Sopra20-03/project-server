@@ -34,8 +34,6 @@ public class GameService {
     private final GameRepository gameRepository;
 
 
-
-
     @Autowired
     public GameService(@Qualifier("gameRepository") GameRepository gameRepository) {
         this.gameRepository = gameRepository;
@@ -91,6 +89,10 @@ public class GameService {
         return game;
     }
 
+    public Game removeGame(Game game) {
+        gameRepository.delete(game);
+        return game;
+    }
 
     public Game addPlayer(Long id, RealPlayer player) {
 
