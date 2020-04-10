@@ -107,4 +107,12 @@ public class GameController {
 
         return gameGetDTO;
     }
+
+    /*
+    @PutMapping("/games/{id}/rounds/{id}/actions")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public GameGetDTO updateRound(@PathVariable Long gameId, @PathVariable Long roundId) {
+
+    }
+    */
 }

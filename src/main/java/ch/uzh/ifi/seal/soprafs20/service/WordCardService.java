@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.repository.WordCardRepository;
 import org.slf4j.Logger;
@@ -32,5 +33,15 @@ public class WordCardService {
         List<WordCard> cards = this.wordCardRepository.findAll();
         Collections.shuffle(cards);
         return cards;
+    }
+
+    /**
+     * adds selectedWord in T_WordCards
+     * @param round
+     * @param selectedWord
+     */
+    public void selectWord(Round round, String selectedWord) {
+        WordCard wordCard = round.getCard();
+        wordCard.setSelectedWord(selectedWord);
     }
 }
