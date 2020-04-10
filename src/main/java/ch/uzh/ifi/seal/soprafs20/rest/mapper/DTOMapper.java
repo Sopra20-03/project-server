@@ -47,6 +47,7 @@ public interface DTOMapper {
     @Mapping(source = "username", target = "username")
     @Mapping(source = "status", target = "status")
     @Mapping(source = "dateCreated", target = "dateCreated")
+    @Mapping(source = "token", target = "token")
     UserGetDTO convertUserEntityToUserGetDTO(User user);
 
     //these properties are ignored because they are not set by the user

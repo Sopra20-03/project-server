@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -89,6 +90,7 @@ public class GameControllerTest {
      Result: 200 Success & list of games should be given back
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getGamesSuccess() throws Exception {
 
         List<Game> allGames = Collections.singletonList(testGame);
@@ -129,6 +131,7 @@ public class GameControllerTest {
      Result: 200 Success with game details
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getGameSuccess() throws Exception {
         // given
         given(gameService.getGame(Mockito.any())).willReturn(testGame);
@@ -165,6 +168,7 @@ public class GameControllerTest {
      Result: 404 Not Found Error
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getGameError() throws Exception {
         // given
         given(gameService.getGame(Mockito.any())).willThrow(GameNotFoundException.class);
@@ -192,6 +196,7 @@ public class GameControllerTest {
      Result: 201 Created and Successfully added a game
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void createGameSuccess() throws Exception {
 
         //Game from PostDTO
