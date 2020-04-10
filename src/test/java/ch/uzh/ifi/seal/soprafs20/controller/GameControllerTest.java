@@ -190,12 +190,15 @@ public class GameControllerTest {
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
     }
-    //TODO: test does not work because Rounds are not created at the same time as game
+
     /**
      POST /games
      Test: POST /games with valid data
      Result: 201 Created and Successfully added a game
      */
+
+    //TODO: test does not work because Rounds are not created at the same time as game
+
     /**
     @Test
     @WithMockUser(username = "testUsername")
@@ -236,6 +239,36 @@ public class GameControllerTest {
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
     }
     */
+
+
+    /**
+     PUT /games/{id}
+     Test: PUT /games/{id} with valid data
+     Result: 204 Game started
+     */
+    @Test
+    public void startGameSuccess() throws Exception {
+
+
+        testGame = gameService.createGame(testGame);
+        given(gameService.startGame(Mockito.any())).willReturn(testGame);
+        // when
+        MockHttpServletRequestBuilder putRequest = put("/games/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8");
+        // then
+        MvcResult result = mockMvc.perform(putRequest)
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andReturn();
+        //Assertions
+        //Check Correct HTTP Response Status
+        assertEquals(204, result.getResponse().getStatus());
+        //Check Correct HTTP Request Method
+        assertEquals(HttpMethod.PUT.name(), result.getRequest().getMethod());
+
+    }
+
 
     /**
      * Helper Method to convert gamePostDTO into a JSON string such that the input can be processed

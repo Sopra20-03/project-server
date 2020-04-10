@@ -74,7 +74,9 @@ class GameServiceTest {
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
+
         //create Player
+
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
         testPlayer = playerService.createPlayer(testPlayer, testGame);
@@ -87,5 +89,17 @@ class GameServiceTest {
         assertFalse(testGame.getPlayers().isEmpty());
     }
 
+    @Test
+    void startGame(){
+        //create game
+        Game testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame = gameService.createGame(testGame);
+        // check if game is running after starting it
+        assertEquals(1L,testGame.getGameId());
+        testGame = gameService.startGame(testGame.getGameId());
+        assertEquals(GameStatus.RUNNING, testGame.getGameStatus());
+    }
 
 }
