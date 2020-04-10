@@ -34,8 +34,6 @@ public class GameService {
     private final GameRepository gameRepository;
 
 
-
-
     @Autowired
     public GameService(@Qualifier("gameRepository") GameRepository gameRepository) {
         this.gameRepository = gameRepository;
@@ -90,6 +88,11 @@ public class GameService {
         log.debug("Created Information for Game: {}", game);
         return game;
     }
+
+
+    public Game removeGame(Game game) {
+        gameRepository.delete(game);
+
     /**
      * starts a game if it exists
      * @param gameId of game to be started
@@ -114,6 +117,7 @@ public class GameService {
         //store changes
         gameRepository.save(game);
         gameRepository.flush();
+
         return game;
     }
 

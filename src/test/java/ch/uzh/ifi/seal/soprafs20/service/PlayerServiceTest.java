@@ -43,6 +43,10 @@ public class PlayerServiceTest {
         testPlayer.setUserId(1L);
 
 
+
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setUserId(1L);
+
         testPlayer = playerService.createPlayer(testPlayer, testGame);
 
         assertEquals(testPlayer.getUserId(), testUser.getId());

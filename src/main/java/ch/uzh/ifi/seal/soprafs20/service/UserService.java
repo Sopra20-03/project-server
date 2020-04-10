@@ -130,6 +130,26 @@ public class UserService {
         return findUserById;
     }
 
+    public User loginUser(String username) {
+        User user = userRepository.findUserByUsername(username);
+
+        user.setStatus(UserStatus.ONLINE);
+        userRepository.save(user);
+        userRepository.flush();
+
+        return user;
+    }
+
+    public User logoutUser(String username) {
+        User user = userRepository.findUserByUsername(username);
+
+        user.setStatus(UserStatus.OFFLINE);
+        userRepository.save(user);
+        userRepository.flush();
+
+        return user;
+    }
+
     /**
      * This is a helper method that will check the uniqueness criteria of the username
      * in the User entity to be persisted.

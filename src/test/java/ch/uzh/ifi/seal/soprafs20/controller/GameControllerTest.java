@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -89,6 +90,7 @@ public class GameControllerTest {
      Result: 200 Success & list of games should be given back
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getGamesSuccess() throws Exception {
 
         List<Game> allGames = Collections.singletonList(testGame);
@@ -129,6 +131,7 @@ public class GameControllerTest {
      Result: 200 Success with game details
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getGameSuccess() throws Exception {
         // given
         given(gameService.getGame(Mockito.any())).willReturn(testGame);
@@ -142,6 +145,7 @@ public class GameControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.gameName", is(testGame.getGameName())))
+                .andExpect(jsonPath("$.creatorUsername", is(testGame.getCreatorUsername())))
                 .andExpect(jsonPath("$.gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$.gameMode", is(testGame.getGameMode().toString())))
                 .andExpect(jsonPath("$.score", is(testGame.getScore())))
@@ -153,7 +157,7 @@ public class GameControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"score\":0}", result.getResponse().getContentAsString());
+        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"creatorUsername\":null,\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"score\":0}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
@@ -165,6 +169,7 @@ public class GameControllerTest {
      Result: 404 Not Found Error
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getGameError() throws Exception {
         // given
         given(gameService.getGame(Mockito.any())).willThrow(GameNotFoundException.class);
@@ -191,9 +196,12 @@ public class GameControllerTest {
      Test: POST /games with valid data
      Result: 201 Created and Successfully added a game
      */
+
     //TODO: test does not work because Rounds are not created at the same time as game
+
     /**
     @Test
+    @WithMockUser(username = "testUsername")
     public void createGameSuccess() throws Exception {
 
         //Game from PostDTO
@@ -231,6 +239,8 @@ public class GameControllerTest {
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
     }
     */
+
+
     /**
      PUT /games/{id}
      Test: PUT /games/{id} with valid data
@@ -258,6 +268,7 @@ public class GameControllerTest {
         assertEquals(HttpMethod.PUT.name(), result.getRequest().getMethod());
 
     }
+
 
     /**
      * Helper Method to convert gamePostDTO into a JSON string such that the input can be processed
