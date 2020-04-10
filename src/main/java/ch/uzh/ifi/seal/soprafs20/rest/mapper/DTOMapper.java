@@ -66,7 +66,6 @@ public interface DTOMapper {
     @Mapping(source = "gameStatus", target = "gameStatus")
     @Mapping(source = "gameMode", target = "gameMode")
     @Mapping(source = "score", target = "score")
-
     GameGetDTO convertGameEntityToGameGetDTO(Game game);
 
     //gameId is auto-generated

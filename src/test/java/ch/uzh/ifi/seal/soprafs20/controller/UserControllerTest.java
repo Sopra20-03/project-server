@@ -165,7 +165,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\"}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
@@ -257,7 +257,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\"}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
