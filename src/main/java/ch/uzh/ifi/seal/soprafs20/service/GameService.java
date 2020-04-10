@@ -3,13 +3,11 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
+import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.*;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +99,18 @@ public class GameService {
         //get game by id
         Game game = getGame(gameId);
         game.setGameStatus(GameStatus.RUNNING);
+        //set Role of players if there are more than minPlayers player
+        Set<RealPlayer> players = game.getPlayers();
+        int minPlayers = 2;
+        if(players.size() < minPlayers){
+            throw new NotEnoughPlayersException(String.valueOf(minPlayers));
+        }
+        //set all players to ROLE.CLUE_WRITER
+        for (RealPlayer player: players){
+            player.setRole(Role.CLUE_WRITER);
+        }
+        //set one player to ROLE.GUESSER
+        players.iterator().next().setRole(Role.GUESSER);
         //store changes
         gameRepository.save(game);
         gameRepository.flush();
