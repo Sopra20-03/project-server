@@ -47,6 +47,7 @@ public interface DTOMapper {
     @Mapping(source = "username", target = "username")
     @Mapping(source = "status", target = "status")
     @Mapping(source = "dateCreated", target = "dateCreated")
+    @Mapping(source = "token", target = "token")
     UserGetDTO convertUserEntityToUserGetDTO(User user);
 
     //these properties are ignored because they are not set by the user
@@ -65,7 +66,6 @@ public interface DTOMapper {
     @Mapping(source = "gameStatus", target = "gameStatus")
     @Mapping(source = "gameMode", target = "gameMode")
     @Mapping(source = "score", target = "score")
-
     GameGetDTO convertGameEntityToGameGetDTO(Game game);
 
     //gameId is auto-generated

@@ -74,8 +74,10 @@ class GameServiceTest {
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
-
-        RealPlayer testPlayer = playerService.createPlayer(testUser, testGame);
+        //create Player
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setUserId(1L);
+        testPlayer = playerService.createPlayer(testPlayer, testGame);
 
         //add player to game
         testGame = gameService.addPlayer(testGame.getGameId(), testPlayer);

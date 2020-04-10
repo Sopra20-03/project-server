@@ -13,6 +13,15 @@ public class UserGetDTO {
     private String username;
     private UserStatus status;
     private LocalDate dateCreated;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Long getId() {
         return id;

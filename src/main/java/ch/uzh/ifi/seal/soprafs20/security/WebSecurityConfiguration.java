@@ -1,10 +1,17 @@
 package ch.uzh.ifi.seal.soprafs20.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Web Security Configuration Class for Spring Security
@@ -14,6 +21,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Qualifier("userDetailsServiceImpl")
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    AuthSuccessHandler authSuccessHandler;
+
+    @Autowired
+    LogoutHandler logoutHandler;
+
+    @Autowired
+    AuthFailureHandler authFailureHandler;
+
+    /**
+     * This method configures Spring security to allow unauthorized REST calls.
+     * @param http SpringSecurity
+     * @throws Exception
+     */
+    /*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -26,20 +52,32 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().sameOrigin();
     }
+    */
 
-    /*
+    /**
+     * This method configures the custom service method to use for authentication with Spring Security.
+     * @param auth AuthenticationManager Builder
+     * @throws Exception
+     */
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
+    /**
+     * This method conifures Spring Security to allow only authenticated requests.
+     * Only unauthenticated POST requests will be allowed.
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/users","/users/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2","/h2/**").permitAll()
                 .anyRequest().authenticated()
@@ -57,8 +95,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-     */
+
 }

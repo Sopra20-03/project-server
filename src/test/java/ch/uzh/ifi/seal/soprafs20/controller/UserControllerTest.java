@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -81,6 +82,7 @@ public class UserControllerTest {
      Result: 200 Success & list of users should be given back
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getUsersSuccess() throws Exception {
         // given
         testUser = new User();
@@ -130,6 +132,7 @@ public class UserControllerTest {
      Result: 200 Success with user details
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getUserSuccess() throws Exception {
         // given
         testUser = new User();
@@ -162,7 +165,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\"}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
@@ -174,6 +177,7 @@ public class UserControllerTest {
      Result: 404 Not Found Error
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void getUserError() throws Exception {
         // given
         testUser = new User();
@@ -211,6 +215,7 @@ public class UserControllerTest {
      Result: 201 Created and Successfully added the user
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void createUserSuccess() throws Exception {
         // given
         testUser = new User();
@@ -252,7 +257,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\"}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
@@ -265,6 +270,7 @@ public class UserControllerTest {
      Result: 409 Conflict and Error in adding the user
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void createUserError() throws Exception {
         // given
         testUser = new User();
@@ -313,6 +319,7 @@ public class UserControllerTest {
      Result: 204 No Content. Update Successful
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void updateUserSuccess() throws Exception {
         // given
         testUser = new User();
@@ -352,6 +359,7 @@ public class UserControllerTest {
      Result: 404 Not Found
      */
     @Test
+    @WithMockUser(username = "testUsername")
     public void updateUserFail() throws Exception {
         // given
         testUser = new User();
