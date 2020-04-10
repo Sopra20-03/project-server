@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
@@ -73,6 +74,23 @@ public class GameController {
 
         //create rounds
         game = roundService.createRounds(game);
+
+        // Convert POJO to JSON
+        return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+    }
+
+    @DeleteMapping("/games/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public GameGetDTO deleteGame(@PathVariable Long id) {
+        // Get game details
+        Game game = gameService.getGame(id);
+
+        // Delete rounds from game
+        roundService.removeRounds(game);
+
+        // Delete game
+        gameService.removeGame(game);
 
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
