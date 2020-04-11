@@ -90,9 +90,9 @@ public class GameService {
     }
 
 
-    public Game removeGame(Game game) {
+    public void removeGame(Game game) {
         gameRepository.delete(game);
-
+    }
     /**
      * starts a game if it exists
      * @param gameId of game to be started

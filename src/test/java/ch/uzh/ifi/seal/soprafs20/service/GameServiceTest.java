@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
@@ -96,10 +97,25 @@ class GameServiceTest {
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
+
+        //add two players, so the game can be started
+        RealPlayer testPlayer1 = new RealPlayer();
+        testPlayer1.setUserId(1L);
+        testPlayer1 = playerService.createPlayer(testPlayer1, testGame);
+        RealPlayer testPlayer2 = new RealPlayer();
+        testPlayer2.setUserId(1L);
+        testPlayer2= playerService.createPlayer(testPlayer2, testGame);
+        gameService.addPlayer(testGame.getGameId(),testPlayer1);
+        gameService.addPlayer(testGame.getGameId(),testPlayer2);
+
         // check if game is running after starting it
         assertEquals(1L,testGame.getGameId());
         testGame = gameService.startGame(testGame.getGameId());
         assertEquals(GameStatus.RUNNING, testGame.getGameStatus());
+        //check if 2 players are stored in the game
+        assertEquals(2,gameService.getGame(testGame.getGameId()).getPlayers().size());
+        //check if one player has ROLE.GUESSER
+        assertEquals(Role.GUESSER,gameService.getGame(testGame.getGameId()).getPlayers().iterator().next().getRole());
     }
 
 }
