@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
@@ -47,5 +49,25 @@ class RoundServiceTest {
         assertEquals(2,roundService.getRoundsOfGame(testGame).size());
         // check if the rounds are stored in GameTable
         assertEquals(2,testGame.getRounds().size());
+    }
+    @Test
+    void addGuess(){
+        //create game & rounds
+        testGame = gameService.createGame(testGame);
+        roundService.createRounds(testGame);
+        //loads testGame again out of Database
+        testGame = gameService.getGame(1L);
+
+        //get rounds
+        List<Round> rounds = roundService.getRoundsOfGame(testGame);
+        Round round = rounds.get(1);
+        //add guess
+        round = roundService.setGuess(round.getRoundId(),"testGuess");
+
+        //check if guess is stored in round
+        assertEquals("testGuess",round.getGuess());
+        //check if guess is stored in repo and accessible from the game
+        assertEquals("testGuess",gameService.getGame(1L).getRounds().get(1).getGuess());
+
     }
 }
