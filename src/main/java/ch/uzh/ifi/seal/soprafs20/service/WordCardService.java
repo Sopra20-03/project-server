@@ -41,7 +41,7 @@ public class WordCardService {
      * @param selectedWord
      */
     public void selectWord(Round round, String selectedWord) {
-        WordCard wordCard = round.getCard();
+        WordCard wordCard = round.getWordCard();
         wordCard.setSelectedWord(selectedWord);
     }
 }

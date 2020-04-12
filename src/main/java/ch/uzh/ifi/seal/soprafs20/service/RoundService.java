@@ -43,7 +43,7 @@ public class RoundService {
             Round round = new Round();
             round.setGame(game);
             round.setRoundNum(roundNum);
-            round.setCard(cards.get(roundNum));
+            round.setWordCard(cards.get(roundNum));
             //save round
             roundRepository.save(round);
             roundRepository.flush();
