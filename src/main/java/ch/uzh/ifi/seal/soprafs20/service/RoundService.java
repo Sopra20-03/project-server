@@ -86,6 +86,18 @@ public class RoundService {
     public List<Round> getRoundsOfGame(Game game){
         return roundRepository.findRoundsByGame(game);
 
+    }
 
+    /**
+     * Sets a new Guess to a round & save it in the repository
+     * @param roundId,guess  to which to submit the guess
+     * @return Round
+     */
+    public Round setGuess(Long roundId, String guess){
+        Round round = roundRepository.findRoundByRoundId(roundId);
+        round.setGuess(guess);
+        roundRepository.save(round);
+        roundRepository.flush();
+        return round;
     }
 }

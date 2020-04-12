@@ -21,6 +21,9 @@ public class Round implements Serializable {
     @Column(nullable = false)
     private int roundNum;
 
+    @Column
+    private String guess;
+
     /*
     TODO: add these columns
 
@@ -63,5 +66,13 @@ public class Round implements Serializable {
 
     public void setRoundNum(int roundNum) {
         this.roundNum = roundNum;
+    }
+
+    public String getGuess() {
+        return guess;
+    }
+
+    public void setGuess(String guess) {
+        this.guess = guess;
     }
 }
