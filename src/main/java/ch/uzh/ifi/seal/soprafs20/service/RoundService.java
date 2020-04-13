@@ -1,8 +1,8 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -93,7 +92,7 @@ public class RoundService {
      * @param roundId,guess  to which to submit the guess
      * @return Round
      */
-    public Round setGuess(Long roundId, String guess){
+    public Round setGuess(Long roundId, Guess guess){
         Round round = roundRepository.findRoundByRoundId(roundId);
         round.setGuess(guess);
         roundRepository.save(round);

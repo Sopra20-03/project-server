@@ -1,8 +1,24 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "T_GUESS")
 public class Guess {
+    @Id
+    @GeneratedValue(strategy =  GenerationType.AUTO)
+    private Long guessId;
+
+    @OneToOne(mappedBy = "guess")
+    private Round round;
+
+    @Column
     private String word;
+
+    @Column
     private boolean isValid;
+
+    @ManyToOne
     private RealPlayer owner;
 
     public String getWord() {

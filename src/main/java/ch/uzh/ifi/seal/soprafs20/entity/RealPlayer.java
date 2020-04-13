@@ -4,6 +4,8 @@ import ch.uzh.ifi.seal.soprafs20.constant.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "T_Players")
@@ -26,6 +28,10 @@ public class RealPlayer implements Serializable {
     @JoinColumn(name = "gameId")
     private Game game;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "guessId")
+    private List<Guess> guessList = new ArrayList<>();
+
     public Long getPlayerId() { return playerId; }
 
     public void setPlayerId(Long playerId) { this.playerId = playerId; }
@@ -41,4 +47,11 @@ public class RealPlayer implements Serializable {
     public Game getGame() { return game; }
 
     public void setGame(Game game) { this.game = game; }
+
+    public List<Guess> getGuessList() {
+        return guessList;
+    }
+    public void addGuess(Guess guess){
+        this.guessList.add(guess);
+    }
 }

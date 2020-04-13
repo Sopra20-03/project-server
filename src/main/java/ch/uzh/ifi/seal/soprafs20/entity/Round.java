@@ -21,8 +21,9 @@ public class Round implements Serializable {
     @Column(nullable = false)
     private int roundNum;
 
-    @Column
-    private String guess;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "guessId")
+    private Guess guess;
 
     /*
     TODO: add these columns
@@ -68,11 +69,11 @@ public class Round implements Serializable {
         this.roundNum = roundNum;
     }
 
-    public String getGuess() {
+    public Guess getGuess() {
         return guess;
     }
 
-    public void setGuess(String guess) {
+    public void setGuess(Guess guess) {
         this.guess = guess;
     }
 }

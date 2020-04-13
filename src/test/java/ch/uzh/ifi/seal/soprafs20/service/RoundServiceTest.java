@@ -3,6 +3,8 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.Guess;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,8 @@ class RoundServiceTest {
     private GameService gameService;
     @Autowired
     private RoundService roundService;
+    @Autowired
+    private PlayerService playerService;
     @MockBean
     private Game testGame;
     private Game testGame2;
@@ -58,16 +62,27 @@ class RoundServiceTest {
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
 
+        //create player
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setUserId(1L);
+
+        testPlayer = playerService.createPlayer(testPlayer, testGame);
+
         //get rounds
         List<Round> rounds = roundService.getRoundsOfGame(testGame);
         Round round = rounds.get(1);
         //add guess
-        round = roundService.setGuess(round.getRoundId(),"testGuess");
+        Guess guess = new Guess();
+        guess.setWord("testGuess");
+        guess.setOwner(testPlayer);
+        round = roundService.setGuess(round.getRoundId(),guess);
 
         //check if guess is stored in round
-        assertEquals("testGuess",round.getGuess());
+        assertEquals("testGuess",round.getGuess().getWord());
         //check if guess is stored in repo and accessible from the game
-        assertEquals("testGuess",gameService.getGame(1L).getRounds().get(1).getGuess());
+        assertEquals("testGuess",gameService.getGame(1L).getRounds().get(1).getGuess().getWord());
+        //check if guess is stored in player
+        assertEquals("testGuess",playerService.getPlayer(1L).getGuessList().get(0).getWord());
 
     }
 }
