@@ -70,7 +70,7 @@ public class GameController {
         game = gameService.createGame(game);
 
         //get shuffled cards
-        List<WordCard> cards = wordCardService.getShuffleddWordCards();
+        List<WordCard> cards = wordCardService.getShuffledWordCards();
 
         //create rounds
         game = roundService.createRounds(game, cards);

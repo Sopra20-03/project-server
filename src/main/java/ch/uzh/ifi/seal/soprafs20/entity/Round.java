@@ -23,7 +23,6 @@ public class Round implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "wordCardId")
-    @Column
     private WordCard wordCard;
 
     /*

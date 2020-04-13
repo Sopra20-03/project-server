@@ -26,13 +26,21 @@ public class WordCardService {
     }
 
     /**
-     * Gets all wordCards stored in T_WordCards
+     * Gets all wordCards stored in T_WordCards after shuffling them
      * @return List<Round>
      */
-    public List<WordCard> getShuffleddWordCards() {
+    public List<WordCard> getShuffledWordCards() {
         List<WordCard> cards = this.wordCardRepository.findAll();
         Collections.shuffle(cards);
         return cards;
+    }
+
+    /**
+     * Gets all wordCards stored in T_WordCards
+     * @return List<Round>
+     */
+    public List<WordCard> getWordCards() {
+        return this.wordCardRepository.findAll();
     }
 
     /**
@@ -43,5 +51,38 @@ public class WordCardService {
     public void selectWord(Round round, String selectedWord) {
         WordCard wordCard = round.getWordCard();
         wordCard.setSelectedWord(selectedWord);
+    }
+
+    /**
+     * creates a WordCard in T_WordCards
+     * @param word1
+     * @param word2
+     * @param word3
+     * @param word4
+     * @param word5
+     * @return wordCard
+     */
+    public WordCard createWordCard(String word1, String word2, String word3, String word4, String word5) {
+        WordCard wordCard = new WordCard();
+        wordCard.setWord1(word1);
+        wordCard.setWord2(word2);
+        wordCard.setWord3(word3);
+        wordCard.setWord4(word4);
+        wordCard.setWord5(word5);
+
+        return wordCard;
+    }
+
+    public void addAllWordCards() {
+        createWordCard("Alcatraz",
+                "Smoke",
+                "Hazelnut",
+                "Diamond",
+                "Rose");
+        createWordCard("Puppet",
+                "Game",
+                "Vegas",
+                "Chest",
+                "Airplane");
     }
 }
