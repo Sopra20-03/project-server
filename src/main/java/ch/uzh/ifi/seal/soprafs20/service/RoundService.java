@@ -85,6 +85,15 @@ public class RoundService {
     }
 
     /**
+     * get running Round
+     * @param game
+     * @return Round
+     */
+    public Round getRunningRound(Game game){
+        return roundRepository.findRoundByGameAndRoundStatus(game,RoundStatus.RUNNING);
+    }
+
+    /**
      * Gets all rounds stored in T_ROUNDS
      * @return List<Round>
      */

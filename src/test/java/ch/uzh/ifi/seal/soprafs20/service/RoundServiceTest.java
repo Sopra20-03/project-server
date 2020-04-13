@@ -94,5 +94,7 @@ class RoundServiceTest {
         testGame = roundService.startFirstRound(testGame);
         //check if first round is running
         assertEquals(RoundStatus.RUNNING, gameService.getGame(1L).getRounds().get(0).getRoundStatus());
+        //check if RoundNum of running Round is 1
+        assertEquals(1,roundService.getRunningRound(testGame).getRoundNum());
     }
 }
