@@ -1,11 +1,9 @@
 package ch.uzh.ifi.seal.soprafs20.rest.mapper;
 
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.Round;
-import ch.uzh.ifi.seal.soprafs20.entity.User;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
@@ -15,6 +13,8 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import javax.persistence.ManyToOne;
 
 /**
  * DTOMapper
@@ -91,4 +91,9 @@ public interface DTOMapper {
 
     @Mapping(source = "userId", target = "userId")
     RealPlayer convertPlayerPutDTOtoPlayerEntity(PlayerPutDTO playerPutDTO);
+    /**
+    @Mapping(source = "userId", target = "userId")
+    @Mapping(source = "word", target = "word")
+    Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
+    */
 }

@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
+import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,6 +15,9 @@ public class Round implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roundSeq")
     private long roundId;
+
+    @Column(nullable = false)
+    private RoundStatus roundStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="gameId", nullable = true)
@@ -75,5 +80,13 @@ public class Round implements Serializable {
 
     public void setGuess(Guess guess) {
         this.guess = guess;
+    }
+
+    public RoundStatus getRoundStatus() {
+        return roundStatus;
+    }
+
+    public void setRoundStatus(RoundStatus roundStatus) {
+        this.roundStatus = roundStatus;
     }
 }

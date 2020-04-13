@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
@@ -42,6 +43,7 @@ public class RoundService {
             Round round = new Round();
             round.setGame(game);
             round.setRoundNum(roundNum);
+            round.setRoundStatus(RoundStatus.INITIALIZED);
             //save round
             roundRepository.save(round);
             roundRepository.flush();
@@ -66,6 +68,19 @@ public class RoundService {
 
             log.debug("Deleted Round: {}", round);
         }
+        return game;
+    }
+
+    /**
+     * Start first Round
+     * @param game
+     * @return started Game
+     */
+    public Game startFirstRound(Game game){
+        Round round = roundRepository.findRoundByGameAndRoundNum(game,1);
+        round.setRoundStatus(RoundStatus.RUNNING);
+        roundRepository.save(round);
+        roundRepository.flush();
         return game;
     }
 

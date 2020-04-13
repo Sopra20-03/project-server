@@ -102,6 +102,7 @@ public class GameController {
     public GameGetDTO getGame(@PathVariable Long id) {
         Game game = gameService.getGame(id);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+
         return gameGetDTO;
     }
 
@@ -109,7 +110,10 @@ public class GameController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public GameGetDTO startGame(@PathVariable Long id){
+        //start game
         Game game = gameService.startGame(id);
+        //start first round
+        game = roundService.startFirstRound(game);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
         return gameGetDTO;
     }

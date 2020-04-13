@@ -11,4 +11,5 @@ import java.util.List;
 public interface RoundRepository extends JpaRepository<Round, Long> {
     List<Round> findRoundsByGame(Game game);
     Round findRoundByRoundId(Long roundId);
+    Round findRoundByGameAndRoundNum(Game game, int roundNum);
 }

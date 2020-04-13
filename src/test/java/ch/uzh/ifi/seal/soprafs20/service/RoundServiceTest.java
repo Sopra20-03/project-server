@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
@@ -80,9 +81,18 @@ class RoundServiceTest {
         //check if guess is stored in round
         assertEquals("testGuess",round.getGuess().getWord());
         //check if guess is stored in repo and accessible from the game
-        assertEquals("testGuess",gameService.getGame(1L).getRounds().get(1).getGuess().getWord());
-        //check if guess is stored in player
+        assertEquals("testGuess",gameService.getGame(1L).getRounds().get(0).getGuess().getWord());
+        //check if guess is accessible in player
         assertEquals("testGuess",playerService.getPlayer(1L).getGuessList().get(0).getWord());
 
+    }
+
+    @Test
+    void startFirstRound(){
+        testGame = gameService.createGame(testGame);
+        testGame = roundService.createRounds(testGame);
+        testGame = roundService.startFirstRound(testGame);
+        //check if first round is running
+        assertEquals(RoundStatus.RUNNING, gameService.getGame(1L).getRounds().get(0).getRoundStatus());
     }
 }
