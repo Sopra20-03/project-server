@@ -54,6 +54,18 @@ public class WordCardService {
     }
 
     /**
+     * sets selectedWord in T_WordCards
+     * @param round, selectedWord
+     * @return Round
+     */
+    public Round setSelectedWord(Round round, String selectedWord) {
+        WordCard wordCard = round.getWordCard();
+        wordCard.setSelectedWord(selectedWord);
+
+        return round;
+    }
+
+    /**
      * creates a WordCard in T_WordCards
      * @param word1
      * @param word2
