@@ -38,7 +38,7 @@ public class RoundController {
         return roundGetDTOs;
     }
 
-    @GetMapping("/games/{id}/rounds/{id}")
+    @GetMapping("/games/{gameId}/rounds/{roundId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public RoundGetDTO getRoundById(@PathVariable Long gameId, @PathVariable Long roundId) {

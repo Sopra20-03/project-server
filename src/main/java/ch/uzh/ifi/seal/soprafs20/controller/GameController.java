@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
@@ -65,14 +66,17 @@ public class GameController {
         // Convert JSON  to POJO
         Game game = DTOMapper.INSTANCE.convertGamePostDTOtoGameEntity(gamePostDTO);
 
+        wordCardService.addAllWordCards();
+        List<WordCard> cards = wordCardService.getShuffledWordCards();
+
         // Create game
         game = gameService.createGame(game);
 
         //create rounds
-        game = roundService.createRounds(game);
+        game = roundService.createRounds(game, cards);
 
         //add WordCard to each round
-        game = wordCardService.addWordCardsToRounds(game);
+        //game = wordCardService.addWordCardsToRounds(game);
 
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);

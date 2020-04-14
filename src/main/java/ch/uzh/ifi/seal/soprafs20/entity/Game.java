@@ -6,7 +6,6 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 

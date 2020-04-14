@@ -55,7 +55,8 @@ public class WordCardService {
         List<WordCard> cards = getShuffledWordCards();
 
         for(int i = 0; i < rounds.size(); i++) {
-            rounds.get(i).setWordCard(cards.get(i));
+            Round round = rounds.get(i);
+            round.setWordCard(cards.get(i));
         }
         return game;
     }
@@ -86,6 +87,9 @@ public class WordCardService {
         wordCard.setWord3(word3);
         wordCard.setWord4(word4);
         wordCard.setWord5(word5);
+
+        wordCardRepository.save(wordCard);
+        wordCardRepository.flush();
 
         return wordCard;
     }
