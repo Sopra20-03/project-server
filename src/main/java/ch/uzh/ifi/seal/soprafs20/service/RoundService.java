@@ -4,6 +4,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NoRunningRoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +91,11 @@ public class RoundService {
      * @return Round
      */
     public Round getRunningRound(Game game){
-        return roundRepository.findRoundByGameAndRoundStatus(game,RoundStatus.RUNNING);
+        Round round =  roundRepository.findRoundByGameAndRoundStatus(game,RoundStatus.RUNNING);
+        if (round == null){
+            new NoRunningRoundException(game.toString());
+        }
+        return round;
     }
 
     /**
@@ -113,11 +118,11 @@ public class RoundService {
 
     /**
      * Sets a new Guess to a round & save it in the repository
-     * @param roundId,guess  to which to submit the guess
+     * @param game ,guess  to which to submit the guess
      * @return Round
      */
-    public Round setGuess(Long roundId, Guess guess){
-        Round round = roundRepository.findRoundByRoundId(roundId);
+    public Round setGuess(Game game, Guess guess){
+        Round round = getRunningRound(game);
         round.setGuess(guess);
         roundRepository.save(round);
         roundRepository.flush();

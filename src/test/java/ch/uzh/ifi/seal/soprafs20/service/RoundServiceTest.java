@@ -7,6 +7,8 @@ import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NoRunningRoundException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @SpringBootTest
@@ -59,7 +63,8 @@ class RoundServiceTest {
     void addGuess(){
         //create game & rounds
         testGame = gameService.createGame(testGame);
-        roundService.createRounds(testGame);
+        testGame = roundService.createRounds(testGame);
+        testGame = roundService.startFirstRound(testGame);
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
 
@@ -69,14 +74,12 @@ class RoundServiceTest {
 
         testPlayer = playerService.createPlayer(testPlayer, testGame);
 
-        //get rounds
-        List<Round> rounds = roundService.getRoundsOfGame(testGame);
-        Round round = rounds.get(1);
+
         //add guess
         Guess guess = new Guess();
         guess.setWord("testGuess");
         guess.setOwner(testPlayer);
-        round = roundService.setGuess(round.getRoundId(),guess);
+        Round round = roundService.setGuess(testGame,guess);
 
         //check if guess is stored in round
         assertEquals("testGuess",round.getGuess().getWord());
@@ -96,5 +99,14 @@ class RoundServiceTest {
         assertEquals(RoundStatus.RUNNING, gameService.getGame(1L).getRounds().get(0).getRoundStatus());
         //check if RoundNum of running Round is 1
         assertEquals(1,roundService.getRunningRound(testGame).getRoundNum());
+    }
+
+    @Test
+    void NoRunningRoundException() {
+        testGame = gameService.createGame(testGame);
+        testGame = roundService.createRounds(testGame);
+        //check if exception is thrown when game is not started
+        roundService.getRunningRound(testGame);
+        Assertions.assertThatExceptionOfType(NoRunningRoundException.class);
     }
 }
