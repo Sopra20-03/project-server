@@ -91,9 +91,9 @@ public interface DTOMapper {
 
     @Mapping(source = "userId", target = "userId")
     RealPlayer convertPlayerPutDTOtoPlayerEntity(PlayerPutDTO playerPutDTO);
-    /**
-    @Mapping(source = "userId", target = "userId")
+
+
     @Mapping(source = "word", target = "word")
     Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
-    */
+
 }
