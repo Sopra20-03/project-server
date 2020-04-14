@@ -1,12 +1,16 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "T_GUESS")
-public class Guess {
+@SequenceGenerator(name="guessSeq", initialValue=1, allocationSize=100)
+public class Guess implements Serializable {
+
+    private static final long serialVersionUID = 4L;
     @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "guessSeq")
     private Long guessId;
 
     @OneToOne(mappedBy = "guess")

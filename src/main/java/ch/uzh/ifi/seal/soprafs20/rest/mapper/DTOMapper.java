@@ -15,7 +15,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import javax.persistence.ManyToOne;
 
 /**
  * DTOMapper
@@ -83,7 +82,7 @@ public interface DTOMapper {
     @Mapping(source = "roundId", target = "roundId")
     //@Mapping(source = "game", target = "gameId")
     @Mapping(source = "roundNum", target = "roundNum")
-    @Mapping(source = "guess", target = "guess")
+    //@Mapping(source = "guess", target = "guess")
     RoundGetDTO convertRoundEntityToRoundGetDTO(Round round);
 
     @Mapping(source = "playerId", target = "playerId")
@@ -98,9 +97,9 @@ public interface DTOMapper {
     @Mapping(source = "word", target = "word")
     Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
 
-    @Mapping(source = "guessId", target = "guessId")
+    //@Mapping(source = "guessId", target = "guessId")
     @Mapping(source = "word", target = "word")
-    @Mapping(source = "isValid", target = "isValid")
+    //@Mapping(source = "isValid", target = "isValid")
     GuessGetDTO convertGuessEntityToGuessGetDTO(Guess guess);
 
 }

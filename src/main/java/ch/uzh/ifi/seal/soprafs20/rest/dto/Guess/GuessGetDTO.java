@@ -7,19 +7,12 @@ import javax.persistence.*;
 
 public class GuessGetDTO {
 
-    private Long guessId;
+    //private Long guessId;
 
     private String word;
 
-    private boolean isValid;
+    //private boolean isValid;
 
-    public Long getGuessId() {
-        return guessId;
-    }
-
-    public void setGuessId(Long guessId) {
-        this.guessId = guessId;
-    }
 
     public String getWord() {
         return word;
@@ -28,11 +21,5 @@ public class GuessGetDTO {
     public void setWord(String word) {
         this.word = word;
     }
-    public boolean getIsValid(){
-        return this.isValid;
-    }
 
-    public void setValid(boolean valid) {
-        isValid = valid;
-    }
 }

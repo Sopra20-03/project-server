@@ -121,11 +121,11 @@ public class RoundService {
      * @param game ,guess  to which to submit the guess
      * @return Round
      */
-    public Round setGuess(Game game, Guess guess){
+    public Guess setGuess(Game game, Guess guess){
         Round round = getRunningRound(game);
         round.setGuess(guess);
         roundRepository.save(round);
         roundRepository.flush();
-        return round;
+        return guess;
     }
 }

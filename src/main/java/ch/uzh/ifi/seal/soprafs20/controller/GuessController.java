@@ -40,7 +40,7 @@ public class GuessController {
      guess.setOwner(player);
      //store guess in the game
      Game game = gameService.getGame(gameId);
-     roundService.setGuess(game,guess);
+     guess = roundService.setGuess(game,guess);
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }
 

@@ -7,7 +7,6 @@ public class RoundGetDTO {
     private long roundId;
     // private long gameId;
     private int roundNum;
-    private Guess guess;
 
     public long getRoundId() {
         return roundId;
@@ -26,11 +25,4 @@ public class RoundGetDTO {
         this.roundNum = roundNum;
     }
 
-    public Guess getGuess() {
-        return guess;
-    }
-
-    public void setGuess(Guess guess) {
-        this.guess = guess;
-    }
 }
