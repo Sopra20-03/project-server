@@ -8,7 +8,7 @@ import java.io.Serializable;
 @SequenceGenerator(name="wordCardSeq", initialValue=1, allocationSize=100)
 public class WordCard implements Serializable {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 5L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wordCardSeq")

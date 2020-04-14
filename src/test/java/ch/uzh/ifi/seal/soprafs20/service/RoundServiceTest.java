@@ -15,8 +15,6 @@ class RoundServiceTest {
     private GameService gameService;
     @Autowired
     private RoundService roundService;
-    @Autowired
-    private WordCardService wordCardService;
     @MockBean
     private Game testGame;
     private Game testGame2;
@@ -34,7 +32,7 @@ class RoundServiceTest {
     @Test
     void createRounds() {
         testGame = gameService.createGame(testGame);
-        roundService.createRounds(testGame, wordCardService.getShuffledWordCards());
+        roundService.createRounds(testGame);
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
 

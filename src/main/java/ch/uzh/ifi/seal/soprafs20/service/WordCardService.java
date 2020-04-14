@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.repository.WordCardRepository;
@@ -27,7 +28,7 @@ public class WordCardService {
 
     /**
      * Gets all wordCards stored in T_WordCards after shuffling them
-     * @return List<Round>
+     * @return List<WordCard>
      */
     public List<WordCard> getShuffledWordCards() {
         List<WordCard> cards = this.wordCardRepository.findAll();
@@ -37,10 +38,26 @@ public class WordCardService {
 
     /**
      * Gets all wordCards stored in T_WordCards
-     * @return List<Round>
+     * @return List<WordCard>
      */
     public List<WordCard> getWordCards() {
         return this.wordCardRepository.findAll();
+    }
+
+    /**
+     * adds a WordCard to each Round
+     * @param game
+     * @return Game
+     */
+    public Game addWordCardsToRounds(Game game) {
+        List<Round> rounds = game.getRounds();
+        addAllWordCards();
+        List<WordCard> cards = getShuffledWordCards();
+
+        for(int i = 0; i < rounds.size(); i++) {
+            rounds.get(i).setWordCard(cards.get(i));
+        }
+        return game;
     }
 
     /**
