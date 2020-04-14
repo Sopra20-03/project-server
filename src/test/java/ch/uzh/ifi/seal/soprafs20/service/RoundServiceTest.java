@@ -35,8 +35,6 @@ class RoundServiceTest {
     private PlayerService playerService;
     @MockBean
     private Game testGame;
-    private Game testGame2;
-
 
     @BeforeEach
     public void setup(){
@@ -50,7 +48,7 @@ class RoundServiceTest {
     @Test
     void createRounds() {
         testGame = gameService.createGame(testGame);
-        roundService.createRounds(testGame);
+        testGame = roundService.createRounds(testGame);
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
 
@@ -59,36 +57,9 @@ class RoundServiceTest {
         // check if the rounds are stored in GameTable
         assertEquals(2,testGame.getRounds().size());
     }
-    @Test
-    void addGuess(){
-        //create game & rounds
-        testGame = gameService.createGame(testGame);
-        testGame = roundService.createRounds(testGame);
-        testGame = roundService.startFirstRound(testGame);
-        //loads testGame again out of Database
-        testGame = gameService.getGame(1L);
-
-        //create player
-        RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setUserId(1L);
-
-        testPlayer = playerService.createPlayer(testPlayer, testGame);
 
 
-        //add guess
-        Guess guess = new Guess();
-        guess.setWord("testGuess");
-        guess.setOwner(testPlayer);
-        Round round = roundService.setGuess(testGame,guess);
 
-        //check if guess is stored in round
-        assertEquals("testGuess",round.getGuess().getWord());
-        //check if guess is stored in repo and accessible from the game
-        assertEquals("testGuess",gameService.getGame(1L).getRounds().get(0).getGuess().getWord());
-        //check if guess is accessible in player
-        assertEquals("testGuess",playerService.getPlayer(1L).getGuessList().get(0).getWord());
-
-    }
 
     @Test
     void startFirstRound(){

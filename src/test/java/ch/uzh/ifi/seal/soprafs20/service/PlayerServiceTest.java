@@ -19,7 +19,6 @@ public class PlayerServiceTest {
     private PlayerService playerService;
     @Autowired
     private GameService gameService;
-    private Game game;
 
 
     @Test

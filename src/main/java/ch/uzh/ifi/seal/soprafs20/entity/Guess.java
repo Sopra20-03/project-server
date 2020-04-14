@@ -8,12 +8,14 @@ import java.io.Serializable;
 @SequenceGenerator(name="guessSeq", initialValue=1, allocationSize=100)
 public class Guess implements Serializable {
 
-    private static final long serialVersionUID = 4L;
+    private static final long serialVersionUID = 5L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "guessSeq")
     private Long guessId;
 
-    @OneToOne(mappedBy = "guess")
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="guessId", nullable = true)
     private Round round;
 
     @Column
@@ -25,6 +27,14 @@ public class Guess implements Serializable {
     @ManyToOne
     private RealPlayer owner;
 
+    public Long getGuessId() {
+        return guessId;
+    }
+
+    public void setGuessId(Long guessId) {
+        this.guessId = guessId;
+    }
+
     public String getWord() {
         return word;
     }
@@ -33,11 +43,11 @@ public class Guess implements Serializable {
         this.word = word;
     }
 
-    public boolean isValid(){
+    public boolean getIsValid(){
         return this.isValid;
     }
 
-    public void setValid(boolean valid) {
+    public void setIsValid(boolean valid) {
         isValid = valid;
     }
 
@@ -47,5 +57,13 @@ public class Guess implements Serializable {
 
     public void setOwner(RealPlayer owner) {
         this.owner = owner;
+    }
+
+    public Round getRound() {
+        return round;
+    }
+
+    public void setRound(Round round) {
+        this.round = round;
     }
 }

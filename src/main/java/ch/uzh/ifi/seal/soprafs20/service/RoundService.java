@@ -93,7 +93,7 @@ public class RoundService {
     public Round getRunningRound(Game game){
         Round round =  roundRepository.findRoundByGameAndRoundStatus(game,RoundStatus.RUNNING);
         if (round == null){
-            new NoRunningRoundException(game.toString());
+            throw new NoRunningRoundException(game.toString());
         }
         return round;
     }
@@ -116,16 +116,5 @@ public class RoundService {
 
     }
 
-    /**
-     * Sets a new Guess to a round & save it in the repository
-     * @param game ,guess  to which to submit the guess
-     * @return Round
-     */
-    public Guess setGuess(Game game, Guess guess){
-        Round round = getRunningRound(game);
-        round.setGuess(guess);
-        roundRepository.save(round);
-        roundRepository.flush();
-        return guess;
-    }
+
 }

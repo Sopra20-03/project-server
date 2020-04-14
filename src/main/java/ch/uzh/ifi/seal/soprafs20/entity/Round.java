@@ -26,8 +26,7 @@ public class Round implements Serializable {
     @Column(nullable = false)
     private int roundNum;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "guessId")
+    @OneToOne(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Guess guess;
 
     /*

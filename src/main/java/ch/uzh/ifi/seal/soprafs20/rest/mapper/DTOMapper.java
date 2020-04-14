@@ -96,10 +96,10 @@ public interface DTOMapper {
 
     @Mapping(source = "word", target = "word")
     Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
-
-    //@Mapping(source = "guessId", target = "guessId")
+    
+    @Mapping(source = "guessId", target = "guessId")
     @Mapping(source = "word", target = "word")
-    //@Mapping(source = "isValid", target = "isValid")
+    @Mapping(source = "isValid", target = "isValid")
     GuessGetDTO convertGuessEntityToGuessGetDTO(Guess guess);
 
 }

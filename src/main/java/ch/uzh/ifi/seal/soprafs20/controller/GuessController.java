@@ -9,6 +9,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.GuessService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
 import org.springframework.http.HttpStatus;
@@ -21,11 +22,13 @@ public class GuessController {
     private final RoundService roundService;
     private final GameService gameService;
     private final PlayerService playerService;
+    private final GuessService guessService;
 
-    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService){
+    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService){
         this.roundService = roundService;
         this.gameService = gameService;
         this.playerService = playerService;
+        this.guessService = guessService;
 
     }
 
@@ -40,7 +43,8 @@ public class GuessController {
      guess.setOwner(player);
      //store guess in the game
      Game game = gameService.getGame(gameId);
-     guess = roundService.setGuess(game,guess);
+     Round round = roundService.getRunningRound(game);
+     guess = guessService.setGuess(round,guess);
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }
 
