@@ -75,9 +75,6 @@ public class GameController {
         //create rounds
         game = roundService.createRounds(game, cards);
 
-        //add WordCard to each round
-        //game = wordCardService.addWordCardsToRounds(game);
-
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
     }
