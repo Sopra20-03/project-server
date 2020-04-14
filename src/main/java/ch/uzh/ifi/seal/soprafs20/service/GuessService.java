@@ -28,12 +28,14 @@ public class GuessService {
      * @return Guess
      */
     public Guess setGuess(Round round, Guess guess){
-        guess.setRound(round);
-
-        round.setGuess(guess);
-        guessRepository.save(guess);
-        guessRepository.flush();
-        return guess;
+        //add guess only if there is no yet
+        if (getGuess(round)==null) {
+            guess.setRound(round);
+            round.setGuess(guess);
+            guessRepository.save(guess);
+            guessRepository.flush();
+        }
+        return getGuess(round);
     }
 
     public Guess getGuess(Round round){
