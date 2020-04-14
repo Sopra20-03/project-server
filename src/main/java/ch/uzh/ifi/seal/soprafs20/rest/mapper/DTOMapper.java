@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs20.rest.mapper;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
@@ -82,6 +83,7 @@ public interface DTOMapper {
     @Mapping(source = "roundId", target = "roundId")
     //@Mapping(source = "game", target = "gameId")
     @Mapping(source = "roundNum", target = "roundNum")
+    @Mapping(source = "guess", target = "guess")
     RoundGetDTO convertRoundEntityToRoundGetDTO(Round round);
 
     @Mapping(source = "playerId", target = "playerId")
@@ -95,5 +97,10 @@ public interface DTOMapper {
 
     @Mapping(source = "word", target = "word")
     Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
+
+    @Mapping(source = "guessId", target = "guessId")
+    @Mapping(source = "word", target = "word")
+    @Mapping(source = "isValid", target = "isValid")
+    GuessGetDTO convertGuessEntityToGuessGetDTO(Guess guess);
 
 }
