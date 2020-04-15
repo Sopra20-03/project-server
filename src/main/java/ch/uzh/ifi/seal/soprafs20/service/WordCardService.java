@@ -44,6 +44,14 @@ public class WordCardService {
     }
 
     /**
+     * Gets wordCard of a Round stored in T_WordCards
+     * @return WordCard
+     */
+    public WordCard getWordCard(Round round) {
+        return this.wordCardRepository.getWordCardByRound(round);
+    }
+
+    /**
      * adds selectedWord in T_WordCards
      * @param round
      * @param selectedWord
