@@ -11,6 +11,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPutDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -82,7 +83,10 @@ public interface DTOMapper {
     @Mapping(source = "roundId", target = "roundId")
     //@Mapping(source = "game", target = "gameId")
     @Mapping(source = "roundNum", target = "roundNum")
+
     //@Mapping(source = "guess", target = "guess")
+
+    @Mapping(source ="wordCard", target = "wordCard")
     RoundGetDTO convertRoundEntityToRoundGetDTO(Round round);
 
     @Mapping(source = "playerId", target = "playerId")
@@ -101,5 +105,9 @@ public interface DTOMapper {
     @Mapping(source = "word", target = "word")
     @Mapping(source = "isValid", target = "isValid")
     GuessGetDTO convertGuessEntityToGuessGetDTO(Guess guess);
+
+
+    @Mapping(source = "selectedWord", target = "selectedWord")
+    WordCard convertWordCardPutDTOtoWordCardEntity(WordCardPutDTO wordCardPutDTO);
 
 }

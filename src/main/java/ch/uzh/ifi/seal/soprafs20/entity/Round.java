@@ -26,14 +26,17 @@ public class Round implements Serializable {
     @Column(nullable = false)
     private int roundNum;
 
+
     @OneToOne(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Guess guess;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "wordCardId")
+    private WordCard wordCard;
+
+
     /*
     TODO: add these columns
-
-    @Column(nullable = false)
-    private WordCard card;
 
     @Column(nullable = false)
     private RoundStatus status;
@@ -73,6 +76,7 @@ public class Round implements Serializable {
         this.roundNum = roundNum;
     }
 
+
     public Guess getGuess() {
         return guess;
     }
@@ -88,4 +92,9 @@ public class Round implements Serializable {
     public void setRoundStatus(RoundStatus roundStatus) {
         this.roundStatus = roundStatus;
     }
+
+    public WordCard getWordCard() { return wordCard; }
+
+    public void setWordCard(WordCard wordCard) { this.wordCard = wordCard; }
+
 }
