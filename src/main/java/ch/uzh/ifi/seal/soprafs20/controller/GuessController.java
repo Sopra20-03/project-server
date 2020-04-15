@@ -8,10 +8,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
-import ch.uzh.ifi.seal.soprafs20.service.GameService;
-import ch.uzh.ifi.seal.soprafs20.service.GuessService;
-import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
-import ch.uzh.ifi.seal.soprafs20.service.RoundService;
+import ch.uzh.ifi.seal.soprafs20.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +20,14 @@ public class GuessController {
     private final GameService gameService;
     private final PlayerService playerService;
     private final GuessService guessService;
+    private final WordCardService wordCardService;
 
-    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService){
+    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService, WordCardService wordCardService){
         this.roundService = roundService;
         this.gameService = gameService;
         this.playerService = playerService;
         this.guessService = guessService;
+        this.wordCardService = wordCardService;
 
     }
 
