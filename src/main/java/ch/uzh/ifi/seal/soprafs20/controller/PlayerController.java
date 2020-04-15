@@ -2,7 +2,9 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
@@ -38,5 +40,41 @@ public class PlayerController {
             playerGetDTOs.add(DTOMapper.INSTANCE.convertPlayerEntityToPlayerGetDTO(player));
         }
         return playerGetDTOs;
+    }
+    @PutMapping("games/{id}/players")
+    @ResponseStatus(HttpStatus.OK)
+    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody PlayerPutDTO playerPutDTO) {
+
+        //gets userId as playerPutDTO
+        RealPlayer player = DTOMapper.INSTANCE.convertPlayerPutDTOtoPlayerEntity(playerPutDTO);
+
+        //get Game to add player to
+        Game game = gameService.getGame(id);
+
+        //create player
+        player = playerService.createPlayer(player, game);
+
+        game = gameService.addPlayer(id, player);
+
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+
+        return gameGetDTO;
+    }
+
+    @DeleteMapping("games/{gameId}/players/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public GameGetDTO removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
+
+        //get Game to remove player from
+        Game game = gameService.getGame(gameId);
+
+        //create player
+        RealPlayer player = playerService.getPlayer(userId);
+
+        game = gameService.removePlayer(gameId, player);
+
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+
+        return gameGetDTO;
     }
 }

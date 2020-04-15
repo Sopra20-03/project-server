@@ -3,7 +3,6 @@ package ch.uzh.ifi.seal.soprafs20.rest.dto.Round;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
-=======
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 
 

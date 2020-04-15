@@ -120,40 +120,5 @@ public class GameController {
     }
 
 
-    @PutMapping("games/{id}/players")
-    @ResponseStatus(HttpStatus.OK)
-    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody PlayerPutDTO playerPutDTO) {
 
-        //gets userId as playerPutDTO
-        RealPlayer player = DTOMapper.INSTANCE.convertPlayerPutDTOtoPlayerEntity(playerPutDTO);
-
-        //get Game to add player to
-        Game game = gameService.getGame(id);
-
-        //create player
-        player = playerService.createPlayer(player, game);
-
-        game = gameService.addPlayer(id, player);
-
-        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
-
-        return gameGetDTO;
-    }
-
-    @DeleteMapping("games/{gameId}/players/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public GameGetDTO removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
-
-        //get Game to remove player from
-        Game game = gameService.getGame(gameId);
-
-        //create player
-        RealPlayer player = playerService.getPlayer(userId);
-
-        game = gameService.removePlayer(gameId, player);
-
-        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
-
-        return gameGetDTO;
-    }
 }
