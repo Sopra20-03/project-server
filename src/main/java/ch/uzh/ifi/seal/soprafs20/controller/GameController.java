@@ -26,15 +26,11 @@ public class GameController {
 
     private final GameService gameService;
     private final RoundService roundService;
-    private final PlayerService playerService;
-    private final UserService userService;
     private final WordCardService wordCardService;
 
-    public GameController(GameService gameService, RoundService roundService, PlayerService playerService, UserService userService, WordCardService wordCardService) {
+    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService) {
         this.gameService = gameService;
         this.roundService = roundService;
-        this.playerService = playerService;
-        this.userService = userService;
         this.wordCardService = wordCardService;
     }
 
@@ -120,40 +116,5 @@ public class GameController {
     }
 
 
-    @PutMapping("games/{id}/players")
-    @ResponseStatus(HttpStatus.OK)
-    public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody PlayerPutDTO playerPutDTO) {
 
-        //gets userId as playerPutDTO
-        RealPlayer player = DTOMapper.INSTANCE.convertPlayerPutDTOtoPlayerEntity(playerPutDTO);
-
-        //get Game to add player to
-        Game game = gameService.getGame(id);
-
-        //create player
-        player = playerService.createPlayer(player, game);
-
-        game = gameService.addPlayer(id, player);
-
-        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
-
-        return gameGetDTO;
-    }
-
-    @DeleteMapping("games/{gameId}/players/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public GameGetDTO removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
-
-        //get Game to remove player from
-        Game game = gameService.getGame(gameId);
-
-        //create player
-        RealPlayer player = playerService.getPlayer(userId);
-
-        game = gameService.removePlayer(gameId, player);
-
-        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
-
-        return gameGetDTO;
-    }
 }

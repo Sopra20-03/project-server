@@ -30,8 +30,7 @@ public class Round implements Serializable {
     @OneToOne(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Guess guess;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "wordCardId")
+    @OneToOne(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private WordCard wordCard;
 
 

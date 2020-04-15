@@ -17,7 +17,10 @@ public class WordCard implements Serializable {
     @Column
     private String selectedWord;
 
-    //TODO: column for each word or list of words??
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="wordCardId", nullable = true)
+    private Round round;
+
     @Column(nullable = false)
     private String word1;
 
