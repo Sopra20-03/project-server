@@ -1,9 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
-import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-import ch.uzh.ifi.seal.soprafs20.constant.Role;
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.*;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
@@ -116,6 +113,7 @@ class GameServiceTest {
         assertEquals(2,gameService.getGame(testGame.getGameId()).getPlayers().size());
         //check if one player has ROLE.GUESSER
         assertEquals(Role.GUESSER,gameService.getGame(testGame.getGameId()).getPlayers().iterator().next().getRole());
+
     }
 
 }

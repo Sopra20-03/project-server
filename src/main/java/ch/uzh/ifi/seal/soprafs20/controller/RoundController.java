@@ -1,12 +1,18 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.Guess;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
 import ch.uzh.ifi.seal.soprafs20.service.WordCardService;
 import org.springframework.http.HttpStatus;
@@ -20,12 +26,14 @@ public class RoundController {
 
     private final RoundService roundService;
     private final GameService gameService;
+    private final PlayerService playerService;
     private final WordCardService wordCardService;
 
-    public RoundController(RoundService roundService, GameService gameService, WordCardService wordCardService) {
+    public RoundController(RoundService roundService, GameService gameService, WordCardService wordCardService, PlayerService playerService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.wordCardService = wordCardService;
+        this.playerService = playerService;
     }
 
     @GetMapping("/games/{id}/rounds")
@@ -42,6 +50,7 @@ public class RoundController {
         }
         return roundGetDTOs;
     }
+
 
     @GetMapping("/games/{gameId}/rounds/{roundId}")
     @ResponseStatus(HttpStatus.OK)
@@ -81,4 +90,5 @@ public class RoundController {
 
         return roundGetDTO;
     }
+
 }

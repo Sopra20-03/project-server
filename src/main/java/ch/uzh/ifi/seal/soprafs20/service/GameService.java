@@ -4,6 +4,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
+import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
@@ -114,6 +115,7 @@ public class GameService {
         }
         //set one player to ROLE.GUESSER
         players.iterator().next().setRole(Role.GUESSER);
+
         //store changes
         gameRepository.save(game);
         gameRepository.flush();

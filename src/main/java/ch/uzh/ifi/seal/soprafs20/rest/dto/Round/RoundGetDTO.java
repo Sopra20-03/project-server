@@ -1,6 +1,11 @@
 package ch.uzh.ifi.seal.soprafs20.rest.dto.Round;
 
+
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.Guess;
+=======
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+
 
 public class RoundGetDTO {
     private long roundId;
@@ -27,4 +32,5 @@ public class RoundGetDTO {
     public WordCard getWordCard() { return wordCard; }
 
     public void setWordCard(WordCard wordCard) { this.wordCard = wordCard; }
+
 }

@@ -3,6 +3,8 @@ package ch.uzh.ifi.seal.soprafs20.rest.mapper;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
@@ -13,6 +15,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
 
 /**
  * DTOMapper
@@ -80,6 +83,9 @@ public interface DTOMapper {
     @Mapping(source = "roundId", target = "roundId")
     //@Mapping(source = "game", target = "gameId")
     @Mapping(source = "roundNum", target = "roundNum")
+
+    //@Mapping(source = "guess", target = "guess")
+
     @Mapping(source ="wordCard", target = "wordCard")
     RoundGetDTO convertRoundEntityToRoundGetDTO(Round round);
 
@@ -91,6 +97,17 @@ public interface DTOMapper {
     @Mapping(source = "userId", target = "userId")
     RealPlayer convertPlayerPutDTOtoPlayerEntity(PlayerPutDTO playerPutDTO);
 
+
+    @Mapping(source = "word", target = "word")
+    Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
+    
+    @Mapping(source = "guessId", target = "guessId")
+    @Mapping(source = "word", target = "word")
+    @Mapping(source = "isValid", target = "isValid")
+    GuessGetDTO convertGuessEntityToGuessGetDTO(Guess guess);
+
+
     @Mapping(source = "selectedWord", target = "selectedWord")
     WordCard convertWordCardPutDTOtoWordCardEntity(WordCardPutDTO wordCardPutDTO);
+
 }

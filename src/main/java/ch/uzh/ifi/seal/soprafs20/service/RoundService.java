@@ -1,9 +1,14 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NoRunningRoundException;
+
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
+
 import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +48,10 @@ public class RoundService {
             Round round = new Round();
             round.setGame(game);
             round.setRoundNum(roundNum);
+
+            round.setRoundStatus(RoundStatus.INITIALIZED);
             round.setWordCard(cards.get(roundNum-1));
+
             //save round
             roundRepository.save(round);
             roundRepository.flush();
@@ -69,6 +77,32 @@ public class RoundService {
             log.debug("Deleted Round: {}", round);
         }
         return game;
+    }
+
+    /**
+     * Start first Round
+     * @param game
+     * @return started Game
+     */
+    public Game startFirstRound(Game game){
+        Round round = roundRepository.findRoundByGameAndRoundNum(game,1);
+        round.setRoundStatus(RoundStatus.RUNNING);
+        roundRepository.save(round);
+        roundRepository.flush();
+        return game;
+    }
+
+    /**
+     * get running Round
+     * @param game
+     * @return Round
+     */
+    public Round getRunningRound(Game game){
+        Round round =  roundRepository.findRoundByGameAndRoundStatus(game,RoundStatus.RUNNING);
+        if (round == null){
+            throw new NoRunningRoundException(game.toString());
+        }
+        return round;
     }
 
     /**
@@ -104,5 +138,8 @@ public class RoundService {
         if(correctRound.getRoundId() != roundId) { throw new RoundNotFoundException(); }
 
         return correctRound;
+
     }
+
+
 }
