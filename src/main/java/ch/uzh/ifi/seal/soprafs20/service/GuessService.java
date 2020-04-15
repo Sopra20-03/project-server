@@ -6,6 +6,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NoWordCardException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.repository.GuessRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,16 +47,24 @@ public class GuessService {
         }
         return getGuess(round);
     }
-
+    /**
+     * Get Guess of a Round
+     * @param round
+     * @return Guess
+     */
     public Guess getGuess(Round round){
-        return guessRepository.getGuessByRound(round);
+        Guess guess = guessRepository.getGuessByRound(round);
+        if(guess == null){
+            throw new NoGuessException(round.toString());
+        }
+        return guess;
     }
     /**
      * Helper method to check if guess is similar than selected Wordcard
      * @param wordCard, guess  wordcard and Guess to compare
      * @return true if guess is correct
      */
-    private boolean correctGuess(WordCard wordCard,Guess guess){
+    public boolean correctGuess(WordCard wordCard,Guess guess){
         String selectedWord = wordCard.getSelectedWord();
         String guessedWord = guess.getWord();
         return selectedWord.equalsIgnoreCase(guessedWord);

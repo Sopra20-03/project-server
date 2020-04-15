@@ -20,14 +20,12 @@ public class GuessController {
     private final GameService gameService;
     private final PlayerService playerService;
     private final GuessService guessService;
-    private final WordCardService wordCardService;
 
-    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService, WordCardService wordCardService){
+    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService){
         this.roundService = roundService;
         this.gameService = gameService;
         this.playerService = playerService;
         this.guessService = guessService;
-        this.wordCardService = wordCardService;
 
     }
 
@@ -46,5 +44,12 @@ public class GuessController {
      guess = guessService.setGuess(round,guess);
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }
-
+    @GetMapping("/games/{gameId}/rounds/{roundId}/guess")
+    @ResponseStatus(HttpStatus.OK)
+    public GuessGetDTO getGuess(@PathVariable Long gameId, @PathVariable Long roundId){
+        Game game = gameService.getGame(gameId);
+        Round round = roundService.getRoundById(game, roundId);
+        Guess guess = guessService.getGuess(round);
+        return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
+     }
 }
