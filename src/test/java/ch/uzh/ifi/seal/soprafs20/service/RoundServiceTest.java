@@ -1,7 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
-import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NoRunningRoundException;
@@ -15,10 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -36,17 +31,18 @@ class RoundServiceTest {
 
     @BeforeEach
     public void setup(){
+
+
+
+    }
+    @Test
+    void createRounds() {
         //init testGame
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         wordCardService.addAllWordCards();
         cards = wordCardService.getShuffledWordCards();
-
-
-    }
-    @Test
-    void createRounds() {
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame,cards);
         //loads testGame again out of Database
@@ -63,6 +59,12 @@ class RoundServiceTest {
 
     @Test
     void startFirstRound(){
+        //init testGame
+        testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        wordCardService.addAllWordCards();
+        cards = wordCardService.getShuffledWordCards();
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame,cards);
         testGame = roundService.startFirstRound(testGame);
@@ -71,13 +73,21 @@ class RoundServiceTest {
         //check if RoundNum of running Round is 1
         assertEquals(1,roundService.getRunningRound(testGame).getRoundNum());
     }
-
+/**
     @Test
     void NoRunningRoundException() {
+        //init testGame
+        testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        wordCardService.addAllWordCards();
+        cards = wordCardService.getShuffledWordCards();
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame,cards);
         //check if exception is thrown when game is not started
-        roundService.getRunningRound(testGame);
         Assertions.assertThatExceptionOfType(NoRunningRoundException.class);
+        roundService.getRunningRound(testGame);
+
     }
+    */
 }
