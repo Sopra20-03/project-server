@@ -73,6 +73,8 @@ public class GameService {
         game.setGameStatus(GameStatus.INITIALIZED);
         //set start score to zero
         game.setScore(0);
+        //set creator
+        game.setCreatorUsername(game.getCreatorUsername());
 
         //if gameMode is not specified, set to STANDARD
         if(game.getGameMode()==null){game.setGameMode(GameMode.STANDARD);}
@@ -80,7 +82,6 @@ public class GameService {
         //if gameName is not specified, set to "Game+ unique integer"
         Date date = new Date();
         if(game.getGameName()==null){game.setGameName("Game"+date.hashCode());}
-
 
 
         gameRepository.save(game);

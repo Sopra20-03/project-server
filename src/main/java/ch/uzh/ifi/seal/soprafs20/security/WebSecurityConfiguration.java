@@ -5,13 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Web Security Configuration Class for Spring Security
@@ -39,7 +32,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @param http SpringSecurity
      * @throws Exception
      */
-    /*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -52,25 +44,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().sameOrigin();
     }
-    */
 
-    /**
-     * This method configures the custom service method to use for authentication with Spring Security.
-     * @param auth AuthenticationManager Builder
-     * @throws Exception
-     */
-
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
-    /**
-     * This method conifures Spring Security to allow only authenticated requests.
-     * Only unauthenticated POST requests will be allowed.
-     * @param http
-     * @throws Exception
-     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -98,5 +78,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+*/
 }
