@@ -3,10 +3,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.Guess;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NoRunningRoundException;
 import org.assertj.core.api.Assertions;
 
@@ -32,9 +29,10 @@ class RoundServiceTest {
     @Autowired
     private RoundService roundService;
     @Autowired
-    private PlayerService playerService;
+    private WordCardService wordCardService;
     @MockBean
     private Game testGame;
+    private List<WordCard> cards;
 
     @BeforeEach
     public void setup(){
@@ -42,13 +40,15 @@ class RoundServiceTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        wordCardService.addAllWordCards();
+        cards = wordCardService.getShuffledWordCards();
 
 
     }
     @Test
     void createRounds() {
         testGame = gameService.createGame(testGame);
-        testGame = roundService.createRounds(testGame);
+        testGame = roundService.createRounds(testGame,cards);
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
 
@@ -64,7 +64,7 @@ class RoundServiceTest {
     @Test
     void startFirstRound(){
         testGame = gameService.createGame(testGame);
-        testGame = roundService.createRounds(testGame);
+        testGame = roundService.createRounds(testGame,cards);
         testGame = roundService.startFirstRound(testGame);
         //check if first round is running
         assertEquals(RoundStatus.RUNNING, gameService.getGame(1L).getRounds().get(0).getRoundStatus());
@@ -75,7 +75,7 @@ class RoundServiceTest {
     @Test
     void NoRunningRoundException() {
         testGame = gameService.createGame(testGame);
-        testGame = roundService.createRounds(testGame);
+        testGame = roundService.createRounds(testGame,cards);
         //check if exception is thrown when game is not started
         roundService.getRunningRound(testGame);
         Assertions.assertThatExceptionOfType(NoRunningRoundException.class);

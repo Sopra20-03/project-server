@@ -26,15 +26,11 @@ public class GameController {
 
     private final GameService gameService;
     private final RoundService roundService;
-    private final PlayerService playerService;
-    private final UserService userService;
     private final WordCardService wordCardService;
 
-    public GameController(GameService gameService, RoundService roundService, PlayerService playerService, UserService userService, WordCardService wordCardService) {
+    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService) {
         this.gameService = gameService;
         this.roundService = roundService;
-        this.playerService = playerService;
-        this.userService = userService;
         this.wordCardService = wordCardService;
     }
 

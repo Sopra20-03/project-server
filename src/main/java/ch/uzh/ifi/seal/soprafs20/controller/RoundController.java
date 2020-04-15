@@ -26,14 +26,12 @@ public class RoundController {
 
     private final RoundService roundService;
     private final GameService gameService;
-    private final PlayerService playerService;
-    private final WordCardService wordCardService;
 
-    public RoundController(RoundService roundService, GameService gameService, WordCardService wordCardService, PlayerService playerService) {
+
+    public RoundController(RoundService roundService, GameService gameService) {
         this.gameService = gameService;
         this.roundService = roundService;
-        this.wordCardService = wordCardService;
-        this.playerService = playerService;
+
     }
 
     @GetMapping("/games/{id}/rounds")

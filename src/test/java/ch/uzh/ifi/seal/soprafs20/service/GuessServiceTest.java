@@ -1,14 +1,13 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.Guess;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,15 +22,19 @@ class GuessServiceTest {
     private PlayerService playerService;
     @Autowired
     private GuessService guessService;
+    @Autowired
+    private WordCardService wordCardService;
 
     public Game testGame;
+    public List<WordCard> cards;
 
 
 
 
     @BeforeEach
     void setup(){
-
+        wordCardService.addAllWordCards();
+        cards = wordCardService.getShuffledWordCards();
     }
 
     @Test
@@ -42,7 +45,7 @@ class GuessServiceTest {
         testGame.setGameName("testGame");
 
         testGame = gameService.createGame(testGame);
-        testGame = roundService.createRounds(testGame);
+        testGame = roundService.createRounds(testGame, cards);
         testGame = roundService.startFirstRound(testGame);
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
