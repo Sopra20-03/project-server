@@ -103,5 +103,5 @@ public class Round implements Serializable {
 
     public List<Clue> getClues() { return clues; }
 
-    public void setClues(List<Clue> clues) { this.clues = clues; }
+    public void addClue(Clue clue) { this.clues.add(clue); }
 }
