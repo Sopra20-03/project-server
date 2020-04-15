@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.soprafs20.rest.mapper;
 
 import ch.uzh.ifi.seal.soprafs20.entity.*;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.ClueGetDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
@@ -109,5 +111,13 @@ public interface DTOMapper {
 
     @Mapping(source = "selectedWord", target = "selectedWord")
     WordCard convertWordCardPutDTOtoWordCardEntity(WordCardPutDTO wordCardPutDTO);
+
+    @Mapping(source = "word", target = "word")
+    Clue convertCluePostDTOtoClueEntity(CluePostDTO cluePostDTO);
+
+    @Mapping(source = "clueId", target = "clueId")
+    @Mapping(source = "word", target = "word")
+    @Mapping(source = "isValid", target = "isValid")
+    ClueGetDTO convertClueEntityToClueGetDTO(Clue clue);
 
 }
