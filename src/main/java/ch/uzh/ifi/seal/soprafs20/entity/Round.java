@@ -21,11 +21,12 @@ public class Round implements Serializable {
     @Column(nullable = false)
     private int roundNum;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "wordCardId")
+    private WordCard wordCard;
+
     /*
     TODO: add these columns
-
-    @Column(nullable = false)
-    private WordCard card;
 
     @Column(nullable = false)
     private RoundStatus status;
@@ -64,4 +65,8 @@ public class Round implements Serializable {
     public void setRoundNum(int roundNum) {
         this.roundNum = roundNum;
     }
+
+    public WordCard getWordCard() { return wordCard; }
+
+    public void setWordCard(WordCard wordCard) { this.wordCard = wordCard; }
 }

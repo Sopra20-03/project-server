@@ -2,7 +2,8 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,13 +36,14 @@ public class RoundService {
      * Creates 12 rounds of a game & save it into table T_ROUNDS
      * @param game creates rounds for game with gameId
      */
-    public Game createRounds(Game game){
+    public Game createRounds(Game game, List<WordCard> cards){
 
         for(int roundNum = 1; roundNum <= NUMBER_OF_ROUNDS; roundNum++){
             //create round
             Round round = new Round();
             round.setGame(game);
             round.setRoundNum(roundNum);
+            round.setWordCard(cards.get(roundNum-1));
             //save round
             roundRepository.save(round);
             roundRepository.flush();
@@ -85,7 +86,23 @@ public class RoundService {
      */
     public List<Round> getRoundsOfGame(Game game){
         return roundRepository.findRoundsByGame(game);
+    }
 
+    /**
+     * Gets a specific round in a specific game
+     * @param game
+     * @param roundId
+     * @return Round
+     */
+    public Round getRoundById(Game game, long roundId) {
+        List<Round> roundsOfGame = getRoundsOfGame(game);
+        Round correctRound = new Round();
 
+        for( Round round : roundsOfGame) {
+            if(round.getRoundId() == roundId) { correctRound = round; }
+        }
+        if(correctRound.getRoundId() != roundId) { throw new RoundNotFoundException(); }
+
+        return correctRound;
     }
 }
