@@ -54,6 +54,23 @@ public class RoundService {
         }
         return game;
     }
+
+    public Game removeRounds(Game game){
+
+        // get list of rounds
+        List<Round> rounds = roundRepository.findRoundsByGame(game);
+
+        for(Round round : rounds){
+
+            // round
+            roundRepository.delete(round);
+            roundRepository.flush();
+
+            log.debug("Deleted Round: {}", round);
+        }
+        return game;
+    }
+
     /**
      * Gets all rounds stored in T_ROUNDS
      * @return List<Round>

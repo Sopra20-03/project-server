@@ -2,11 +2,12 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+
+import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
+
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.*;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +32,6 @@ public class GameService {
     private final Logger log = LoggerFactory.getLogger(GameService.class);
 
     private final GameRepository gameRepository;
-
-
 
 
     @Autowired
@@ -91,6 +90,37 @@ public class GameService {
     }
 
 
+    public void removeGame(Game game) {
+        gameRepository.delete(game);
+    }
+    /**
+     * starts a game if it exists
+     * @param gameId of game to be started
+     * @return Game
+     */
+    public Game startGame(Long gameId){
+        //get game by id
+        Game game = getGame(gameId);
+        game.setGameStatus(GameStatus.RUNNING);
+        //set Role of players if there are more than minPlayers player
+        Set<RealPlayer> players = game.getPlayers();
+        int minPlayers = 2;
+        if(players.size() < minPlayers){
+            throw new NotEnoughPlayersException(String.valueOf(minPlayers));
+        }
+        //set all players to ROLE.CLUE_WRITER
+        for (RealPlayer player: players){
+            player.setRole(Role.CLUE_WRITER);
+        }
+        //set one player to ROLE.GUESSER
+        players.iterator().next().setRole(Role.GUESSER);
+        //store changes
+        gameRepository.save(game);
+        gameRepository.flush();
+
+        return game;
+    }
+
     public Game addPlayer(Long id, RealPlayer player) {
 
         //find game by id
@@ -126,6 +156,31 @@ public class GameService {
         }
 
         log.debug("Added player: {} to game: {}", player, game);
+        return game;
+    }
+
+
+    public Game removePlayer(Long gameId, RealPlayer player) {
+
+        //find game by id
+        Game game = getGame(gameId);
+
+        //exception thrown if game doesn't exist
+        if(game == null) {
+            throw new GameNotFoundException("Id: " + gameId.toString());
+        }
+
+        //exception if player is not in the game
+        if(!game.getPlayers().contains(player)) {
+            throw new PlayerNotInGameException("Id: " + player.getPlayerId().toString());
+        }
+
+        //get players already in the game and remove player
+        Set<RealPlayer> players = game.getPlayers();
+        players.remove(player);
+        game.setPlayers(players);
+
+        log.debug("Removed player: {} to game: {}", player, game);
         return game;
     }
 

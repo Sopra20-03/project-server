@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
@@ -79,6 +80,23 @@ public class GameController {
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
     }
 
+    @DeleteMapping("/games/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public GameGetDTO deleteGame(@PathVariable Long id) {
+        // Get game details
+        Game game = gameService.getGame(id);
+
+        // Delete rounds from game
+        roundService.removeRounds(game);
+
+        // Delete game
+        gameService.removeGame(game);
+
+        // Convert POJO to JSON
+        return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+    }
+
     @GetMapping("/games/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -88,11 +106,21 @@ public class GameController {
         return gameGetDTO;
     }
 
+    @PutMapping("games/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public GameGetDTO startGame(@PathVariable Long id){
+        Game game = gameService.startGame(id);
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+        return gameGetDTO;
+    }
+
+
     @PutMapping("games/{id}/players")
     @ResponseStatus(HttpStatus.OK)
     public GameGetDTO addPlayer(@PathVariable Long id, @RequestBody PlayerPutDTO playerPutDTO) {
 
-        //convert JSON
+        //gets userId as playerPutDTO
         RealPlayer player = DTOMapper.INSTANCE.convertPlayerPutDTOtoPlayerEntity(playerPutDTO);
 
         //get Game to add player to
@@ -108,11 +136,20 @@ public class GameController {
         return gameGetDTO;
     }
 
-    /*
-    @PutMapping("/games/{id}/rounds/{id}/actions")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public GameGetDTO updateRound(@PathVariable Long gameId, @PathVariable Long roundId) {
+    @DeleteMapping("games/{gameId}/players/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public GameGetDTO removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
 
+        //get Game to remove player from
+        Game game = gameService.getGame(gameId);
+
+        //create player
+        RealPlayer player = playerService.getPlayer(userId);
+
+        game = gameService.removePlayer(gameId, player);
+
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+
+        return gameGetDTO;
     }
-    */
 }
