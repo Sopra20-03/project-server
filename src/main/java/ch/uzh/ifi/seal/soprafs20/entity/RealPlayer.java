@@ -32,6 +32,10 @@ public class RealPlayer implements Serializable {
     @JoinColumn(name = "guessId")
     private List<Guess> guessList = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "clueId")
+    private List<Clue> clues = new ArrayList<>();
+
     public Long getPlayerId() { return playerId; }
 
     public void setPlayerId(Long playerId) { this.playerId = playerId; }
@@ -51,7 +55,12 @@ public class RealPlayer implements Serializable {
     public List<Guess> getGuessList() {
         return guessList;
     }
+
     public void addGuess(Guess guess){
         this.guessList.add(guess);
     }
+
+    public List<Clue> getClues() { return clues; }
+
+    public void addClue(Clue clue) { this.clues.add(clue); }
 }
