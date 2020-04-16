@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,7 +27,7 @@ public class WordCardServiceTest {
     private WordCard wordCard2;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException {
         //add 2 wordCards
         wordCardService.addAllWordCards();
     }
@@ -47,12 +48,18 @@ public class WordCardServiceTest {
             throws IOException {
         String file = "src/main/resources/fileTest.txt";
         Scanner scanner = new Scanner(new File(file));
-        scanner.useDelimiter(" ");
-
-        assertTrue(scanner.hasNext());
-        assertEquals("Hello,", scanner.next());
-        assertEquals("world!", scanner.next());
-
+        List<String> words = new ArrayList<>();
+        while(scanner.hasNext()){
+            words.add(scanner.next());
+        }
         scanner.close();
+        assertEquals(5,words.size());
+        int numberOfWordCards = words.size()/4;
+        assertEquals(1,numberOfWordCards);
+    }
+    @Test
+    void wordCardImport(){
+        //test if first card is correct
+        assertEquals("Alcatraz",wordCardService.getWordCards().get(0).getWord1());
     }
 }

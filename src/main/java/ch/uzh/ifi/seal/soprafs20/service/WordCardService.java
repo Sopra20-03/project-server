@@ -10,8 +10,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 @Service
 @Transactional
@@ -97,15 +102,25 @@ public class WordCardService {
     }
 
     public void addAllWordCards() {
-        createWordCard("Alcatraz",
-                "Smoke",
-                "Hazelnut",
-                "Diamond",
-                "Rose");
-        createWordCard("Puppet",
-                "Game",
-                "Vegas",
-                "Chest",
-                "Airplane");
+        //read words into array
+        try{
+        String file = "src/main/resources/cards-EN.txt";
+        Scanner scanner = new Scanner(new File(file));
+        List<String> words = new ArrayList<>();
+        while(scanner.hasNext()){
+            words.add(scanner.next());
+        }
+        //read every 4 word out of array and create a WordCard
+        for(int i = 0; i< words.size()-5;i = i+5) {
+            createWordCard(words.get(i), words.get(i + 1), words.get(i + 2), words.get(i + 3), words.get(i + 4));
+        }
+        scanner.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
 }
