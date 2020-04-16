@@ -127,7 +127,7 @@ public class GameService {
     public Game addPlayer(Long id, RealPlayer player) {
 
         //find game by id
-        Game game = getGame(id);
+        Game game = gameRepository.findGameByGameId(id);
 
         //exception thrown if game doesn't exist
         if(game == null) {
@@ -140,10 +140,12 @@ public class GameService {
         }
 
         //exception if player is already in the game
-        if(game.getPlayers().contains(player)) {
-            throw new PlayerAlreadyInGameException("Id: " + player.getPlayerId().toString());
-        }
 
+        for(RealPlayer playerInGame : game.getPlayers()) {
+            if (playerInGame.getUserId() == id) {
+                throw new PlayerAlreadyInGameException("Id: " + player.getPlayerId().toString());
+            }
+        }
         //create new set and add player if game has no players yet
         if(game.getPlayers() == null) {
             Set<RealPlayer> players = new HashSet<>();

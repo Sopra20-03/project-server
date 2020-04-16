@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.exceptions;
 
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
@@ -132,5 +133,15 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity handlePlayerNotInGameExceptionException(PlayerNotInGameException ex) {
         log.error(String.format("PlayerNotInGameException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    /**
+     * PlayerAlreadyInGame Exception
+     * Throws HTTP 400 BAD REQUEST
+     */
+    @ExceptionHandler(PlayerAlreadyInGameException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handlePlayerAlreadyInGameException(PlayerAlreadyInGameException ex) {
+        log.error(String.format("PlayerAlreadyInGameException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
