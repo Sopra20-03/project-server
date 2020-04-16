@@ -56,6 +56,7 @@ public class PlayerService {
         return player;
     }
 
+
     public void removePlayer( Game game, Long userId){
 
         List<RealPlayer> players = playerRepository.findRealPlayersByGameAndUserId(game,userId);
@@ -68,4 +69,5 @@ public class PlayerService {
             playerRepository.delete(player);
         }
     }
+
 }
