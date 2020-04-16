@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +54,20 @@ public class PlayerService {
 
         log.debug("Created Information for Player: {}", player);
         return player;
+    }
+
+
+    public void removePlayer( Game game, Long userId){
+
+        List<RealPlayer> players = playerRepository.findRealPlayersByGameAndUserId(game,userId);
+
+        //exception if player is not in the game
+        if(players.size() == 0) {
+            throw new PlayerNotInGameException("UserId: " + userId.toString());
+        }
+        for(RealPlayer player:players) {
+            playerRepository.delete(player);
+        }
     }
 
 }

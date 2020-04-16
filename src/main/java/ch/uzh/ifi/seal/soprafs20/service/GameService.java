@@ -162,7 +162,7 @@ public class GameService {
         return game;
     }
 
-
+    //this method is modified and moved to playerService
     public Game removePlayer(Long gameId, RealPlayer player) {
 
         //find game by id

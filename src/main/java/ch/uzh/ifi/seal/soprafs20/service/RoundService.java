@@ -2,9 +2,8 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NoRunningRoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Round.NoRunningRoundException;
 
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
