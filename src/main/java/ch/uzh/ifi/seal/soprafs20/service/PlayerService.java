@@ -2,6 +2,9 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.repository.PlayerRepository;
 import org.slf4j.Logger;
@@ -68,6 +71,25 @@ public class PlayerService {
         for(RealPlayer player:players) {
             playerRepository.delete(player);
         }
+    }
+    public Game addPlayer(Game game, RealPlayer player) {
+
+        //exception if game already has five players
+        if(game.getPlayers().size() >= 5) {
+            throw new GameFullException(" : Game already has five players.");
+        }
+
+        //exception if player is already in the game
+
+        if(playerRepository.findRealPlayerByUserId(player.getUserId())!= null){
+            throw new PlayerAlreadyInGameException(" UserId: " + player.getUserId().toString()+" ");
+        }
+
+        player.setGame(game);
+        playerRepository.save(player);
+        playerRepository.flush();
+        log.debug("Added player: {} to game: {}", player, game);
+        return game;
     }
 
 }

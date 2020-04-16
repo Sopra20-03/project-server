@@ -57,11 +57,8 @@ public class PlayerController {
 
         //search User just to check if it exists
         User user = userService.getUser(player.getUserId());
-
-        //create player
-        player = playerService.createPlayer(player, game);
-
-        game = gameService.addPlayer(id, player);
+        // create and add player
+        game = playerService.addPlayer(game, player);
 
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
 

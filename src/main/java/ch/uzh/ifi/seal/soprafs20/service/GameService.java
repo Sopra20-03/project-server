@@ -124,45 +124,7 @@ public class GameService {
         return game;
     }
 
-    public Game addPlayer(Long id, RealPlayer player) {
 
-        //find game by id
-        Game game = gameRepository.findGameByGameId(id);
-
-        //exception thrown if game doesn't exist
-        if(game == null) {
-            throw new GameNotFoundException("Id: " + id.toString());
-        }
-
-        //exception if game already has five players
-        if(game.getPlayers().size() >= 5) {
-            throw new GameFullException(" : Game already has five players.");
-        }
-
-        //exception if player is already in the game
-
-        for(RealPlayer playerInGame : game.getPlayers()) {
-            if (playerInGame.getUserId() == id) {
-                throw new PlayerAlreadyInGameException("Id: " + player.getPlayerId().toString());
-            }
-        }
-        //create new set and add player if game has no players yet
-        if(game.getPlayers() == null) {
-            Set<RealPlayer> players = new HashSet<>();
-            players.add(player);
-            game.setPlayers(players);
-        }
-
-        //get players already in the game and add new player
-        else {
-            Set<RealPlayer> players = game.getPlayers();
-            players.add(player);
-            game.setPlayers(players);
-        }
-
-        log.debug("Added player: {} to game: {}", player, game);
-        return game;
-    }
 
     //this method is modified and moved to playerService
     public Game removePlayer(Long gameId, RealPlayer player) {
