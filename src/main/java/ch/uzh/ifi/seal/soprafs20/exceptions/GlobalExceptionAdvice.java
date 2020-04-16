@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.exceptions;
 
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
@@ -121,5 +122,15 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity handleRoundHasAlreadyGuessException(RoundHasAlreadyGuessException ex) {
         log.error(String.format("RoundHasAlreadyGuessException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+    /**
+     * No Guess found Exception
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(PlayerNotInGameException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handlePlayerNotInGameExceptionException(PlayerNotInGameException ex) {
+        log.error(String.format("PlayerNotInGameException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

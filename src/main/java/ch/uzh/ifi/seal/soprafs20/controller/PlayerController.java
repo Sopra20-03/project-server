@@ -2,12 +2,14 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
+import ch.uzh.ifi.seal.soprafs20.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +21,12 @@ public class PlayerController {
 
     private final PlayerService playerService;
     private final GameService gameService;
+    private final UserService userService;
 
-    public PlayerController(PlayerService playerService, GameService gameService) {
+    public PlayerController(PlayerService playerService, GameService gameService, UserService userService) {
         this.gameService = gameService;
         this.playerService = playerService;
+        this.userService = userService;
     }
 
     @GetMapping("/games/{id}/players")
@@ -50,6 +54,9 @@ public class PlayerController {
 
         //get Game to add player to
         Game game = gameService.getGame(id);
+
+        //search User just to check if it exists
+        User user = userService.getUser(player.getUserId());
 
         //create player
         player = playerService.createPlayer(player, game);
