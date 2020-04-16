@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,5 +41,18 @@ public class WordCardServiceTest {
         for(WordCard card : orderedCards) {
             assertTrue(shuffledCards.contains(card));
         }
+    }
+    @Test
+    public void whenReadWithScanner_thenCorrect()
+            throws IOException {
+        String file = "src/main/resources/fileTest.txt";
+        Scanner scanner = new Scanner(new File(file));
+        scanner.useDelimiter(" ");
+
+        assertTrue(scanner.hasNext());
+        assertEquals("Hello,", scanner.next());
+        assertEquals("world!", scanner.next());
+
+        scanner.close();
     }
 }
