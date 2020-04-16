@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UsernameTakenException;
@@ -130,7 +131,7 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(PlayerNotInGameException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handlePlayerNotInGameExceptionException(PlayerNotInGameException ex) {
+    public ResponseEntity handlePlayerNotInGameException(PlayerNotInGameException ex) {
         log.error(String.format("PlayerNotInGameException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
@@ -143,5 +144,15 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity handlePlayerAlreadyInGameException(PlayerAlreadyInGameException ex) {
         log.error(String.format("PlayerAlreadyInGameException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    /**
+     * No Round found Exception
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(RoundNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handleRoundNotFoundException(RoundNotFoundException ex) {
+        log.error(String.format("RoundNotFoundException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

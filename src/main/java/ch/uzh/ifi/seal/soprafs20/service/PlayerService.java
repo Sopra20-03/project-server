@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
@@ -72,7 +73,15 @@ public class PlayerService {
             playerRepository.delete(player);
         }
     }
-    public Game addPlayer(Game game, RealPlayer player) {
+    /**
+     * Persists a player into table T_PLAYERS and add it to game
+     * (works only on RealPlayers atm)
+     * @param player to be persisted as a player
+     * @param game the user wants to join
+     * @param user the User to join a game
+     * @return Player
+     */
+    public Game addPlayer(Game game, RealPlayer player, User user) {
 
         //exception if game already has five players
         if(game.getPlayers().size() >= 5) {
@@ -86,6 +95,7 @@ public class PlayerService {
         }
 
         player.setGame(game);
+        player.setUserName(user.getUsername());
         playerRepository.save(player);
         playerRepository.flush();
         log.debug("Added player: {} to game: {}", player, game);
