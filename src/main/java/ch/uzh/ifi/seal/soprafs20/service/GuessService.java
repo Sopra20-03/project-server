@@ -5,6 +5,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordCardException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
@@ -30,7 +31,9 @@ public class GuessService {
      * @return Guess
      */
     public Guess setGuess(Round round, Guess guess) {
-
+    if(guessRepository.getGuessByRound(round) != null ){
+        throw new RoundHasAlreadyGuessException(round.toString());
+    }
         guess.setRound(round);
         //validate guess
         WordCard wordCard = round.getWordCard();
