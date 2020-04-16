@@ -126,32 +126,4 @@ public class GameService {
 
 
 
-    //this method is modified and moved to playerService
-    public Game removePlayer(Long gameId, RealPlayer player) {
-
-        //find game by id
-        Game game = getGame(gameId);
-
-        //exception thrown if game doesn't exist
-        if(game == null) {
-            throw new GameNotFoundException("Id: " + gameId.toString());
-        }
-
-        //exception if player is not in the game
-        if(!game.getPlayers().contains(player)) {
-            throw new PlayerNotInGameException("Id: " + player.getPlayerId().toString());
-        }
-
-        //get players already in the game and remove player
-        Set<RealPlayer> players = game.getPlayers();
-        players.remove(player);
-        game.setPlayers(players);
-
-
-
-
-        log.debug("Removed player: {} to game: {}", player, game);
-        return game;
-    }
-
 }
