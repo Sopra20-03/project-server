@@ -183,6 +183,9 @@ public class GameService {
         players.remove(player);
         game.setPlayers(players);
 
+
+
+
         log.debug("Removed player: {} to game: {}", player, game);
         return game;
     }
