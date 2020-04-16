@@ -63,18 +63,8 @@ public class PlayerController {
 
     @DeleteMapping("games/{gameId}/players/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public GameGetDTO removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
-
-        //get Game to remove player from
+    public void removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
         Game game = gameService.getGame(gameId);
-
-        //create player
-        RealPlayer player = playerService.getPlayer(userId);
-
-        game = gameService.removePlayer(gameId, player);
-
-        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
-
-        return gameGetDTO;
+        playerService.removePlayer(game, userId);
     }
 }
