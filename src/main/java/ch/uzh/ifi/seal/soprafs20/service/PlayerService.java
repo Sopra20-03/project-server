@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
@@ -85,13 +86,17 @@ public class PlayerService {
 
         //exception if game already has five players
         if(game.getPlayers().size() >= 5) {
-            throw new GameFullException(" : Game already has five players.");
+            throw new GameFullException("Game already has five players.");
         }
 
-        //exception if player is already in the game
-
-        if(playerRepository.findRealPlayerByUserId(player.getUserId())!= null){
-            throw new PlayerAlreadyInGameException(" UserId: " + player.getUserId().toString()+" ");
+        //exception if player is already in a game
+        List<RealPlayer> playersOfUser = playerRepository.findRealPlayersByUserId(player.getUserId());
+        //check if one of the players of this user is in an game with status != finished
+        while(playersOfUser.iterator().hasNext()){
+            Game gameOfPlayer = playersOfUser.iterator().next().getGame();
+            if(gameOfPlayer.getGameStatus() != GameStatus.FINISHED) {
+                throw new PlayerAlreadyInGameException(" User with UserId: " + player.getUserId().toString()+" is in Game with GameId: "+gameOfPlayer.getGameId());
+            }
         }
 
         player.setGame(game);

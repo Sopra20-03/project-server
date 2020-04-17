@@ -11,5 +11,6 @@ import java.util.List;
 public interface PlayerRepository extends JpaRepository<RealPlayer, Long> {
     List<RealPlayer> findRealPlayersByGame(Game game);
     RealPlayer findRealPlayerByUserId(Long userId);
+    List<RealPlayer> findRealPlayersByUserId(Long userId);
     List<RealPlayer> findRealPlayersByGameAndUserId(Game game , Long userId);
 }
