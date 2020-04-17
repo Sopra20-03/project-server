@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.Role;
 public class PlayerGetDTO {
     private long playerId;
     private long userId;
+    private String userName;
     private Role role;
 
     public long getPlayerId() {
@@ -22,6 +23,14 @@ public class PlayerGetDTO {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Role getRole() {

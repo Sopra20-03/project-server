@@ -1,6 +1,11 @@
 package ch.uzh.ifi.seal.soprafs20.exceptions;
 
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UsernameTakenException;
@@ -98,5 +103,56 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseStatusException handleException(Exception ex) {
         log.error("Default Exception Handler -> caught:", ex);
         return new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+
+    /**
+     * No Guess found Exception
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(NoGuessException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handleNoGuessException(NoGuessException ex) {
+        log.error(String.format("NoGuessException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    /**
+     * Round has already Guess Exception
+     * Throws HTTP 409 CONFLICT
+     */
+    @ExceptionHandler(RoundHasAlreadyGuessException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity handleRoundHasAlreadyGuessException(RoundHasAlreadyGuessException ex) {
+        log.error(String.format("RoundHasAlreadyGuessException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+    /**
+     * No Guess found Exception
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(PlayerNotInGameException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handlePlayerNotInGameException(PlayerNotInGameException ex) {
+        log.error(String.format("PlayerNotInGameException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    /**
+     * PlayerAlreadyInGame Exception
+     * Throws HTTP 400 BAD REQUEST
+     */
+    @ExceptionHandler(PlayerAlreadyInGameException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handlePlayerAlreadyInGameException(PlayerAlreadyInGameException ex) {
+        log.error(String.format("PlayerAlreadyInGameException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    /**
+     * No Round found Exception
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(RoundNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handleRoundNotFoundException(RoundNotFoundException ex) {
+        log.error(String.format("RoundNotFoundException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
