@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 @Service
 @Transactional
@@ -28,17 +25,10 @@ public class WordCardService {
     @Autowired
     public WordCardService(@Qualifier("wordCardRepository") WordCardRepository wordCardRepository) {
         this.wordCardRepository = wordCardRepository;
+        this.addAllWordCards();
     }
 
-    /**
-     * Gets all wordCards stored in T_WordCards after shuffling them
-     * @return List<WordCard>
-     */
-    public List<WordCard> getShuffledWordCards() {
-        List<WordCard> cards = this.wordCardRepository.findAll();
-        Collections.shuffle(cards);
-        return cards;
-    }
+
 
     /**
      * Gets all wordCards stored in T_WordCards
@@ -110,6 +100,11 @@ public class WordCardService {
         while(scanner.hasNext()){
             words.add(scanner.next());
         }
+        /*
+        //TODO: shuffle Removed for Testing
+        Collections.shuffle(words);
+        */
+
         //read every 4 word out of array and create a WordCard
         for(int i = 0; i< words.size()-5;i = i+5) {
             createWordCard(words.get(i), words.get(i + 1), words.get(i + 2), words.get(i + 3), words.get(i + 4));

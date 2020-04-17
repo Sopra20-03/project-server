@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class WordCardServiceTest {
@@ -32,17 +31,7 @@ public class WordCardServiceTest {
         wordCardService.addAllWordCards();
     }
 
-    @Test
-    void getShuffledWordCards() {
-        List<WordCard> orderedCards = wordCardService.getWordCards();
-        List<WordCard> shuffledCards = wordCardService.getShuffledWordCards();
 
-        assertEquals(orderedCards.size(), shuffledCards.size());
-
-        for(WordCard card : orderedCards) {
-            assertTrue(shuffledCards.contains(card));
-        }
-    }
     @Test
     public void whenReadWithScanner_thenCorrect()
             throws IOException {
