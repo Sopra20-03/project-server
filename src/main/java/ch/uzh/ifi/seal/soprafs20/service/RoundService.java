@@ -29,7 +29,7 @@ public class RoundService {
     private final Logger log = LoggerFactory.getLogger(RoundService.class);
 
     private final RoundRepository roundRepository;
-    private final int NUMBER_OF_ROUNDS = 2;
+    private final int NUMBER_OF_ROUNDS = 12;
 
     @Autowired
     public RoundService(@Qualifier("roundRepository") RoundRepository roundRepository) {
@@ -49,7 +49,7 @@ public class RoundService {
             round.setRoundNum(roundNum);
 
             round.setRoundStatus(RoundStatus.INITIALIZED);
-            round.setWordCard(cards.get(roundNum-1));
+            round.setWordCard(cards.listIterator().next());
 
             //save round
             roundRepository.save(round);

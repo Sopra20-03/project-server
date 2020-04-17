@@ -63,8 +63,7 @@ public class GameController {
         // Convert JSON  to POJO
         Game game = DTOMapper.INSTANCE.convertGamePostDTOtoGameEntity(gamePostDTO);
 
-        wordCardService.addAllWordCards();
-        List<WordCard> cards = wordCardService.getShuffledWordCards();
+        List<WordCard> cards = wordCardService.getWordCards();
 
         // Create game
         game = gameService.createGame(game);
