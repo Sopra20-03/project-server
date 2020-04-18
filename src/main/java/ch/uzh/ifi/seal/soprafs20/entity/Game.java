@@ -27,6 +27,9 @@ public class Game implements Serializable {
     @Column
     private String creatorUsername;
 
+    @Column
+    private int playerCount;
+
     @Column(nullable = false)
     private GameStatus gameStatus;
 
@@ -63,6 +66,13 @@ public class Game implements Serializable {
         this.creatorUsername = creatorUsername;
     }
 
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
 
     public GameStatus getGameStatus() {
         return gameStatus;
