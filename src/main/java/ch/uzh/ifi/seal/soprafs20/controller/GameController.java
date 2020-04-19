@@ -114,6 +114,23 @@ public class GameController {
         return gameGetDTO;
     }
 
+    /**
+     * Method for testing:
+     * changes round status
+     * @param id
+     * @return
+     */
+    @PutMapping("games/{id}/skip")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public GameGetDTO skipRound(@PathVariable Long id){
+        //start game
+        Game game = gameService.startGame(id);
+        //start first round
+        game = roundService.startNextRound(game);
+        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
+        return gameGetDTO;
+    }
 
 
 }

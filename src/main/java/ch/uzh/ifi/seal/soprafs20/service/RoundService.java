@@ -90,6 +90,25 @@ public class RoundService {
         roundRepository.flush();
         return game;
     }
+    /**
+     * Start next Round
+     * @param game
+     * @return started Game
+     */
+    public Game startNextRound(Game game){
+        Round round = getRunningRound(game);
+        int RoundNum = round.getRoundNum();
+        //if there is a next round, set it to running
+        if (RoundNum < NUMBER_OF_ROUNDS){
+            Round nextRound = roundRepository.findRoundByGameAndRoundNum(game,RoundNum+1);
+            nextRound.setRoundStatus(RoundStatus.RUNNING);
+            roundRepository.save(nextRound);
+        }
+        round.setRoundStatus(RoundStatus.FINISHED);
+        roundRepository.save(round);
+        roundRepository.flush();
+        return game;
+    }
 
     /**
      * get running Round
