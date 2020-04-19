@@ -50,16 +50,16 @@ public class RoundController {
     }
 
 
-    @GetMapping("/games/{gameId}/rounds/{roundId}")
+    @GetMapping("/games/{gameId}/rounds/{roundNum}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RoundGetDTO getRoundById(@PathVariable Long gameId, @PathVariable Long roundId) {
+    public RoundGetDTO getRoundById(@PathVariable Long gameId, @PathVariable int roundNum) {
 
         //get Game
         Game game = gameService.getGame(gameId);
 
         //get Round
-        Round round = roundService.getRoundById(game, roundId);
+        Round round = roundService.getRoundByRoundNum(game, roundNum);
 
         //convert Round to RoundGetDTO
         RoundGetDTO roundGetDTO = DTOMapper.INSTANCE.convertRoundEntityToRoundGetDTO(round);

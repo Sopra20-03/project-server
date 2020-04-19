@@ -29,7 +29,7 @@ public class RoundService {
     private final Logger log = LoggerFactory.getLogger(RoundService.class);
 
     private final RoundRepository roundRepository;
-    private final int NUMBER_OF_ROUNDS = 12;
+    private final int NUMBER_OF_ROUNDS = 13;
 
     @Autowired
     public RoundService(@Qualifier("roundRepository") RoundRepository roundRepository) {
@@ -37,7 +37,7 @@ public class RoundService {
     }
 
     /**
-     * Creates 12 rounds of a game & save it into table T_ROUNDS
+     * Creates 13 rounds of a game & save it into table T_ROUNDS
      * @param game creates rounds for game with gameId
      */
     public Game createRounds(Game game, List<WordCard> cards){
@@ -124,19 +124,14 @@ public class RoundService {
     /**
      * Gets a specific round in a specific game
      * @param game
-     * @param roundId
+     * @param roundNum
      * @return Round
      */
-    public Round getRoundById(Game game, long roundId) {
-        List<Round> roundsOfGame = getRoundsOfGame(game);
-        Round correctRound = new Round();
+    public Round getRoundByRoundNum(Game game, int roundNum) {
+        Round round = roundRepository.findRoundByGameAndRoundNum(game,roundNum);
+        if(round == null) { throw new RoundNotFoundException(); }
 
-        for( Round round : roundsOfGame) {
-            if(round.getRoundId() == roundId) { correctRound = round; }
-        }
-        if(correctRound.getRoundId() != roundId) { throw new RoundNotFoundException(); }
-
-        return correctRound;
+        return round;
 
     }
 
