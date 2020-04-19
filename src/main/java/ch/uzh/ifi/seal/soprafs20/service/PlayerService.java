@@ -72,6 +72,8 @@ public class PlayerService {
         }
         for(RealPlayer player:players) {
             playerRepository.delete(player);
+            int initialPlayerCount = game.getPlayerCount();
+            game.setPlayerCount(initialPlayerCount-1);
         }
     }
     /**
@@ -99,6 +101,8 @@ public class PlayerService {
             }
         }
 
+        int initialPlayerCount = game.getPlayerCount();
+        game.setPlayerCount(initialPlayerCount+1);
         player.setGame(game);
         player.setUserName(user.getUsername());
         playerRepository.save(player);

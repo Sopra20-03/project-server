@@ -15,6 +15,7 @@ public class GameGetDTO {
     private long gameId;
     private String gameName;
     private String creatorUsername;
+    private int playerCount;
     private GameStatus gameStatus;
     private GameMode gameMode;
     private int score;
@@ -40,6 +41,14 @@ public class GameGetDTO {
     }
 
     public void setCreatorUsername(String creatorUsername) { this.creatorUsername = creatorUsername; }
+
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
 
     public GameStatus getGameStatus() {
         return gameStatus;
