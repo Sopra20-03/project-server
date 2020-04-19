@@ -45,11 +45,11 @@ public class GuessController {
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }
 
-    @GetMapping("/games/{gameId}/rounds/{roundId}/guess")
+    @GetMapping("/games/{gameId}/rounds/{roundNum}/guess")
     @ResponseStatus(HttpStatus.OK)
-    public GuessGetDTO getGuess(@PathVariable Long gameId, @PathVariable Long roundId){
+    public GuessGetDTO getGuess(@PathVariable Long gameId, @PathVariable int roundNum){
         Game game = gameService.getGame(gameId);
-        Round round = roundService.getRoundById(game, roundId);
+        Round round = roundService.getRoundByRoundNum(game, roundNum);
         Guess guess = guessService.getGuess(round);
         return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }

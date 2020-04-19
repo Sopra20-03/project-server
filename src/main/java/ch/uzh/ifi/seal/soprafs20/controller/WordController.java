@@ -25,10 +25,10 @@ public class WordController {
         this.wordCardService = wordCardService;
 
     }
-    @PutMapping("/games/{gameId}/rounds/{roundId}")
+    @PutMapping("/games/{gameId}/rounds/{roundNum}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RoundGetDTO selectWord(@PathVariable Long gameId, @PathVariable Long roundId, @RequestBody WordCardPutDTO wordCardPutDTO) {
+    public RoundGetDTO selectWord(@PathVariable Long gameId, @PathVariable int roundNum, @RequestBody WordCardPutDTO wordCardPutDTO) {
         //Convert JSON
         WordCard wordCard = DTOMapper.INSTANCE.convertWordCardPutDTOtoWordCardEntity(wordCardPutDTO);
 
@@ -36,7 +36,7 @@ public class WordController {
         Game game = gameService.getGame(gameId);
 
         //get Round
-        Round round = roundService.getRoundById(game, roundId);
+        Round round = roundService.getRoundByRoundNum(game, roundNum);
 
         //set selectedWord
         round = wordCardService.setSelectedWord(round, wordCard.getSelectedWord());

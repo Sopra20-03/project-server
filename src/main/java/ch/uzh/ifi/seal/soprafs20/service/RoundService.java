@@ -124,19 +124,14 @@ public class RoundService {
     /**
      * Gets a specific round in a specific game
      * @param game
-     * @param roundId
+     * @param roundNum
      * @return Round
      */
-    public Round getRoundById(Game game, long roundId) {
-        List<Round> roundsOfGame = getRoundsOfGame(game);
-        Round correctRound = new Round();
+    public Round getRoundByRoundNum(Game game, int roundNum) {
+        Round round = roundRepository.findRoundByGameAndRoundNum(game,roundNum);
+        if(round == null) { throw new RoundNotFoundException(); }
 
-        for( Round round : roundsOfGame) {
-            if(round.getRoundId() == roundId) { correctRound = round; }
-        }
-        if(correctRound.getRoundId() != roundId) { throw new RoundNotFoundException(); }
-
-        return correctRound;
+        return round;
 
     }
 
