@@ -154,5 +154,14 @@ public class RoundService {
 
     }
 
+    /**
+     * true if last round is finished
+     * @param game
+     */
+    public boolean lastRoundFinished(Game game){
+        Round round = roundRepository.findRoundByGameAndRoundNum(game,NUMBER_OF_ROUNDS);
+        return round.getRoundStatus()==RoundStatus.FINISHED;
+    }
+
 
 }

@@ -124,10 +124,15 @@ public class GameController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public GameGetDTO skipRound(@PathVariable Long id){
-        //start game
-        Game game = gameService.startGame(id);
-        //start first round
-        game = roundService.startNextRound(game);
+        Game game = gameService.getGame(id);
+        // when all rounds are finished, finish the game
+        if(roundService.lastRoundFinished(game)){
+            game = gameService.finishGame(game);
+        }
+        //else start the next round
+        else {
+            game = roundService.startNextRound(game);
+        }
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
         return gameGetDTO;
     }
