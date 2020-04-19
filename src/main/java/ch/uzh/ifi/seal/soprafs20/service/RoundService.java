@@ -29,7 +29,7 @@ public class RoundService {
     private final Logger log = LoggerFactory.getLogger(RoundService.class);
 
     private final RoundRepository roundRepository;
-    private final int NUMBER_OF_ROUNDS = 12;
+    private final int NUMBER_OF_ROUNDS = 13;
 
     @Autowired
     public RoundService(@Qualifier("roundRepository") RoundRepository roundRepository) {
@@ -37,7 +37,7 @@ public class RoundService {
     }
 
     /**
-     * Creates 12 rounds of a game & save it into table T_ROUNDS
+     * Creates 13 rounds of a game & save it into table T_ROUNDS
      * @param game creates rounds for game with gameId
      */
     public Game createRounds(Game game, List<WordCard> cards){
