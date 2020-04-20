@@ -89,7 +89,11 @@ public class WordCardService {
 
         return wordCard;
     }
-
+    /**
+     * creates numberOfCards times a new Card from cards-EN.txt file
+     * @param numberOfCards
+     * @return List<WordCard>
+     */
     public List<WordCard> getWordCards(int numberOfCards) {
         List<WordCard> wordCards = new ArrayList<>();
         //read words into array
