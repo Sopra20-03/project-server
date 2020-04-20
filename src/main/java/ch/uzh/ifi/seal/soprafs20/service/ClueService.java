@@ -27,7 +27,7 @@ public class ClueService {
         clueRepository.save(clue);
         clueRepository.flush();
 
-        return getClue(round);
+        return clue;
     }
 
     public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
