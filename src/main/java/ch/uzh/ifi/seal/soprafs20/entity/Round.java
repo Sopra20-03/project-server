@@ -34,8 +34,7 @@ public class Round implements Serializable {
     @OneToOne(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private WordCard wordCard;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "clueId")
+    @OneToMany(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Clue> clues = new ArrayList<>();
 
 

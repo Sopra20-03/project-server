@@ -22,7 +22,7 @@ public class ClueService {
 
     public Clue setClue(Round round, Clue clue) {
         clue.setRound(round);
-        round.addClue(clue);
+        //round.addClue(clue);
 
         clueRepository.save(clue);
         clueRepository.flush();

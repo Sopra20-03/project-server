@@ -16,6 +16,7 @@ public class Clue implements Serializable {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roundId")
     private Round round;
 
     @Column

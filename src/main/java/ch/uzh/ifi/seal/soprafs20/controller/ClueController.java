@@ -33,6 +33,7 @@ public class ClueController {
     @ResponseBody
     public ClueGetDTO submitClue(@PathVariable Long gameId, @PathVariable Long playerId, @RequestBody CluePostDTO cluePostDTO) {
 
+        //create a new clue
         Clue clue = DTOMapper.INSTANCE.convertCluePostDTOtoClueEntity(cluePostDTO);
 
         //add owner of the clue
