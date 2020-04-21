@@ -39,8 +39,7 @@ class RoundServiceTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
-        wordCardService.addAllWordCards();
-        cards = wordCardService.getShuffledWordCards();
+        cards = wordCardService.getWordCards(12);
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame,cards);
         //loads testGame again out of Database
@@ -61,8 +60,7 @@ class RoundServiceTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
-        wordCardService.addAllWordCards();
-        cards = wordCardService.getShuffledWordCards();
+        cards = wordCardService.getWordCards(12);
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame,cards);
         testGame = roundService.startFirstRound(testGame);
