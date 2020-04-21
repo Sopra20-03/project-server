@@ -14,6 +14,9 @@ import ch.uzh.ifi.seal.soprafs20.service.RoundService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class ClueController {
     private final ClueService clueService;
@@ -45,5 +48,22 @@ public class ClueController {
         clue = clueService.setClue(round, owner, clue);
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
+    }
+
+    @GetMapping("/games/{gameId}/rounds/{roundNum}/clues")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ClueGetDTO> getClues(@PathVariable Long gameId, @PathVariable int roundNum){
+
+        //get list of clues for round
+        Game game = gameService.getGame(gameId);
+        Round round = roundService.getRoundByRoundNum(game, roundNum);
+        List<Clue> clues = clueService.getClues(round);
+
+        //convert all clues to ClueGetDTO
+        List<ClueGetDTO> clueGetDTOS = new ArrayList<>();
+        for (Clue clue : clues) {
+            clueGetDTOS.add(DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue));
+        }
+        return clueGetDTOS;
     }
 }

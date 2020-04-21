@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -46,4 +47,6 @@ public class ClueService {
     }
 
     public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
+
+    public List<Clue> getClues(Round round) { return clueRepository.getCluesByRound(round); }
 }
