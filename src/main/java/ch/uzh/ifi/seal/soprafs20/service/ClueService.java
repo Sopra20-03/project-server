@@ -2,12 +2,15 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Clue;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
 import ch.uzh.ifi.seal.soprafs20.repository.ClueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,4 +34,47 @@ public class ClueService {
     }
 
     public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
+
+    /**
+     * get all Clues of a round
+     * @param round
+     * @return List<Clue>
+     */
+
+    public List<Clue> getClues(Round round){
+        List<Clue> clues = clueRepository.getCluesByRound(round);
+        if(clues.size()==0){
+            throw new NoClueException(round.getRoundId().toString());
+        }
+        return clues;
+    }
+
+    /**
+     * validates clues of a round
+     * @param round
+     *
+     */
+    public void validateClues(Round round){
+        List<Clue> clues = getClues(round);
+        String selectedWord = round.getWordCard().getSelectedWord();
+
+        if(selectedWord==null){
+            throw new NoWordSelectedException(round.getRoundId().toString());
+        }
+        for(Clue clue : clues){
+            int numbOfEqualWords = 0;
+            //count number of same words
+            for(Clue compareClue:clues){
+                if(clue.getWord().equalsIgnoreCase(compareClue.getWord())){
+                    numbOfEqualWords++;
+                }
+            }
+            //if there are more than 1 times the same word or the word is the same as the selected word, set valid to false
+            if(numbOfEqualWords> 1 || clue.getWord().equalsIgnoreCase(selectedWord)){
+                clue.setIsValid(false);
+                clueRepository.save(clue);
+                clueRepository.flush();
+            }
+        }
+    }
 }
