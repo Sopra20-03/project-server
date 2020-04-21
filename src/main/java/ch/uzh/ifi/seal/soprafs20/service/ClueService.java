@@ -51,6 +51,8 @@ public class ClueService {
 
     public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
 
+    public Clue getClueByOwnerAndRound(RealPlayer owner, Round round) { return clueRepository.getClueByOwnerAndRound(owner, round); }
+
 
     /**
      * get all Clues of a round
