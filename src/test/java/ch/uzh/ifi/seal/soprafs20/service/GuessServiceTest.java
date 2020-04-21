@@ -66,4 +66,13 @@ class GuessServiceTest {
         assertEquals("testGuess",guessService.getGuess(activeRound).getWord());
 
     }
+    @Test
+    void validateGuess(){
+        Guess guess = new Guess();
+        guess.setWord("testWORD");
+
+        WordCard wordCard = new WordCard();
+        wordCard.setSelectedWord("testWord");
+        assertTrue(guessService.correctGuess(wordCard, guess));
+    }
 }

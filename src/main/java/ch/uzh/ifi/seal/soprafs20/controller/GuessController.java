@@ -8,10 +8,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
-import ch.uzh.ifi.seal.soprafs20.service.GameService;
-import ch.uzh.ifi.seal.soprafs20.service.GuessService;
-import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
-import ch.uzh.ifi.seal.soprafs20.service.RoundService;
+import ch.uzh.ifi.seal.soprafs20.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,4 +45,12 @@ public class GuessController {
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }
 
+    @GetMapping("/games/{gameId}/rounds/{roundNum}/guess")
+    @ResponseStatus(HttpStatus.OK)
+    public GuessGetDTO getGuess(@PathVariable Long gameId, @PathVariable int roundNum){
+        Game game = gameService.getGame(gameId);
+        Round round = roundService.getRoundByRoundNum(game, roundNum);
+        Guess guess = guessService.getGuess(round);
+        return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
+     }
 }

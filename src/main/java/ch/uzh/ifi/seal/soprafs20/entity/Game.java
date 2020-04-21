@@ -6,6 +6,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +27,9 @@ public class Game implements Serializable {
     @Column
     private String creatorUsername;
 
+    @Column
+    private int playerCount;
+
     @Column(nullable = false)
     private GameStatus gameStatus;
 
@@ -37,7 +41,7 @@ public class Game implements Serializable {
     private List<Round> rounds = new ArrayList<>();
 
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Set<RealPlayer> players;
+    private Set<RealPlayer> players = new HashSet<>();
 
     @Column(nullable = false)
     private int score;
@@ -62,6 +66,13 @@ public class Game implements Serializable {
         this.creatorUsername = creatorUsername;
     }
 
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
 
     public GameStatus getGameStatus() {
         return gameStatus;

@@ -73,6 +73,8 @@ public class GameService {
         game.setGameStatus(GameStatus.INITIALIZED);
         //set start score to zero
         game.setScore(0);
+        //set creator
+        game.setCreatorUsername(game.getCreatorUsername());
 
         //if gameMode is not specified, set to STANDARD
         if(game.getGameMode()==null){game.setGameMode(GameMode.STANDARD);}
@@ -80,7 +82,6 @@ public class GameService {
         //if gameName is not specified, set to "Game+ unique integer"
         Date date = new Date();
         if(game.getGameName()==null){game.setGameName("Game"+date.hashCode());}
-
 
 
         gameRepository.save(game);
@@ -123,67 +124,6 @@ public class GameService {
         return game;
     }
 
-    public Game addPlayer(Long id, RealPlayer player) {
 
-        //find game by id
-        Game game = getGame(id);
-
-        //exception thrown if game doesn't exist
-        if(game == null) {
-            throw new GameNotFoundException("Id: " + id.toString());
-        }
-
-        //exception if game already has five players
-        if(game.getPlayers().size() >= 5) {
-            throw new GameFullException(" : Game already has five players.");
-        }
-
-        //exception if player is already in the game
-        if(game.getPlayers().contains(player)) {
-            throw new PlayerAlreadyInGameException("Id: " + player.getPlayerId().toString());
-        }
-
-        //create new set and add player if game has no players yet
-        if(game.getPlayers() == null) {
-            Set<RealPlayer> players = new HashSet<>();
-            players.add(player);
-            game.setPlayers(players);
-        }
-
-        //get players already in the game and add new player
-        else {
-            Set<RealPlayer> players = game.getPlayers();
-            players.add(player);
-            game.setPlayers(players);
-        }
-
-        log.debug("Added player: {} to game: {}", player, game);
-        return game;
-    }
-
-
-    public Game removePlayer(Long gameId, RealPlayer player) {
-
-        //find game by id
-        Game game = getGame(gameId);
-
-        //exception thrown if game doesn't exist
-        if(game == null) {
-            throw new GameNotFoundException("Id: " + gameId.toString());
-        }
-
-        //exception if player is not in the game
-        if(!game.getPlayers().contains(player)) {
-            throw new PlayerNotInGameException("Id: " + player.getPlayerId().toString());
-        }
-
-        //get players already in the game and remove player
-        Set<RealPlayer> players = game.getPlayers();
-        players.remove(player);
-        game.setPlayers(players);
-
-        log.debug("Removed player: {} to game: {}", player, game);
-        return game;
-    }
 
 }

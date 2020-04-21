@@ -66,6 +66,7 @@ public interface DTOMapper {
 
     @Mapping(source = "gameId", target = "gameId")
     @Mapping(source = "gameName", target = "gameName")
+    @Mapping(source = "playerCount", target = "playerCount")
     @Mapping(source = "gameStatus", target = "gameStatus")
     @Mapping(source = "gameMode", target = "gameMode")
     @Mapping(source = "score", target = "score")
@@ -93,6 +94,7 @@ public interface DTOMapper {
 
     @Mapping(source = "playerId", target = "playerId")
     @Mapping(source = "userId", target = "userId")
+    @Mapping(source = "userName", target  = "userName")
     @Mapping(source = "role", target = "role")
     PlayerGetDTO convertPlayerEntityToPlayerGetDTO(RealPlayer player);
 

@@ -21,6 +21,9 @@ public class RealPlayer implements Serializable {
     @Column (nullable = false)
     private Long userId;
 
+    @Column (nullable = false)
+    private String userName;
+
     @Column
     private Role role;
 
@@ -63,4 +66,11 @@ public class RealPlayer implements Serializable {
     public List<Clue> getClues() { return clues; }
 
     public void addClue(Clue clue) { this.clues.add(clue); }
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

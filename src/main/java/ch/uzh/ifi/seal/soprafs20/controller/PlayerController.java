@@ -2,12 +2,14 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
+import ch.uzh.ifi.seal.soprafs20.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +21,12 @@ public class PlayerController {
 
     private final PlayerService playerService;
     private final GameService gameService;
+    private final UserService userService;
 
-    public PlayerController(PlayerService playerService, GameService gameService) {
+    public PlayerController(PlayerService playerService, GameService gameService, UserService userService) {
         this.gameService = gameService;
         this.playerService = playerService;
+        this.userService = userService;
     }
 
     @GetMapping("/games/{id}/players")
@@ -51,10 +55,10 @@ public class PlayerController {
         //get Game to add player to
         Game game = gameService.getGame(id);
 
-        //create player
-        player = playerService.createPlayer(player, game);
-
-        game = gameService.addPlayer(id, player);
+        //search User just to check if it exists
+        User user = userService.getUser(player.getUserId());
+        // create and add player
+        game = playerService.addPlayer(game, player, user);
 
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
 
@@ -63,18 +67,8 @@ public class PlayerController {
 
     @DeleteMapping("games/{gameId}/players/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public GameGetDTO removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
-
-        //get Game to remove player from
+    public void removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
         Game game = gameService.getGame(gameId);
-
-        //create player
-        RealPlayer player = playerService.getPlayer(userId);
-
-        game = gameService.removePlayer(gameId, player);
-
-        GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
-
-        return gameGetDTO;
+        playerService.removePlayer(game, userId);
     }
 }

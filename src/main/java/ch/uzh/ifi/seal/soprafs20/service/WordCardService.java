@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 @Transactional
@@ -23,17 +25,10 @@ public class WordCardService {
     @Autowired
     public WordCardService(@Qualifier("wordCardRepository") WordCardRepository wordCardRepository) {
         this.wordCardRepository = wordCardRepository;
+        this.addAllWordCards();
     }
 
-    /**
-     * Gets all wordCards stored in T_WordCards after shuffling them
-     * @return List<WordCard>
-     */
-    public List<WordCard> getShuffledWordCards() {
-        List<WordCard> cards = this.wordCardRepository.findAll();
-        Collections.shuffle(cards);
-        return cards;
-    }
+
 
     /**
      * Gets all wordCards stored in T_WordCards
@@ -41,6 +36,14 @@ public class WordCardService {
      */
     public List<WordCard> getWordCards() {
         return this.wordCardRepository.findAll();
+    }
+
+    /**
+     * Gets wordCard of a Round stored in T_WordCards
+     * @return WordCard
+     */
+    public WordCard getWordCard(Round round) {
+        return this.wordCardRepository.getWordCardByRound(round);
     }
 
     /**
@@ -89,15 +92,30 @@ public class WordCardService {
     }
 
     public void addAllWordCards() {
-        createWordCard("Alcatraz",
-                "Smoke",
-                "Hazelnut",
-                "Diamond",
-                "Rose");
-        createWordCard("Puppet",
-                "Game",
-                "Vegas",
-                "Chest",
-                "Airplane");
+        //read words into array
+        try{
+        String file = "src/main/resources/cards-EN.txt";
+        Scanner scanner = new Scanner(new File(file));
+        List<String> words = new ArrayList<>();
+        while(scanner.hasNext()){
+            words.add(scanner.next());
+        }
+        /*
+        //TODO: shuffle Removed for Testing
+        Collections.shuffle(words);
+        */
+
+        //read every 4 word out of array and create a WordCard
+        for(int i = 0; i< words.size()-5;i = i+5) {
+            createWordCard(words.get(i), words.get(i + 1), words.get(i + 2), words.get(i + 3), words.get(i + 4));
+        }
+        scanner.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
 }
