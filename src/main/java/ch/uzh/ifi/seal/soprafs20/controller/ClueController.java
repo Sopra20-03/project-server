@@ -40,7 +40,7 @@ public class ClueController {
         Clue clue = DTOMapper.INSTANCE.convertCluePostDTOtoClueEntity(cluePostDTO);
 
         //add owner of the clue
-        RealPlayer owner = playerService.getPlayer(playerId);
+        RealPlayer owner = playerService.getPlayerByPlayerId(playerId);
 
         //add clue to the game
         Game game = gameService.getGame(gameId);
