@@ -5,11 +5,9 @@ import ch.uzh.ifi.seal.soprafs20.entity.Clue;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
-
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
-
+import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
 import ch.uzh.ifi.seal.soprafs20.repository.ClueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,6 +41,7 @@ public class ClueService {
         //set clue
         clue.setRound(round);
         clue.setOwner(owner);
+        clue.setIsValid(true);
 
         clueRepository.save(clue);
         clueRepository.flush();
