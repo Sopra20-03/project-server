@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ClueRepository extends JpaRepository<Clue, Long> {
     Clue getClueByRound(Round round);
     Clue getClueByOwner(RealPlayer owner);
+    Clue getClueByOwnerAndRound(RealPlayer owner, Round round);
 }
