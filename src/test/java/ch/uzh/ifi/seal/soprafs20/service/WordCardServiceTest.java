@@ -28,7 +28,6 @@ public class WordCardServiceTest {
     @BeforeEach
     public void setup() throws IOException {
         //add 2 wordCards
-        wordCardService.addAllWordCards();
     }
 
 
@@ -49,6 +48,7 @@ public class WordCardServiceTest {
     @Test
     void wordCardImport(){
         //test if first card is correct
+        wordCardService.getWordCards(12);
         assertEquals("Alcatraz",wordCardService.getWordCards().get(0).getWord1());
     }
 }
