@@ -34,12 +34,14 @@ public class ClueService {
             throw new PlayerIsNotClueWriterException(owner.toString());
         }
         //check if player already submitted a clue
-        if(clueRepository.getClueByOwnerAndRound(owner, round) != null) {
+        if(clueRepository.getCluesByOwnerAndRound(owner, round).size() != 0) {
             throw new PlayerAlreadySubmittedClueException(owner.toString());
         }
 
         //set clue
         clue.setRound(round);
+        clueRepository.save(clue);
+        clueRepository.flush();
         clue.setOwner(owner);
         clue.setIsValid(true);
 

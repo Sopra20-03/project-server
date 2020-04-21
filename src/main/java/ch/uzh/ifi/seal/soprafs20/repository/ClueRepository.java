@@ -12,6 +12,6 @@ import java.util.List;
 public interface ClueRepository extends JpaRepository<Clue, Long> {
     Clue getClueByRound(Round round);
     List<Clue> getCluesByRound(Round round);
-    Clue getClueByOwnerAndRound(RealPlayer owner, Round round);
+    List<Clue> getCluesByOwnerAndRound(RealPlayer owner, Round round);
 
 }
