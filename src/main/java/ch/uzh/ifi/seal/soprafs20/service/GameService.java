@@ -124,6 +124,18 @@ public class GameService {
         return game;
     }
 
+    /**
+     * finishes game
+     * @param game
+     * @return
+     */
 
+    public Game finishGame(Game game) {
+        game.setGameStatus(GameStatus.FINISHED);
+        //store changes
+        gameRepository.save(game);
+        gameRepository.flush();
 
+        return game;
+    }
 }
