@@ -33,8 +33,8 @@ public class RealPlayer implements Serializable {
     @JoinColumn(name = "gameId")
     private Game game;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "guessId")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Guess> guessList = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)

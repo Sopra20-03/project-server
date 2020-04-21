@@ -25,6 +25,7 @@ public class Guess implements Serializable {
     private boolean isValid;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "playerId")
     private RealPlayer owner;
 
     public Long getGuessId() {
