@@ -37,13 +37,12 @@ public class ClueController {
         Clue clue = DTOMapper.INSTANCE.convertCluePostDTOtoClueEntity(cluePostDTO);
 
         //add owner of the clue
-        RealPlayer player = playerService.getPlayer(playerId);
-        clue.setOwner(player);
+        RealPlayer owner = playerService.getPlayer(playerId);
 
         //add clue to the game
         Game game = gameService.getGame(gameId);
         Round round = roundService.getRunningRound(game);
-        clue = clueService.setClue(round, clue);
+        clue = clueService.setClue(round, owner, clue);
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }
