@@ -33,8 +33,8 @@ class GuessServiceTest {
 
     @BeforeEach
     void setup(){
-        wordCardService.addAllWordCards();
-        cards = wordCardService.getShuffledWordCards();
+
+        cards = wordCardService.getWordCards(12);
     }
 
     @Test

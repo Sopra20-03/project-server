@@ -25,7 +25,6 @@ public class WordCardService {
     @Autowired
     public WordCardService(@Qualifier("wordCardRepository") WordCardRepository wordCardRepository) {
         this.wordCardRepository = wordCardRepository;
-        this.addAllWordCards();
     }
 
 
@@ -90,8 +89,13 @@ public class WordCardService {
 
         return wordCard;
     }
-
-    public void addAllWordCards() {
+    /**
+     * creates numberOfCards times a new Card from cards-EN.txt file
+     * @param numberOfCards
+     * @return List<WordCard>
+     */
+    public List<WordCard> getWordCards(int numberOfCards) {
+        List<WordCard> wordCards = new ArrayList<>();
         //read words into array
         try{
         String file = "src/main/resources/cards-EN.txt";
@@ -100,14 +104,15 @@ public class WordCardService {
         while(scanner.hasNext()){
             words.add(scanner.next());
         }
-        /*
+/*
         //TODO: shuffle Removed for Testing
         Collections.shuffle(words);
-        */
+*/
 
         //read every 4 word out of array and create a WordCard
-        for(int i = 0; i< words.size()-5;i = i+5) {
-            createWordCard(words.get(i), words.get(i + 1), words.get(i + 2), words.get(i + 3), words.get(i + 4));
+        for(int i = 0; i< 5* numberOfCards; i = i+5) {
+            WordCard wordCard = createWordCard(words.get(i), words.get(i + 1), words.get(i + 2), words.get(i + 3), words.get(i + 4));
+            wordCards.add(wordCard);
         }
         scanner.close();
         }
@@ -115,6 +120,7 @@ public class WordCardService {
             e.printStackTrace();
         }
 
+        return wordCards;
     }
 
 
