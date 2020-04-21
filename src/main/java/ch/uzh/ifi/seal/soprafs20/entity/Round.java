@@ -4,6 +4,8 @@ import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "T_ROUNDS")
@@ -26,12 +28,14 @@ public class Round implements Serializable {
     @Column(nullable = false)
     private int roundNum;
 
-
     @OneToOne(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Guess guess;
 
     @OneToOne(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private WordCard wordCard;
+
+    @OneToMany(mappedBy = "round", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private List<Clue> clues = new ArrayList<>();
 
 
     /*
@@ -96,4 +100,7 @@ public class Round implements Serializable {
 
     public void setWordCard(WordCard wordCard) { this.wordCard = wordCard; }
 
+    public List<Clue> getClues() { return clues; }
+
+    public void addClue(Clue clue) { this.clues.add(clue); }
 }
