@@ -5,7 +5,6 @@ import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.repository.PlayerRepository;
@@ -39,6 +38,10 @@ public class PlayerService {
 
     public RealPlayer getPlayer(Long id) {
         return playerRepository.findRealPlayerByUserId(id);
+    }
+
+    public RealPlayer getPlayerByPlayerId(Long playerId) {
+        return playerRepository.findRealPlayerByPlayerId(playerId);
     }
 
     /**

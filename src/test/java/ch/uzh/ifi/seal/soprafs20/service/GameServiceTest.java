@@ -78,10 +78,8 @@ class GameServiceTest {
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
         testPlayer = playerService.createPlayer(testPlayer, testGame);
-
         //add player to game
-        testGame = gameService.addPlayer(testGame.getGameId(), testPlayer);
-
+        testGame =playerService.addPlayer(testGame,testPlayer, testUser);
         //Assertions
         assertTrue((testGame.getPlayers()).contains(testPlayer));
         assertFalse(testGame.getPlayers().isEmpty());
@@ -95,6 +93,16 @@ class GameServiceTest {
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
 
+        //create player to add
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setToken("testToken");
+        testUser.setStatus(UserStatus.OFFLINE);
+        testUser.setDateCreated(LocalDate.now());
+        testUser.setId(1L);
+
         //add two players, so the game can be started
         RealPlayer testPlayer1 = new RealPlayer();
         testPlayer1.setUserId(1L);
@@ -102,8 +110,8 @@ class GameServiceTest {
         RealPlayer testPlayer2 = new RealPlayer();
         testPlayer2.setUserId(1L);
         testPlayer2= playerService.createPlayer(testPlayer2, testGame);
-        gameService.addPlayer(testGame.getGameId(),testPlayer1);
-        gameService.addPlayer(testGame.getGameId(),testPlayer2);
+        playerService.addPlayer(testGame,testPlayer1, testUser);
+        playerService.addPlayer(testGame,testPlayer2, testUser);
 
         // check if game is running after starting it
         assertEquals(1L,testGame.getGameId());

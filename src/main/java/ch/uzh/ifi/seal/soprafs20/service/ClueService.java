@@ -1,9 +1,15 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.Clue;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
+
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
+
 import ch.uzh.ifi.seal.soprafs20.repository.ClueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,9 +29,20 @@ public class ClueService {
         this.clueRepository = clueRepository;
     }
 
-    public Clue setClue(Round round, Clue clue) {
+    public Clue setClue(Round round, RealPlayer owner, Clue clue) {
+
+        //check if player is clue_writer
+        if(owner.getRole() != Role.CLUE_WRITER) {
+            throw new PlayerIsNotClueWriterException(owner.toString());
+        }
+        //check if player already submitted a clue
+        if(clueRepository.getClueByOwnerAndRound(owner, round) != null) {
+            throw new PlayerAlreadySubmittedClueException(owner.toString());
+        }
+
+        //set clue
         clue.setRound(round);
-        //round.addClue(clue);
+        clue.setOwner(owner);
 
         clueRepository.save(clue);
         clueRepository.flush();
@@ -34,6 +51,7 @@ public class ClueService {
     }
 
     public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
+
 
     /**
      * get all Clues of a round
@@ -77,4 +95,5 @@ public class ClueService {
             }
         }
     }
+
 }
