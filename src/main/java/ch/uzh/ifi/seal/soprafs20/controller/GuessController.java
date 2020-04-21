@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NotEnoughCluesException;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
@@ -46,6 +47,16 @@ public class GuessController {
      checkIfAllCluesAreSubmitted(game);
      Round round = roundService.getRunningRound(game);
      guess = guessService.setGuess(round,guess);
+
+     // when all rounds are finished, finish the game
+     if(roundService.lastRoundFinished(game)){
+         game = gameService.finishGame(game);
+     }
+     //else start the next round
+     else {
+         game = roundService.startNextRound(game);
+     }
+
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }
 

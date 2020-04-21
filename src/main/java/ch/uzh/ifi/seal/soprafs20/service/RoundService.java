@@ -104,6 +104,7 @@ public class RoundService {
             Round nextRound = roundRepository.findRoundByGameAndRoundNum(game,RoundNum+1);
             nextRound.setRoundStatus(RoundStatus.RUNNING);
             roundRepository.save(nextRound);
+            roundRepository.flush();
         }
         round.setRoundStatus(RoundStatus.FINISHED);
         roundRepository.save(round);

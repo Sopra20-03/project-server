@@ -25,7 +25,8 @@ public class Clue implements Serializable {
     @Column
     private boolean isValid;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "playerId")
     private RealPlayer owner;
 
     public Long getClueId() {

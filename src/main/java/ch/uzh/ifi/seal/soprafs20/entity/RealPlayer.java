@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,12 +33,12 @@ public class RealPlayer implements Serializable {
     @JoinColumn(name = "gameId")
     private Game game;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "guessId")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Guess> guessList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "clueId")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.MERGE)
     private List<Clue> clues = new ArrayList<>();
 
     public Long getPlayerId() { return playerId; }
