@@ -4,6 +4,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NotEnoughCluesException;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
@@ -20,12 +21,14 @@ public class GuessController {
     private final GameService gameService;
     private final PlayerService playerService;
     private final GuessService guessService;
+    private final ClueService clueService;
 
-    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService){
+    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService, ClueService clueService){
         this.roundService = roundService;
         this.gameService = gameService;
         this.playerService = playerService;
         this.guessService = guessService;
+        this.clueService = clueService;
 
     }
 
@@ -40,6 +43,7 @@ public class GuessController {
      guess.setOwner(player);
      //store guess in the game
      Game game = gameService.getGame(gameId);
+     checkIfAllCluesAreSubmitted(game);
      Round round = roundService.getRunningRound(game);
      guess = guessService.setGuess(round,guess);
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
@@ -52,5 +56,19 @@ public class GuessController {
         Round round = roundService.getRoundByRoundNum(game, roundNum);
         Guess guess = guessService.getGuess(round);
         return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
+     }
+
+    /**
+     * checks if running round has enough Clues, else raise an NotEnoughCluesException
+     * @param game
+     */
+     private void checkIfAllCluesAreSubmitted(Game game){
+        Round round = roundService.getRunningRound(game);
+        int numberOfClues = clueService.getClues(round).size();
+        int numberOfClueWriters = playerService.getPlayersByGame(game).size()-1;
+        if (numberOfClues != numberOfClueWriters){
+            throw new NotEnoughCluesException("There are only: "+numberOfClues+"Clues, but there must be: "+numberOfClueWriters);
+        }
+
      }
 }
