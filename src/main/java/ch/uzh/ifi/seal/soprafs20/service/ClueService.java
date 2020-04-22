@@ -2,8 +2,10 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.Clue;
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueWithIdAlreadySubmitted;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +30,7 @@ public class ClueService {
         this.clueRepository = clueRepository;
     }
 
+    //TODO: don't need this anymore??
     public Clue setClue(Round round, RealPlayer owner, Clue clue) {
 
         //check if player is clue_writer
@@ -51,7 +55,44 @@ public class ClueService {
         return clue;
     }
 
-    public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
+    /**
+     * sets fields of empty clue
+     * @param clue
+     * @param owner
+     * @param word
+     * @return Clue
+     */
+    public Clue submitClue(Clue clue, RealPlayer owner, String word) {
+
+        //check if player is clue_writer
+        if(owner.getRole() != Role.CLUE_WRITER) {
+            throw new PlayerIsNotClueWriterException(owner.toString());
+        }
+
+        //check if clue with id was already submitted
+        if(clue.getWord() != null) {
+            throw new ClueWithIdAlreadySubmitted(clue.getClueId().toString());
+        }
+
+        //check if player already submitted a clue
+        if(clueRepository.getCluesByOwnerAndRound(owner, clue.getRound()).size() != 0) {
+            throw new PlayerAlreadySubmittedClueException(owner.toString());
+        }
+
+        //set owner, word, and valid
+        clue.setOwner(owner);
+        clue.setWord(word);
+        clue.setIsValid(true);
+
+        return clue;
+    }
+
+    /**
+     * gets clue by clueId
+     * @param clueId
+     * @return Clue
+     */
+    public Clue getClue(Long clueId) { return clueRepository.getClueByClueId(clueId); }
 
 
     /**
@@ -95,6 +136,34 @@ public class ClueService {
                 clueRepository.flush();
             }
         }
+    }
+
+    /**
+     * creates an empty clue for each player and each round in a game
+     * @param game
+     * @return Game
+     */
+    public Game setEmptyClues(Game game) {
+        //get list of rounds and number of players in game
+        List<Round> rounds = game.getRounds();
+        int numPlayers = game.getPlayerCount();
+
+        //create new list to return clues
+        List<Clue> clues = new ArrayList<>();
+
+        //set an empty clue for each player in each round
+        for(Round round: rounds) {
+            for(int i = 1; i < numPlayers; i++) {
+                Clue clue = new Clue();
+                clue.setRound(round);
+                clue.setIsValid(false);
+                clues.add(clue);
+
+                clueRepository.save(clue);
+                clueRepository.flush();
+            }
+        }
+        return game;
     }
 
 }
