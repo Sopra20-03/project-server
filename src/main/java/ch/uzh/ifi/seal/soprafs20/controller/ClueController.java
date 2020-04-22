@@ -3,7 +3,6 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.ClueGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePostDTO;
-import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Vote.VotePutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.ClueService;
@@ -48,8 +47,6 @@ public class ClueController {
         Round round = roundService.getRunningRound(game);
 
         //validate all clues
-        clueService.validateClues(round);
-
         clueService.validateClues(round);
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
