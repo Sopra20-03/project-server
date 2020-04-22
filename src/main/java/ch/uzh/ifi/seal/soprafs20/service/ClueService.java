@@ -1,10 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
-import ch.uzh.ifi.seal.soprafs20.entity.Clue;
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
@@ -41,10 +38,9 @@ public class ClueService {
 
         //set clue
         clue.setRound(round);
-        clueRepository.save(clue);
-        clueRepository.flush();
         clue.setOwner(owner);
         clue.setIsValid(true);
+        clue.setVotes(0);
 
         clueRepository.save(clue);
         clueRepository.flush();
@@ -54,6 +50,7 @@ public class ClueService {
 
     public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
 
+    public Clue getClueById(long clueId){return clueRepository.getClueByClueId(clueId);}
 
     /**
      * get all Clues of a round
@@ -90,41 +87,34 @@ public class ClueService {
                 }
             }
             //if there are more than 1 times the same word or the word is the same as the selected word, set valid to false
-            if(numbOfEqualWords> 1 || clue.getWord().equalsIgnoreCase(selectedWord)){
+            if(numbOfEqualWords> 1 || clue.getWord().equalsIgnoreCase(selectedWord) ){
                 clue.setIsValid(false);
-                clueRepository.save(clue);
-                clueRepository.flush();
+
             }
-        }
+            //validate clue according to votes
+            if(clue.getVotes() < 0){
+                clue.setIsValid(false);
+            }
+            else if(clue.getVotes() > 0){
+                clue.setIsValid(true);
+            }
+            clueRepository.save(clue);
+            clueRepository.flush();
+            }
+
     }
 
-    public Clue manuallyValidateClues(Game game, Long clueId, boolean vote) {
-
-        //get clue, add the vote and then get all the votes for the clue
-        Clue clue = clueRepository.getClueByClueId(clueId);
-        clue.addVote(vote);
-        List<Boolean> votes = clue.getVotes();
-
-        //if there are more than two players: count positive and negative votes and change isValid accordingly
-        int numValidations = game.getPlayerCount() - 2;
-        if(numValidations > 0) {
-            int positive = 0;
-            int negative = 0;
-            for(boolean validation : votes) {
-                if(validation) { positive++; }
-                if(!validation) {negative++; }
-            }
-            if(positive > negative) {
-                clue.setIsValid(true);
-                clueRepository.save(clue);
-                clueRepository.flush();
-            }
-            if(positive < negative) {
-                clue.setIsValid(false);
-                clueRepository.save(clue);
-                clueRepository.flush();
-            }
+    public Clue manuallyValidateClues(Clue clue, Vote vote) {
+        int currentVotes = clue.getVotes();
+        if(vote.getVote()){
+            clue.setVotes(currentVotes+1);
         }
+        else {
+            clue.setVotes(currentVotes-1);
+        }
+        //save changes
+        clueRepository.save(clue);
+        clueRepository.flush();
         return clue;
     }
 

@@ -14,6 +14,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPutDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Vote.VotePutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -121,9 +122,10 @@ public interface DTOMapper {
     @Mapping(source = "clueId", target = "clueId")
     @Mapping(source = "word", target = "word")
     @Mapping(source = "isValid", target = "isValid")
+    @Mapping(source = "votes", target = "votes")
     ClueGetDTO convertClueEntityToClueGetDTO(Clue clue);
 
-    @Mapping(source = "votes", target = "votes")
-    Clue convertCluePutDTOtoClueEntity(CluePutDTO cluePutDTO);
+    @Mapping(source = "vote", target = "vote")
+    Vote convertVotePutDTOtoVoteEntity(VotePutDTO votePutDTO);
 
 }
