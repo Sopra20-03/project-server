@@ -119,6 +119,9 @@ public class ClueService {
                 clue.setRound(round);
                 clue.setIsValid(false);
                 clues.add(clue);
+
+                clueRepository.save(clue);
+                clueRepository.flush();
             }
         }
         return clues;
