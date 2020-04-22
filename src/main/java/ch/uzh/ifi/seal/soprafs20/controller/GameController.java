@@ -73,9 +73,6 @@ public class GameController {
         //create rounds
         game = roundService.createRounds(game, cards);
 
-        //create empty clues
-        game = clueService.setEmptyClues(game);
-
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
     }
