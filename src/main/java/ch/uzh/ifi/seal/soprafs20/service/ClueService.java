@@ -98,22 +98,23 @@ public class ClueService {
         }
     }
 
-    public void manuallyValidateClues(Game game, Long clueId, boolean isValid) {
+    public Clue manuallyValidateClues(Game game, Long clueId, boolean vote) {
         Clue clue = clueRepository.getClueByClueId(clueId);
-        clue.addValidated(isValid);
-        List<Boolean> validations = clue.getValidated();
+        clue.addVote(vote);
+        List<Boolean> votes = clue.getVotes();
 
         int numValidations = game.getPlayerCount() - 2;
         if(numValidations > 0) {
             int positive = 0;
             int negative = 0;
-            for(boolean validation : validations) {
+            for(boolean validation : votes) {
                 if(validation) { positive++; }
                 if(!validation) {negative++; }
             }
             if(positive > negative) { clue.setIsValid(true); }
             if(positive < negative) { clue.setIsValid(false); }
         }
+        return clue;
     }
 
 }

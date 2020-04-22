@@ -6,6 +6,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.ClueGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePostDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
 import ch.uzh.ifi.seal.soprafs20.service.ClueService;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
@@ -67,5 +68,16 @@ public class ClueController {
             clueGetDTOS.add(DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue));
         }
         return clueGetDTOS;
+    }
+
+    @PutMapping("/games/{gameId}/rounds/{roundNum}/clues/{clueId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ClueGetDTO validateClue(@PathVariable Long gameId, @PathVariable int roundNum, @PathVariable Long clueId, @RequestBody CluePutDTO cluePutDTO) {
+        Boolean vote = DTOMapper.INSTANCE.convertCluePutDTOtoClueEntity(cluePutDTO).getVotes().get(0);
+        Game game = gameService.getGame(gameId);
+
+        Clue clue = clueService.manuallyValidateClues(game, clueId, vote);
+
+        return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }
 }

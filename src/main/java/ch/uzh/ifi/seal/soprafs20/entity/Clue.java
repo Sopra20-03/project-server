@@ -32,7 +32,7 @@ public class Clue implements Serializable {
     private RealPlayer owner;
 
     @Column
-    private String validated = "";
+    private String votes = "";
 
     public Long getClueId() {
         return clueId;
@@ -74,18 +74,18 @@ public class Clue implements Serializable {
         this.round = round;
     }
 
-    public List<Boolean> getValidated() {
-        List<Boolean> validatedList = new ArrayList<>();
-        String[] values = this.validated.split(",");
+    public List<Boolean> getVotes() {
+        List<Boolean> voteList = new ArrayList<>();
+        String[] values = this.votes.split(",");
         for(String value : values) {
             Boolean validated = Boolean.parseBoolean(value);
-            validatedList.add(validated);
+            voteList.add(validated);
         }
-        return validatedList;
+        return voteList;
     }
 
-    public void addValidated(Boolean validated) {
-        String newString = "," + validated.toString();
-        this.validated = this.validated + newString;
+    public void addVote(Boolean validated) {
+        String newVote = "," + validated.toString();
+        this.votes = this.votes + newVote;
     }
 }
