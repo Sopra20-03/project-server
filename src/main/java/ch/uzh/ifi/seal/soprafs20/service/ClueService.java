@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.Clue;
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,6 +97,31 @@ public class ClueService {
                 clueRepository.flush();
             }
         }
+    }
+
+    /**
+     * creates an empty clue for each player and each round in a game
+     * @param game
+     * @return List<Clue>
+     */
+    public List<Clue> setEmptyClues(Game game) {
+        //get list of rounds and number of players in game
+        List<Round> rounds = game.getRounds();
+        int numPlayers = game.getPlayerCount();
+
+        //create new list to return clues
+        List<Clue> clues = new ArrayList<>();
+
+        //set an empty clue for each player in each round
+        for(Round round: rounds) {
+            for(int i = 1; i < numPlayers; i++) {
+                Clue clue = new Clue();
+                clue.setRound(round);
+                clue.setIsValid(false);
+                clues.add(clue);
+            }
+        }
+        return clues;
     }
 
 }
