@@ -97,4 +97,8 @@ public class ClueService {
         }
     }
 
+    public void manuallyValidateClues(Long clueId, boolean isValid) {
+
+    }
+
 }

@@ -2,6 +2,8 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "T_CLUES")
@@ -28,6 +30,9 @@ public class Clue implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerId")
     private RealPlayer owner;
+
+    @Column
+    private String validated = "";
 
     public Long getClueId() {
         return clueId;
@@ -67,5 +72,20 @@ public class Clue implements Serializable {
 
     public void setRound(Round round) {
         this.round = round;
+    }
+
+    public List<Boolean> getValidated() {
+        List<Boolean> validatedList = new ArrayList<>();
+        String[] values = this.validated.split(",");
+        for(String value : values) {
+            Boolean validated = Boolean.parseBoolean(value);
+            validatedList.add(validated);
+        }
+        return validatedList;
+    }
+
+    public void addValidated(Boolean validated) {
+        String newString = "," + validated.toString();
+        this.validated = this.validated + newString;
     }
 }
