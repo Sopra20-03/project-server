@@ -8,6 +8,8 @@ public class ClueGetDTO {
 
     private boolean isValid;
 
+    private int votes;
+
     public Long getClueId() {
         return clueId;
     }
@@ -30,5 +32,13 @@ public class ClueGetDTO {
 
     public void setIsValid(boolean valid) {
         isValid = valid;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
     }
 }

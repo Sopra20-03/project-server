@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.entity.Clue;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
@@ -44,10 +45,9 @@ public class ClueService {
 
         //set clue
         clue.setRound(round);
-        clueRepository.save(clue);
-        clueRepository.flush();
         clue.setOwner(owner);
         clue.setIsValid(true);
+        clue.setVotes(0);
 
         clueRepository.save(clue);
         clueRepository.flush();
@@ -96,6 +96,7 @@ public class ClueService {
 
     public Clue getClueByOwnerAndRound(RealPlayer owner, Round round) { return clueRepository.getClueByOwnerAndRound(owner, round); }
 
+    public Clue getClueById(long clueId){return clueRepository.getClueByClueId(clueId);}
 
     /**
      * get all Clues of a round
@@ -132,12 +133,35 @@ public class ClueService {
                 }
             }
             //if there are more than 1 times the same word or the word is the same as the selected word, set valid to false
-            if(numbOfEqualWords> 1 || clue.getWord().equalsIgnoreCase(selectedWord)){
+            if(numbOfEqualWords> 1 || clue.getWord().equalsIgnoreCase(selectedWord) ){
                 clue.setIsValid(false);
-                clueRepository.save(clue);
-                clueRepository.flush();
+
             }
+            //validate clue according to votes
+            if(clue.getVotes() < 0){
+                clue.setIsValid(false);
+            }
+            else if(clue.getVotes() > 0){
+                clue.setIsValid(true);
+            }
+            clueRepository.save(clue);
+            clueRepository.flush();
+            }
+
+    }
+
+    public Clue manuallyValidateClues(Clue clue, Vote vote) {
+        int currentVotes = clue.getVotes();
+        if(vote.getVote()){
+            clue.setVotes(currentVotes+1);
         }
+        else {
+            clue.setVotes(currentVotes-1);
+        }
+        //save changes
+        clueRepository.save(clue);
+        clueRepository.flush();
+        return clue;
     }
 
     /**
