@@ -99,10 +99,13 @@ public class ClueService {
     }
 
     public Clue manuallyValidateClues(Game game, Long clueId, boolean vote) {
+
+        //get clue, add the vote and then get all the votes for the clue
         Clue clue = clueRepository.getClueByClueId(clueId);
         clue.addVote(vote);
         List<Boolean> votes = clue.getVotes();
 
+        //if there are more than two players: count positive and negative votes and change isValid accordingly
         int numValidations = game.getPlayerCount() - 2;
         if(numValidations > 0) {
             int positive = 0;
@@ -111,8 +114,16 @@ public class ClueService {
                 if(validation) { positive++; }
                 if(!validation) {negative++; }
             }
-            if(positive > negative) { clue.setIsValid(true); }
-            if(positive < negative) { clue.setIsValid(false); }
+            if(positive > negative) {
+                clue.setIsValid(true);
+                clueRepository.save(clue);
+                clueRepository.flush();
+            }
+            if(positive < negative) {
+                clue.setIsValid(false);
+                clueRepository.save(clue);
+                clueRepository.flush();
+            }
         }
         return clue;
     }
