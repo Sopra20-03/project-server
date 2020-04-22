@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.Clue;
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
@@ -97,8 +98,22 @@ public class ClueService {
         }
     }
 
-    public void manuallyValidateClues(Long clueId, boolean isValid) {
+    public void manuallyValidateClues(Game game, Long clueId, boolean isValid) {
+        Clue clue = clueRepository.getClueByClueId(clueId);
+        clue.addValidated(isValid);
+        List<Boolean> validations = clue.getValidated();
 
+        int numValidations = game.getPlayerCount() - 2;
+        if(numValidations > 0) {
+            int positive = 0;
+            int negative = 0;
+            for(boolean validation : validations) {
+                if(validation) { positive++; }
+                if(!validation) {negative++; }
+            }
+            if(positive > negative) { clue.setIsValid(true); }
+            if(positive < negative) { clue.setIsValid(false); }
+        }
     }
 
 }
