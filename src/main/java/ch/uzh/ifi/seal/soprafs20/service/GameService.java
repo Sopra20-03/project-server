@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +72,7 @@ public class GameService {
 
         //CompleteDetails
         game.setGameStatus(GameStatus.INITIALIZED);
+        game.setDateCreated(LocalDate.now());
         //set start score to zero
         game.setScore(0);
         //set creator

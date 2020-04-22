@@ -6,6 +6,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.Round;
 
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class GameGetDTO {
 
     private long gameId;
     private String gameName;
+    private LocalDate dateCreated;
     private String creatorUsername;
     private int playerCount;
     private GameStatus gameStatus;
@@ -73,5 +75,13 @@ public class GameGetDTO {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public LocalDate getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }
