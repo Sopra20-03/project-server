@@ -102,9 +102,9 @@ public class ClueService {
     /**
      * creates an empty clue for each player and each round in a game
      * @param game
-     * @return List<Clue>
+     * @return Game
      */
-    public List<Clue> setEmptyClues(Game game) {
+    public Game setEmptyClues(Game game) {
         //get list of rounds and number of players in game
         List<Round> rounds = game.getRounds();
         int numPlayers = game.getPlayerCount();
@@ -124,7 +124,7 @@ public class ClueService {
                 clueRepository.flush();
             }
         }
-        return clues;
+        return game;
     }
 
 }

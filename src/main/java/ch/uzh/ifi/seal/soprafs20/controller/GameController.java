@@ -1,14 +1,14 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
-import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
-import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
-import ch.uzh.ifi.seal.soprafs20.service.*;
+import ch.uzh.ifi.seal.soprafs20.service.ClueService;
+import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.RoundService;
+import ch.uzh.ifi.seal.soprafs20.service.WordCardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +27,13 @@ public class GameController {
     private final GameService gameService;
     private final RoundService roundService;
     private final WordCardService wordCardService;
+    private final ClueService clueService;
 
-    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService) {
+    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService, ClueService clueService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.wordCardService = wordCardService;
+        this.clueService = clueService;
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -71,6 +73,9 @@ public class GameController {
         //create rounds
         game = roundService.createRounds(game, cards);
 
+        //create empty clues
+        game = clueService.setEmptyClues(game);
+
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
     }
@@ -108,6 +113,8 @@ public class GameController {
     public GameGetDTO startGame(@PathVariable Long id){
         //start game
         Game game = gameService.startGame(id);
+        //create empty clues
+        game = clueService.setEmptyClues(game);
         //start first round
         game = roundService.startFirstRound(game);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
