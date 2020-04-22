@@ -30,24 +30,28 @@ public class ClueController {
         this.roundService = roundService;
     }
 
-    @PostMapping("/games/{gameId}/players/{playerId}/clue")
+    @PostMapping("/games/{gameId}/players/{playerId}/clue/{clueId}")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public ClueGetDTO submitClue(@PathVariable Long gameId, @PathVariable Long playerId, @RequestBody CluePostDTO cluePostDTO) {
+    public ClueGetDTO submitClue(@PathVariable Long gameId, @PathVariable Long playerId, @PathVariable Long clueId, @RequestBody CluePostDTO cluePostDTO) {
 
-        //create a new clue
-        Clue clue = DTOMapper.INSTANCE.convertCluePostDTOtoClueEntity(cluePostDTO);
-
-        //add owner of the clue
+        //get word, owner, and clue
+        String word = DTOMapper.INSTANCE.convertCluePostDTOtoClueEntity(cluePostDTO).getWord();
         RealPlayer owner = playerService.getPlayerByPlayerId(playerId);
+        Clue clue = clueService.getClue(clueId);
 
-        //add clue to the game
+        //add word and owner to clue and set to valid
+        clue = clueService.submitClue(clue, owner, word);
+
+        //get running round
         Game game = gameService.getGame(gameId);
         Round round = roundService.getRunningRound(game);
-        clue = clueService.setClue(round, owner, clue);
 
         //validate all clues
         clueService.validateClues(round);
+
+        clueService.validateClues(round);
+
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }
 
