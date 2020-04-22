@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository("clueRepository")
 public interface ClueRepository extends JpaRepository<Clue, Long> {
+    Clue getClueByClueId(Long clueId);
     Clue getClueByRound(Round round);
     List<Clue> getCluesByRound(Round round);
     List<Clue> getCluesByOwnerAndRound(RealPlayer owner, Round round);

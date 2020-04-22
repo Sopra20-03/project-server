@@ -29,6 +29,7 @@ public class ClueService {
         this.clueRepository = clueRepository;
     }
 
+    //TODO: don't need this anymore??
     public Clue setClue(Round round, RealPlayer owner, Clue clue) {
 
         //check if player is clue_writer
@@ -53,7 +54,12 @@ public class ClueService {
         return clue;
     }
 
-    public Clue getClue(Round round) { return clueRepository.getClueByRound(round); }
+    /**
+     * gets clue by clueId
+     * @param clueId
+     * @return Clue
+     */
+    public Clue getClue(Long clueId) { return clueRepository.getClueByClueId(clueId); }
 
 
     /**
