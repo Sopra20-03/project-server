@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.Clue;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueWithIdAlreadySubmitted;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
@@ -50,6 +51,31 @@ public class ClueService {
 
         clueRepository.save(clue);
         clueRepository.flush();
+
+        return clue;
+    }
+
+    public Clue submitClue(Clue clue, RealPlayer owner, String word) {
+
+        //check if player is clue_writer
+        if(owner.getRole() != Role.CLUE_WRITER) {
+            throw new PlayerIsNotClueWriterException(owner.toString());
+        }
+
+        //check if clue with id was already submitted
+        if(clue.getWord() != null) {
+            throw new ClueWithIdAlreadySubmitted(clue.getClueId().toString());
+        }
+
+        //check if player already submitted a clue
+        if(clueRepository.getCluesByOwnerAndRound(owner, clue.getRound()).size() != 0) {
+            throw new PlayerAlreadySubmittedClueException(owner.toString());
+        }
+
+        //set owner, word, and valid
+        clue.setOwner(owner);
+        clue.setWord(word);
+        clue.setIsValid(true);
 
         return clue;
     }

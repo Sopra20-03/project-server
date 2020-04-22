@@ -42,9 +42,7 @@ public class ClueController {
         Clue clue = clueService.getClue(clueId);
 
         //add word and owner to clue and set to valid
-        clue.setWord(word);
-        clue.setOwner(owner);
-        clue.setIsValid(true);
+        clue = clueService.submitClue(clue, owner, word);
 
         //get running round
         Game game = gameService.getGame(gameId);
