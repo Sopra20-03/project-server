@@ -2,10 +2,6 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
-import ch.uzh.ifi.seal.soprafs20.entity.Clue;
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueWithIdAlreadySubmitted;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
@@ -115,7 +111,6 @@ public class ClueService {
     /**
      * validates clues of a round
      * @param round
-     *
      */
     public void validateClues(Round round){
         List<Clue> clues = getClues(round);
@@ -158,6 +153,8 @@ public class ClueService {
         else {
             clue.setVotes(currentVotes-1);
         }
+        Round round = clue.getRound();
+        validateClues(round);
         //save changes
         clueRepository.save(clue);
         clueRepository.flush();
