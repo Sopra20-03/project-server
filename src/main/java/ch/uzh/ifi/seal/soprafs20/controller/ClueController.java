@@ -51,6 +51,8 @@ public class ClueController {
         //validate all clues
         clueService.validateClues(round);
 
+        clueService.validateClues(round);
+
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }
 
