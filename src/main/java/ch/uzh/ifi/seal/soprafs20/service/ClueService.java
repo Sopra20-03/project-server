@@ -94,7 +94,6 @@ public class ClueService {
      */
     public Clue getClue(Long clueId) { return clueRepository.getClueByClueId(clueId); }
 
-    public Clue getClueByOwnerAndRound(RealPlayer owner, Round round) { return clueRepository.getClueByOwnerAndRound(owner, round); }
 
 
     /**
