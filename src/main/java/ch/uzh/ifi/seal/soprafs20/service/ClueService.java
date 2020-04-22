@@ -55,6 +55,13 @@ public class ClueService {
         return clue;
     }
 
+    /**
+     * sets fields of empty clue
+     * @param clue
+     * @param owner
+     * @param word
+     * @return Clue
+     */
     public Clue submitClue(Clue clue, RealPlayer owner, String word) {
 
         //check if player is clue_writer
