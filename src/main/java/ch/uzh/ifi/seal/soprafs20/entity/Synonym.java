@@ -1,29 +1,31 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
-import java.util.List;
 
 public class Synonym {
     private String word;
-    private List<String> synonyms;
+    private int score;
 
-    public Synonym(String word, List<String> synonyms){
+    public Synonym() {
+        super();
+    }
+    public Synonym(String word, int score){
         this.word = word;
-        this.synonyms = synonyms;
+        this.score = score;
+}
+
+    public String getWord() {
+        return word;
     }
 
     public void setWord(String word) {
         this.word = word;
     }
 
-    public String getWord() {
-        return word;
+    public int getScore() {
+        return score;
     }
 
-    public void setSynonyms(List<String> synonyms) {
-        this.synonyms = synonyms;
-    }
-
-    public List<String> getSynonyms() {
-        return synonyms;
+    public void setScore(int score) {
+        this.score = score;
     }
 }

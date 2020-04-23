@@ -12,9 +12,11 @@ public class BotControllerTest {
     @Test
     public void getSimilarWordTest(){
         BotController botController = new BotController();
-        Synonym synonymOfDwarf = botController.getSimilarWord("dwarf");
-        assertEquals("dwarf",synonymOfDwarf.getWord());
-        List<String> trueSynonyms = new ArrayList<>(List.of("midget","nanus","gnome","overshadow","shadow"));
-        assertEquals(trueSynonyms, synonymOfDwarf.getSynonyms());
+        List<Synonym> synonymsOfSwitzerland = botController.getSimilarWords("switzerland");
+
+        assertEquals("chf",synonymsOfSwitzerland.get(0).getWord());
+
+
+
     }
 }
