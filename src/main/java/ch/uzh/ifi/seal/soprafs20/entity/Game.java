@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,9 @@ public class Game implements Serializable {
 
     @Column
     private String creatorUsername;
+
+    @Column(nullable = false)
+    private LocalDate dateCreated;
 
     @Column
     private int playerCount;
@@ -121,5 +125,13 @@ public class Game implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public LocalDate getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }

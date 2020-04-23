@@ -68,6 +68,7 @@ public interface DTOMapper {
 
     @Mapping(source = "gameId", target = "gameId")
     @Mapping(source = "gameName", target = "gameName")
+    @Mapping(source = "dateCreated", target = "dateCreated")
     @Mapping(source = "playerCount", target = "playerCount")
     @Mapping(source = "gameStatus", target = "gameStatus")
     @Mapping(source = "gameMode", target = "gameMode")
