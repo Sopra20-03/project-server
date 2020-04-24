@@ -59,8 +59,9 @@ public class ClueController {
         //get list of clues for round
         Game game = gameService.getGame(gameId);
         Round round = roundService.getRoundByRoundNum(game, roundNum);
+
         //validate all clues
-        clueService.validateClues(round);
+        //clueService.validateClues(round);
 
         List<Clue> clues = clueService.getClues(round);
 
