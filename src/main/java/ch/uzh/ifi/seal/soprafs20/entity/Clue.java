@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "T_CLUES")
@@ -34,6 +35,15 @@ public class Clue implements Serializable {
 
     @Column
     private int votes;
+
+    @Column
+    private LocalDateTime startTime;
+
+    @Column
+    private LocalDateTime endTime;
+
+    @Column
+    private int totalTime;
 
     public Long getClueId() {
         return clueId;
@@ -89,5 +99,29 @@ public class Clue implements Serializable {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(int totalTime) {
+        this.totalTime = totalTime;
     }
 }
