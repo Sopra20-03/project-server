@@ -49,7 +49,7 @@ public class ClueController {
         //validate all clues
         //clueService.validateClues(round);
 
-        //set endTime of clue
+        //set endTime and calculate totalTime of clue
         clueService.setEndTime(clue);
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);

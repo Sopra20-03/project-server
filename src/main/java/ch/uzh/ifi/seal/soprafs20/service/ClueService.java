@@ -218,7 +218,7 @@ public class ClueService {
     }
 
     /**
-     * sets endTime for Clue
+     * sets endTime and calculate totalTime for Clue
      * @param clue
      */
     public void setEndTime(Clue clue) {
@@ -227,11 +227,9 @@ public class ClueService {
 
         //set endTime for clue
         clue.setEndTime(endTime);
-    }
 
-    public void setTotalTime(LocalDateTime startTime, LocalDateTime endTime, Clue clue) {
         //calculate totalTime
-        long totalTime = ChronoUnit.SECONDS.between(startTime, endTime);
+        long totalTime = ChronoUnit.SECONDS.between(clue.getStartTime(), endTime);
 
         //set totalTime
         clue.setTotalTime(totalTime);
