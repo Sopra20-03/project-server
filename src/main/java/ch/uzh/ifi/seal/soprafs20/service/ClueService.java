@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +29,13 @@ public class ClueService {
         this.clueRepository = clueRepository;
     }
 
-    //TODO: don't need this anymore??
+    /**
+     * create a new clue
+     * @param round
+     * @param owner
+     * @param clue
+     * @return
+     */
     public Clue setClue(Round round, RealPlayer owner, Clue clue) {
 
         //check if player is clue_writer
@@ -99,7 +106,6 @@ public class ClueService {
      * @param round
      * @return List<Clue>
      */
-
     public List<Clue> getClues(Round round){
         List<Clue> clues = clueRepository.getCluesByRound(round);
         if(clues.size()==0){
@@ -193,4 +199,20 @@ public class ClueService {
         return game;
     }
 
+    /**
+     * sets startTime for all Clues in round
+     * @param round
+     */
+    public void setStartTime(Round round) {
+        //get all clues in round
+        List<Clue> clues = clueRepository.getCluesByRound(round);
+
+        //get current timestamp
+        LocalDateTime startTime = LocalDateTime.now();
+
+        //set startTime for all clues in round
+        for(Clue clue : clues) {
+            clue.setStartTime(startTime);
+        }
+    }
 }
