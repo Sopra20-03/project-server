@@ -43,7 +43,7 @@ public class Clue implements Serializable {
     private LocalDateTime endTime;
 
     @Column
-    private int totalTime;
+    private long totalTime;
 
     public Long getClueId() {
         return clueId;
@@ -117,11 +117,11 @@ public class Clue implements Serializable {
         this.endTime = endTime;
     }
 
-    public int getTotalTime() {
+    public long getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(int totalTime) {
+    public void setTotalTime(long totalTime) {
         this.totalTime = totalTime;
     }
 }

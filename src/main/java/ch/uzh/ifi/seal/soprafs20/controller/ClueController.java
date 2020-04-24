@@ -49,6 +49,9 @@ public class ClueController {
         //validate all clues
         //clueService.validateClues(round);
 
+        //set endTime of clue
+        clueService.setEndTime(clue);
+
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }
 

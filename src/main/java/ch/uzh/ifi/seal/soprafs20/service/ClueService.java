@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -214,5 +215,25 @@ public class ClueService {
         for(Clue clue : clues) {
             clue.setStartTime(startTime);
         }
+    }
+
+    /**
+     * sets endTime for Clue
+     * @param clue
+     */
+    public void setEndTime(Clue clue) {
+        //get current timestamp
+        LocalDateTime endTime = LocalDateTime.now();
+
+        //set endTime for clue
+        clue.setEndTime(endTime);
+    }
+
+    public void setTotalTime(LocalDateTime startTime, LocalDateTime endTime, Clue clue) {
+        //calculate totalTime
+        long totalTime = ChronoUnit.SECONDS.between(startTime, endTime);
+
+        //set totalTime
+        clue.setTotalTime(totalTime);
     }
 }
