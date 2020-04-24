@@ -2,13 +2,11 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
-import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
-
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.*;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NotEnoughPlayersException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -131,7 +128,6 @@ public class GameService {
      * @param game
      * @return
      */
-
     public Game finishGame(Game game) {
         game.setGameStatus(GameStatus.FINISHED);
         //store changes
@@ -139,5 +135,15 @@ public class GameService {
         gameRepository.flush();
 
         return game;
+    }
+
+    /**
+     * increase game score by 1
+     * @param game
+     */
+    public void increaseScore(Game game) {
+        int score = game.getScore();
+        score = score + 1;
+        game.setScore(score);
     }
 }
