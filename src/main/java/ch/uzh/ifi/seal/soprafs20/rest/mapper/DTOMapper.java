@@ -3,7 +3,6 @@ package ch.uzh.ifi.seal.soprafs20.rest.mapper;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.ClueGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePostDTO;
-import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
@@ -124,6 +123,7 @@ public interface DTOMapper {
     @Mapping(source = "word", target = "word")
     @Mapping(source = "isValid", target = "isValid")
     @Mapping(source = "votes", target = "votes")
+    @Mapping(source = "ownerId", target = "ownerId")
     ClueGetDTO convertClueEntityToClueGetDTO(Clue clue);
 
     @Mapping(source = "vote", target = "vote")
