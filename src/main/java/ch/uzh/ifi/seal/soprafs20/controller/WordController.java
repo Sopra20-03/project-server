@@ -6,8 +6,8 @@ import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
+import ch.uzh.ifi.seal.soprafs20.service.ClueService;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
-import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
 import ch.uzh.ifi.seal.soprafs20.service.WordCardService;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,13 @@ public class WordController {
     private final RoundService roundService;
     private final GameService gameService;
     private final WordCardService wordCardService;
+    private final ClueService clueService;
 
-    public WordController(RoundService roundService, GameService gameService, WordCardService wordCardService) {
+    public WordController(RoundService roundService, GameService gameService, WordCardService wordCardService, ClueService clueService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.wordCardService = wordCardService;
-
+        this.clueService = clueService;
     }
     @PutMapping("/games/{gameId}/rounds/{roundNum}")
     @ResponseStatus(HttpStatus.OK)
@@ -40,6 +41,9 @@ public class WordController {
 
         //set selectedWord
         round = wordCardService.setSelectedWord(round, wordCard.getSelectedWord());
+
+        //set startTime in each clue of round
+        clueService.setStartTime(round);
 
         //Convert to JSON
         RoundGetDTO roundGetDTO = DTOMapper.INSTANCE.convertRoundEntityToRoundGetDTO(round);
