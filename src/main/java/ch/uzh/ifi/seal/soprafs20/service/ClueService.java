@@ -218,7 +218,7 @@ public class ClueService {
     }
 
     /**
-     * sets endTime and calculate totalTime for Clue
+     * sets endTime and calculate totalTime in seconds for Clue
      * @param clue
      */
     public void setEndTime(Clue clue) {
