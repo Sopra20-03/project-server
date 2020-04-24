@@ -2,8 +2,6 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "T_CLUES")
@@ -30,6 +28,9 @@ public class Clue implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerId")
     private RealPlayer owner;
+
+    @Column
+    private Long ownerId;
 
     @Column
     private int votes;
@@ -80,5 +81,13 @@ public class Clue implements Serializable {
 
     public void setVotes(int votes) {
         this.votes = votes;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

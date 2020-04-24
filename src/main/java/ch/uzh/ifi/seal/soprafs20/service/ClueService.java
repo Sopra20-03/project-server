@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -135,7 +136,7 @@ public class ClueService {
             if(clue.getVotes() < 0){
                 clue.setIsValid(false);
             }
-            else if(clue.getVotes() > 0){
+            else if(clue.getVotes() >= 0){
                 clue.setIsValid(true);
             }
             clueRepository.save(clue);
@@ -169,20 +170,24 @@ public class ClueService {
         //get list of rounds and number of players in game
         List<Round> rounds = game.getRounds();
         int numPlayers = game.getPlayerCount();
+        Set<RealPlayer> players = game.getPlayers();
 
         //create new list to return clues
         List<Clue> clues = new ArrayList<>();
 
-        //set an empty clue for each player in each round
+        //set an empty clue for each clue writer in each round
         for(Round round: rounds) {
-            for(int i = 1; i < numPlayers; i++) {
-                Clue clue = new Clue();
-                clue.setRound(round);
-                clue.setIsValid(false);
-                clues.add(clue);
+            for(RealPlayer player : players) {
+                if(player.getRole() == Role.CLUE_WRITER) {
+                    Clue clue = new Clue();
+                    clue.setRound(round);
+                    clue.setOwnerId(player.getPlayerId());
+                    clue.setIsValid(false);
+                    clues.add(clue);
 
-                clueRepository.save(clue);
-                clueRepository.flush();
+                    clueRepository.save(clue);
+                    clueRepository.flush();
+                }
             }
         }
         return game;

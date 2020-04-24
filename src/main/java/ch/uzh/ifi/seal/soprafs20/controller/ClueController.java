@@ -47,7 +47,7 @@ public class ClueController {
         Round round = roundService.getRunningRound(game);
 
         //validate all clues
-        clueService.validateClues(round);
+        //clueService.validateClues(round);
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }

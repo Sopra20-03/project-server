@@ -10,6 +10,8 @@ public class ClueGetDTO {
 
     private int votes;
 
+    private Long ownerId;
+
     public Long getClueId() {
         return clueId;
     }
@@ -41,4 +43,8 @@ public class ClueGetDTO {
     public void setVotes(int votes) {
         this.votes = votes;
     }
+
+    public Long getOwnerId() { return ownerId; }
+
+    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
 }
