@@ -1,15 +1,11 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.User;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
-import ch.uzh.ifi.seal.soprafs20.service.GameService;
-import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
-import ch.uzh.ifi.seal.soprafs20.service.UserService;
+import ch.uzh.ifi.seal.soprafs20.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +18,15 @@ public class PlayerController {
     private final PlayerService playerService;
     private final GameService gameService;
     private final UserService userService;
+    private final RoundService roundService;
+    private final ClueService clueService;
 
-    public PlayerController(PlayerService playerService, GameService gameService, UserService userService) {
+    public PlayerController(PlayerService playerService, GameService gameService, UserService userService, RoundService roundService, ClueService clueService) {
         this.gameService = gameService;
         this.playerService = playerService;
         this.userService = userService;
+        this.roundService = roundService;
+        this.clueService = clueService;
     }
 
     @GetMapping("/games/{id}/players")
@@ -70,5 +70,25 @@ public class PlayerController {
     public void removePlayer(@PathVariable Long gameId, @PathVariable Long userId) {
         Game game = gameService.getGame(gameId);
         playerService.removePlayer(game, userId);
+    }
+
+    @PutMapping("games/{gameId}/rounds/{roundNum}/score")
+    @ResponseStatus(HttpStatus.OK)
+    public List<PlayerGetDTO> setIndividualScore(@PathVariable Long gameId, @PathVariable int roundNum) {
+        Game game = gameService.getGame(gameId);
+        Round round = roundService.getRoundByRoundNum(game, roundNum);
+        List<Clue> clues = clueService.getClues(round);
+        List<RealPlayer> players = playerService.getPlayersByGame(game);
+
+        for(Clue clue : clues) {
+            int score = clueService.calculateIndividualScore(round, clue);
+            playerService.setScore(clue.getOwnerId(), score);
+        }
+
+        List<PlayerGetDTO> playerGetDTOs = new ArrayList<>();
+        for (RealPlayer player : players) {
+            playerGetDTOs.add(DTOMapper.INSTANCE.convertPlayerEntityToPlayerGetDTO(player));
+        }
+        return playerGetDTOs;
     }
 }
