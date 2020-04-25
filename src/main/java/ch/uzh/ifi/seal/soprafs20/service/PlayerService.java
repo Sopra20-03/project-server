@@ -124,7 +124,9 @@ public class PlayerService {
         RealPlayer player = playerRepository.findRealPlayerByPlayerId(playerId);
 
         //set score
-        player.setScore(score);
+        int currentScore = player.getScore();
+        currentScore = currentScore + score;
+        player.setScore(currentScore);
 
         return player;
     }
