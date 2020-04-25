@@ -4,6 +4,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.Clue;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Round.NoRunningRoundException;
 
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -108,14 +110,32 @@ public class RoundService {
             roundRepository.save(nextRound);
             roundRepository.flush();
 
-            //set Role of players if there are more than minPlayers player
+            //set new Roles of players
             Set<RealPlayer> players = game.getPlayers();
-            //set all players to ROLE.CLUE_WRITER
-            for (RealPlayer player: players){
+            Iterator<RealPlayer> previousGuesserIt = players.iterator();
+            //set all players to ROLE.CLUE_WRITER and assign a clue to them
+            for (Iterator<RealPlayer> it = players.iterator(); it.hasNext();){
+                RealPlayer player = it.next();
+                if (player.getRole() == Role.GUESSER) {
+                    previousGuesserIt = it;
+                }
                 player.setRole(Role.CLUE_WRITER);
             }
-            //set one player to ROLE.GUESSER
-            players.iterator().next().setRole(Role.GUESSER);
+            //if end of set, reset iterator
+            if (!previousGuesserIt.hasNext()) {
+                previousGuesserIt = players.iterator();
+            }
+            //set player to guesser
+            previousGuesserIt.next().setRole(Role.GUESSER);
+
+            //get list of clues in this round
+            List<Clue> clues = nextRound.getClues();
+            //assign clues to all players with ROLE.CLUE_WRITER
+            for (RealPlayer player: players){
+                if(player.getRole() != Role.GUESSER) {
+                    clues.listIterator().next().setOwnerId(player.getPlayerId());
+                }
+            }
         }
         round.setRoundStatus(RoundStatus.FINISHED);
         roundRepository.save(round);
