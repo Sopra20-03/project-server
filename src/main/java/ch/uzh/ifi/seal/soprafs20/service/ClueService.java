@@ -2,10 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueWithIdAlreadySubmitted;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
 import ch.uzh.ifi.seal.soprafs20.repository.ClueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -246,7 +243,9 @@ public class ClueService {
         //get clues of round in ascending order by total time
         List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeDesc(round);
 
-        //TODO: exception if clue is not in clues
+        if(!clues.contains(clue)) {
+            throw new ClueNotInRoundException(clue.getClueId().toString(), round.getRoundId().toString());
+        }
 
         //calculate score by index in list
         int score = clues.indexOf(clue);
