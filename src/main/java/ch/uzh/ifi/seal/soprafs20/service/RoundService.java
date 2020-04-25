@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Round Service
@@ -105,6 +107,15 @@ public class RoundService {
             nextRound.setRoundStatus(RoundStatus.RUNNING);
             roundRepository.save(nextRound);
             roundRepository.flush();
+
+            //set Role of players if there are more than minPlayers player
+            Set<RealPlayer> players = game.getPlayers();
+            //set all players to ROLE.CLUE_WRITER
+            for (RealPlayer player: players){
+                player.setRole(Role.CLUE_WRITER);
+            }
+            //set one player to ROLE.GUESSER
+            players.iterator().next().setRole(Role.GUESSER);
         }
         round.setRoundStatus(RoundStatus.FINISHED);
         roundRepository.save(round);
