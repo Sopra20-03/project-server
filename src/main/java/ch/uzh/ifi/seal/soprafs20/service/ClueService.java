@@ -234,4 +234,23 @@ public class ClueService {
         //set totalTime
         clue.setTotalTime(totalTime);
     }
+
+    /**
+     * calculates individual score for a clue
+     * @param round
+     * @param clue
+     * @return
+     */
+    public int calculateIndividualScore(Round round, Clue clue) {
+
+        //get clues of round in ascending order by total time
+        List<Clue> clues = clueRepository.findAllByRoundAndOrderByTotalTimeDesc(round);
+
+        //TODO: exception if clue is not in clues
+
+        //calculate score by index in list
+        int score = clues.indexOf(clue);
+
+        return score;
+    }
 }

@@ -33,6 +33,9 @@ public class RealPlayer implements Serializable {
     @JoinColumn(name = "gameId")
     private Game game;
 
+    @Column
+    private int score;
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Guess> guessList = new ArrayList<>();
@@ -56,6 +59,10 @@ public class RealPlayer implements Serializable {
     public Game getGame() { return game; }
 
     public void setGame(Game game) { this.game = game; }
+
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
 
     public List<Guess> getGuessList() {
         return guessList;
