@@ -205,6 +205,11 @@ public class ClueService {
      * @param round
      */
     public void setStartTime(Round round) {
+
+        if(clueRepository.getCluesByRound(round).isEmpty()) {
+            throw new NoClueException(round.getRoundId().toString());
+        }
+
         //get all clues in round
         List<Clue> clues = clueRepository.getCluesByRound(round);
 
