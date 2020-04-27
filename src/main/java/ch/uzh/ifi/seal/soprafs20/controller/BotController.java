@@ -69,8 +69,8 @@ public class BotController {
         List<Synonym> synonyms = getSimilarWords(word);
         int numbOfClues = 5- round.getGame().getPlayerCount();
         for (int i = 1; i <= numbOfClues; i++) {
-            Collections.shuffle(synonyms);
-            clueService.submitBotClue(round,synonyms.get(1).getWord());
+            //Collections.shuffle(synonyms);
+            clueService.submitBotClue(round,synonyms.get(i).getWord());
         }
 
         return round;
