@@ -31,6 +31,8 @@ public class Clue implements Serializable {
     @JoinColumn(name = "playerId")
     private RealPlayer owner;
 
+    @Column
+    private Long ownerId;
 
     @Column
     private int votes;
@@ -81,6 +83,14 @@ public class Clue implements Serializable {
 
     public void setVotes(int votes) {
         this.votes = votes;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
 }

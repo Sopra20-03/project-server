@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -192,22 +193,27 @@ public class ClueService {
         //get list of rounds and number of players in game
         List<Round> rounds = game.getRounds();
         int numPlayers = game.getPlayerCount();
+        Set<RealPlayer> players = game.getPlayers();
 
         //create new list to return clues
         List<Clue> clues = new ArrayList<>();
 
         //set an empty clue for each player in each round
         for(Round round: rounds) {
-            for(int i = 1; i < numPlayers; i++) {
-                Clue clue = new Clue();
-                clue.setRound(round);
-                clue.setIsValid(false);
-                clue.setVotes(0);
-                clues.add(clue);
+            for(RealPlayer player : players) {
+                if(player.getRole()==Role.CLUE_WRITER) {
+                    Clue clue = new Clue();
+                    clue.setRound(round);
+                    clue.setOwnerId(player.getPlayerId());
+                    clue.setIsValid(false);
+                    clue.setVotes(0);
+                    clue.setVotes(0);
+                    clues.add(clue);
 
 
-                clueRepository.save(clue);
-                clueRepository.flush();
+                    clueRepository.save(clue);
+                    clueRepository.flush();
+                }
             }
         }
         return game;
