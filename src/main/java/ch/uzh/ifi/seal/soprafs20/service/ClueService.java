@@ -158,7 +158,7 @@ public class ClueService {
             if(clue.getVotes() < 0){
                 clue.setIsValid(false);
             }
-            else if(clue.getVotes() > 0){
+            else if(clue.getVotes() >= 0){
                 clue.setIsValid(true);
             }
             clueRepository.save(clue);
