@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
-import ch.uzh.ifi.seal.soprafs20.entity.Synonym;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
+import ch.uzh.ifi.seal.soprafs20.service.BotPlayerService;
+import ch.uzh.ifi.seal.soprafs20.service.ClueService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,10 +12,19 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class BotController {
+    private final BotPlayerService botPlayerService;
+    private final ClueService clueService;
+
+    public BotController(BotPlayerService botPlayerService, ClueService clueService){
+        this.botPlayerService = botPlayerService;
+        this.clueService = clueService;
+    }
     /**
      * gets a word and returns a list of Synonyms ordered to score (quality of synonym)
      * @param word
@@ -39,6 +50,30 @@ public class BotController {
             e.printStackTrace();
         }
         return synonyms;
+    }
+    public Game createBots(Game game) {
+        int botsToCreate = 5 - game.getPlayerCount();
+        for (int i = 1; i <= botsToCreate; i++) {
+            botPlayerService.createPlayer(game);
+        }
+        return game;
+    }
+
+    /**
+     * creates 5 - numberOfRealPlayers many clues from bot
+     * @param round
+     * @return
+     */
+    public Round submitClues(Round round){
+        String word = round.getWordCard().getSelectedWord();
+        List<Synonym> synonyms = getSimilarWords(word);
+        int numbOfClues = 5- round.getGame().getPlayerCount();
+        for (int i = 1; i <= numbOfClues; i++) {
+            Collections.shuffle(synonyms);
+            clueService.submitBotClue(round,synonyms.get(1).getWord());
+        }
+
+        return round;
     }
     }
 

@@ -32,9 +32,6 @@ public class BotPlayer implements Serializable {
     private Game game;
 
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "ownerBot", cascade = CascadeType.MERGE)
-    private List<Clue> clues = new ArrayList<>();
 
     public Long getPlayerId() { return playerId; }
 
@@ -49,10 +46,6 @@ public class BotPlayer implements Serializable {
 
     public void setGame(Game game) { this.game = game; }
 
-
-    public List<Clue> getClues() { return clues; }
-
-    public void addClue(Clue clue) { this.clues.add(clue); }
     public String getUserName() {
         return userName;
     }
