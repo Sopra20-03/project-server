@@ -198,15 +198,18 @@ public class ClueService {
         //create new list to return clues
         List<Clue> clues = new ArrayList<>();
 
-        //set an empty clue for each player in each round
+        //set an empty clue for each clue writer in each round
         for(Round round: rounds) {
             for(RealPlayer player : players) {
+
                 if(player.getRole()==Role.CLUE_WRITER) {
+
                     Clue clue = new Clue();
                     clue.setRound(round);
                     clue.setOwnerId(player.getPlayerId());
                     clue.setIsValid(false);
-                    clue.setVotes(0);
+
+                  
                     clue.setVotes(0);
                     clues.add(clue);
 
