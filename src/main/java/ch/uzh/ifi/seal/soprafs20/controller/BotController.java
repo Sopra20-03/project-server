@@ -1,7 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.entity.*;
-import ch.uzh.ifi.seal.soprafs20.service.BotPlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.ClueService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,11 +17,10 @@ import java.util.Set;
 
 @RestController
 public class BotController {
-    private final BotPlayerService botPlayerService;
+
     private final ClueService clueService;
 
-    public BotController(BotPlayerService botPlayerService, ClueService clueService){
-        this.botPlayerService = botPlayerService;
+    public BotController(ClueService clueService){
         this.clueService = clueService;
     }
     /**
@@ -51,13 +49,7 @@ public class BotController {
         }
         return synonyms;
     }
-    public Game createBots(Game game) {
-        int botsToCreate = 5 - game.getPlayerCount();
-        for (int i = 1; i <= botsToCreate; i++) {
-            botPlayerService.createPlayer(game);
-        }
-        return game;
-    }
+
 
     /**
      * creates 5 - numberOfRealPlayers many clues from bot

@@ -47,9 +47,6 @@ public class Game implements Serializable {
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<RealPlayer> players = new HashSet<>();
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Set<BotPlayer> bots = new HashSet<>();
-
     @Column(nullable = false)
     private int score;
 
@@ -138,11 +135,4 @@ public class Game implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Set<BotPlayer> getBots() {
-        return bots;
-    }
-
-    public void setBots(Set<BotPlayer> bots) {
-        this.bots = bots;
-    }
 }
