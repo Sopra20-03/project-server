@@ -82,6 +82,26 @@ public class ClueService {
 
         return clue;
     }
+    /**
+     * submits a clue for a bot
+     *
+     * @param round
+     * @param owner
+     * @param word
+     * @return Clue
+     */
+    public Clue submitBotClue(Round round, BotPlayer owner, String word) {
+        Clue clue = new Clue();
+        clue.setRound(round);
+
+        //set owner, word, and valid
+        clue.setOwnerBot(owner);
+        clue.setWord(word);
+        clue.setIsValid(true);
+        clueRepository.save(clue);
+        clueRepository.flush();
+        return clue;
+    }
 
     /**
      * gets clue by clueId

@@ -40,6 +40,5 @@ public class BotController {
         }
         return synonyms;
     }
-
     }
 

@@ -31,6 +31,10 @@ public class Clue implements Serializable {
     @JoinColumn(name = "playerId")
     private RealPlayer owner;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "playerId")
+    private BotPlayer ownerBot;
+
     @Column
     private int votes;
 
@@ -80,5 +84,13 @@ public class Clue implements Serializable {
 
     public void setVotes(int votes) {
         this.votes = votes;
+    }
+
+    public BotPlayer getOwnerBot() {
+        return ownerBot;
+    }
+
+    public void setOwnerBot(BotPlayer ownerBot) {
+        this.ownerBot = ownerBot;
     }
 }
