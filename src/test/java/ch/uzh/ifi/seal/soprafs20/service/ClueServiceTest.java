@@ -69,7 +69,7 @@ public class ClueServiceTest {
         clue = clueService.setClue(activeRound, testPlayer, clue);
 
         //check if guess is stored in repo and accessible from the game
-        assertEquals("testClue",clueService.getClue(activeRound).getWord());
+        assertEquals("testClue",clueService.getClue(clue.getClueId()).getWord());
 
     }
 
@@ -196,8 +196,11 @@ public class ClueServiceTest {
 
 
         //check if both clues are valid
-        assertEquals(true, clueService.getClueByOwnerAndRound(testPlayer1, activeRound).getIsValid());
-        assertEquals(true, clueService.getClueByOwnerAndRound(testPlayer2, activeRound).getIsValid());
+        List<Clue> clues = clueService.getClues(activeRound);
+        for(Clue clueToCheck: clues){
+            assertEquals(true, clueToCheck.getIsValid());
+        }
+
     }
 
     @Test
@@ -245,8 +248,10 @@ public class ClueServiceTest {
 
         clueService.validateClues(activeRound);
 
-        //check if both clues are valid
-        assertEquals(false, clueService.getClueByOwnerAndRound(testPlayer1, activeRound).getIsValid());
-        assertEquals(false, clueService.getClueByOwnerAndRound(testPlayer2, activeRound).getIsValid());
+        //check if both clues are Invalid
+        List<Clue> clues = clueService.getClues(activeRound);
+        for(Clue clueToCheck: clues){
+            assertEquals(false, clueToCheck.getIsValid());
+        }
     }
 }

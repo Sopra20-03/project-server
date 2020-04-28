@@ -83,6 +83,25 @@ public class ClueService {
 
         return clue;
     }
+    /**
+     * submits a clue for a bot
+     *
+     * @param round
+     * @param word
+     * @return Clue
+     */
+    public Clue submitBotClue(Round round, String word) {
+        Clue clue = new Clue();
+        clue.setRound(round);
+
+        //set owner, word, and valid
+        clue.setVotes(0);
+        clue.setWord(word);
+        clue.setIsValid(true);
+        clueRepository.save(clue);
+        clueRepository.flush();
+        return clue;
+    }
 
     /**
      * gets clue by clueId
@@ -119,7 +138,9 @@ public class ClueService {
         if(selectedWord==null){
             throw new NoWordSelectedException(round.getRoundId().toString());
         }
+
         for(Clue clue : clues){
+            /*
             int numbOfEqualWords = 0;
             //count number of same words
             for(Clue compareClue:clues){
@@ -132,6 +153,8 @@ public class ClueService {
                 clue.setIsValid(false);
 
             }
+
+             */
             //validate clue according to votes
             if(clue.getVotes() < 0){
                 clue.setIsValid(false);
@@ -178,12 +201,18 @@ public class ClueService {
         //set an empty clue for each clue writer in each round
         for(Round round: rounds) {
             for(RealPlayer player : players) {
-                if(player.getRole() == Role.CLUE_WRITER) {
+
+                if(player.getRole()==Role.CLUE_WRITER) {
+
                     Clue clue = new Clue();
                     clue.setRound(round);
                     clue.setOwnerId(player.getPlayerId());
                     clue.setIsValid(false);
+
+                  
+                    clue.setVotes(0);
                     clues.add(clue);
+
 
                     clueRepository.save(clue);
                     clueRepository.flush();
