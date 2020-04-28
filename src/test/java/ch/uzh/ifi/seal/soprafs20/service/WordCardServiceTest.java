@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class WordCardServiceTest {
@@ -45,6 +45,7 @@ public class WordCardServiceTest {
         int numberOfWordCards = words.size()/4;
         assertEquals(1,numberOfWordCards);
     }
+
     @Test
     void wordCardImport(){
         //test if first card is correct

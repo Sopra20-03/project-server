@@ -47,7 +47,8 @@ public class WordController {
         //set startTime in each clue of round
         clueService.setStartTime(round);
 
-      //create empty clues
+        //create empty clues
+
         game = clueService.setEmptyClues(game, round);
 
       //submit bot clues
