@@ -19,11 +19,13 @@ public class WordController {
     private final GameService gameService;
     private final WordCardService wordCardService;
     private final ClueService clueService;
+    private final BotController botController;
 
-    public WordController(RoundService roundService, GameService gameService, WordCardService wordCardService, ClueService clueService) {
+    public WordController(RoundService roundService, GameService gameService, WordCardService wordCardService, BotController botController, ClueService clueService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.wordCardService = wordCardService;
+        this.botController = botController;
         this.clueService = clueService;
     }
     @PutMapping("/games/{gameId}/rounds/{roundNum}")
@@ -44,6 +46,12 @@ public class WordController {
 
         //set startTime in each clue of round
         clueService.setStartTime(round);
+
+        //create empty clues
+        game = clueService.setEmptyClues(game, round);
+
+      //submit bot clues
+        botController.submitClues(round);
 
         //Convert to JSON
         RoundGetDTO roundGetDTO = DTOMapper.INSTANCE.convertRoundEntityToRoundGetDTO(round);

@@ -2,14 +2,14 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "T_GAMES")
@@ -40,12 +40,13 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private GameMode gameMode;
 
-
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.MERGE)
     private List<Round> rounds = new ArrayList<>();
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Set<RealPlayer> players = new HashSet<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.MERGE)
+    private List<RealPlayer> players = new ArrayList<>();
 
     @Column(nullable = false)
     private int score;
@@ -111,11 +112,11 @@ public class Game implements Serializable {
         this.rounds = rounds;
     }
 
-    public Set<RealPlayer> getPlayers() {
+    public List<RealPlayer> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Set<RealPlayer> players) {
+    public void setPlayers(List<RealPlayer> players) {
         this.players = players;
     }
 
@@ -134,4 +135,5 @@ public class Game implements Serializable {
     public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
+
 }

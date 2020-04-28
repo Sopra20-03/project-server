@@ -44,7 +44,6 @@ public class GuessController {
      guess.setOwner(player);
      //store guess in the game
      Game game = gameService.getGame(gameId);
-     checkIfAllCluesAreSubmitted(game);
      Round round = roundService.getRunningRound(game);
      guess = guessService.setGuess(round,guess);
 
@@ -69,17 +68,4 @@ public class GuessController {
         return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }
 
-    /**
-     * checks if running round has enough Clues, else raise an NotEnoughCluesException
-     * @param game
-     */
-     private void checkIfAllCluesAreSubmitted(Game game){
-        Round round = roundService.getRunningRound(game);
-        int numberOfClues = clueService.getClues(round).size();
-        int numberOfClueWriters = playerService.getPlayersByGame(game).size()-1;
-        if (numberOfClues != numberOfClueWriters){
-            throw new NotEnoughCluesException("There are only: "+numberOfClues+"Clues, but there must be: "+numberOfClueWriters);
-        }
-
-     }
 }
