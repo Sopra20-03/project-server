@@ -6,8 +6,8 @@ import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
+import ch.uzh.ifi.seal.soprafs20.service.ClueService;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
-import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
 import ch.uzh.ifi.seal.soprafs20.service.WordCardService;
 import org.springframework.http.HttpStatus;
@@ -18,14 +18,15 @@ public class WordController {
     private final RoundService roundService;
     private final GameService gameService;
     private final WordCardService wordCardService;
+    private final ClueService clueService;
     private final BotController botController;
 
-    public WordController(RoundService roundService, GameService gameService, WordCardService wordCardService, BotController botController) {
+    public WordController(RoundService roundService, GameService gameService, WordCardService wordCardService, BotController botController, ClueService clueService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.wordCardService = wordCardService;
         this.botController = botController;
-
+        this.clueService = clueService;
     }
     @PutMapping("/games/{gameId}/rounds/{roundNum}")
     @ResponseStatus(HttpStatus.OK)
@@ -43,7 +44,10 @@ public class WordController {
         //set selectedWord
         round = wordCardService.setSelectedWord(round, wordCard.getSelectedWord());
 
-        //submit bot clues
+        //create empty clues
+        game = clueService.setEmptyClues(game, round);
+
+      //submit bot clues
         botController.submitClues(round);
 
         //Convert to JSON

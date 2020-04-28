@@ -188,9 +188,8 @@ public class ClueService {
      * @param game
      * @return Game
      */
-    public Game setEmptyClues(Game game) {
-        //get list of rounds and number of players in game
-        List<Round> rounds = game.getRounds();
+    public Game setEmptyClues(Game game, Round round) {
+        //get list of players and number of players in game
         int numPlayers = game.getPlayerCount();
         List<RealPlayer> players = game.getPlayers();
 
@@ -198,24 +197,17 @@ public class ClueService {
         List<Clue> clues = new ArrayList<>();
 
         //set an empty clue for each clue writer in each round
-        for(Round round: rounds) {
-            for(RealPlayer player : players) {
+        for(RealPlayer player : players) {
+            if(player.getRole() == Role.CLUE_WRITER) {
+                Clue clue = new Clue();
+                clue.setRound(round);
+                clue.setOwnerId(player.getPlayerId());
+                clue.setIsValid(false);
+                clue.setVotes(0);
+                clues.add(clue);
 
-                if(player.getRole()==Role.CLUE_WRITER) {
-
-                    Clue clue = new Clue();
-                    clue.setRound(round);
-                    clue.setOwnerId(player.getPlayerId());
-                    clue.setIsValid(false);
-
-                  
-                    clue.setVotes(0);
-                    clues.add(clue);
-
-
-                    clueRepository.save(clue);
-                    clueRepository.flush();
-                }
+                clueRepository.save(clue);
+                clueRepository.flush();
             }
         }
         return game;
