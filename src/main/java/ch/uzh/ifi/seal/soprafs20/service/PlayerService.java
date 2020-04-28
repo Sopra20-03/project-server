@@ -35,7 +35,6 @@ public class PlayerService {
         return playerRepository.findRealPlayersByGame(game);
     }
 
-
     public RealPlayer getPlayer(Long id) {
         return playerRepository.findRealPlayerByUserId(id);
     }
@@ -114,4 +113,21 @@ public class PlayerService {
         return game;
     }
 
+    /**
+     * sets individual score of a player
+     * @param playerId
+     * @param score
+     * @return
+     */
+    public RealPlayer setScore(Long playerId, int score) {
+        //get player
+        RealPlayer player = playerRepository.findRealPlayerByPlayerId(playerId);
+
+        //set score
+        int currentScore = player.getScore();
+        currentScore = currentScore + score;
+        player.setScore(currentScore);
+
+        return player;
+    }
 }

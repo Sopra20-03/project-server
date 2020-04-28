@@ -7,6 +7,7 @@ public class PlayerGetDTO {
     private long userId;
     private String userName;
     private Role role;
+    private int score;
 
     public long getPlayerId() {
         return playerId;
@@ -40,4 +41,8 @@ public class PlayerGetDTO {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
 }

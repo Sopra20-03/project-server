@@ -127,7 +127,6 @@ public class GameService {
      * @param game
      * @return
      */
-
     public Game finishGame(Game game) {
         game.setGameStatus(GameStatus.FINISHED);
         //store changes
@@ -135,5 +134,15 @@ public class GameService {
         gameRepository.flush();
 
         return game;
+    }
+
+    /**
+     * increase game score by 1
+     * @param game
+     */
+    public void increaseScore(Game game) {
+        int score = game.getScore();
+        score = score + 1;
+        game.setScore(score);
     }
 }
