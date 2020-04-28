@@ -51,6 +51,7 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private int score;
 
+
     public Game() {
     }
 
@@ -101,6 +102,7 @@ public class Game implements Serializable {
     public void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
     }
+
 
     public List<Round> getRounds() {
         return rounds;
