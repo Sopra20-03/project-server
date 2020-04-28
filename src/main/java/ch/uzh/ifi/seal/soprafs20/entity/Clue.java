@@ -90,4 +90,5 @@ public class Clue implements Serializable {
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
     }
+
 }
