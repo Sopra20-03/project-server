@@ -12,6 +12,7 @@ import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UsernameTakenException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -185,8 +186,20 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(NoClueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNoClueException(NotEnoughCluesException ex) {
+    public ResponseEntity handleNoClueException(NoClueException ex) {
         log.error(String.format("NoClueException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    /**
+     * NoWordSelectedException
+     * Throws HTTP 400 BAD REQUEST
+     */
+    @ExceptionHandler(NoWordSelectedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleNoWordSelectedException(NoWordSelectedException ex) {
+        log.error(String.format("NoWordSelectedException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
 }

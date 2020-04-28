@@ -60,6 +60,9 @@ public class ClueService {
      */
     public Clue submitClue(Clue clue, RealPlayer owner, String word) {
 
+
+
+
         //check if player is clue_writer
         if(owner.getRole() != Role.CLUE_WRITER) {
             throw new PlayerIsNotClueWriterException(owner.toString());
