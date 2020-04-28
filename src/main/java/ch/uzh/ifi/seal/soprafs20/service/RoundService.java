@@ -4,13 +4,10 @@ import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.Clue;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Round.NoRunningRoundException;
-
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Round.NoRunningRoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
-
 import ch.uzh.ifi.seal.soprafs20.repository.RoundRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Round Service
@@ -111,10 +106,35 @@ public class RoundService {
             roundRepository.flush();
 
             //set new Roles of players
-            Set<RealPlayer> players = game.getPlayers();
-            Iterator<RealPlayer> previousGuesserIt = players.iterator();
+            List<RealPlayer> players = game.getPlayers();
+            //ListIterator<RealPlayer> previousGuesserIt = players.listIterator();
+
+            //get index of current guesser and calculate index of next guesser
+            int currentGuesserIndex = 0;
+            int nextGuesserIndex;
+            for(RealPlayer player : players) {
+                if(player.getRole() == Role.GUESSER) {
+                    currentGuesserIndex = players.indexOf(player);
+                }
+            }
+
+            if(currentGuesserIndex == players.size()-1) {
+                nextGuesserIndex = 0;
+            }
+
+            else { nextGuesserIndex = currentGuesserIndex+1; }
+
+            //set all players to clue_writers
+            for(RealPlayer player : players) {
+                player.setRole(Role.CLUE_WRITER);
+            }
+
+            //set next guesser to guesser
+            players.get(nextGuesserIndex).setRole(Role.GUESSER);
+
+            /*
             //set all players to ROLE.CLUE_WRITER and assign a clue to them
-            for (Iterator<RealPlayer> it = players.iterator(); it.hasNext();){
+            for (ListIterator<RealPlayer> it = players.listIterator(); it.hasNext();){
                 RealPlayer player = it.next();
                 if (player.getRole() == Role.GUESSER) {
                     previousGuesserIt = it;
@@ -123,7 +143,7 @@ public class RoundService {
             }
             //if end of set, reset iterator
             if (!previousGuesserIt.hasNext()) {
-                previousGuesserIt = players.iterator();
+                previousGuesserIt = players.listIterator();
             }
             //set player to guesser
             previousGuesserIt.next().setRole(Role.GUESSER);
@@ -136,6 +156,7 @@ public class RoundService {
                     clues.listIterator().next().setOwnerId(player.getPlayerId());
                 }
             }
+            */
         }
         round.setRoundStatus(RoundStatus.FINISHED);
         roundRepository.save(round);

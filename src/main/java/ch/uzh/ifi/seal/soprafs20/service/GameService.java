@@ -2,13 +2,11 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
-import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
-
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.*;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NotEnoughPlayersException;
 import ch.uzh.ifi.seal.soprafs20.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Game Service
@@ -107,7 +103,7 @@ public class GameService {
         Game game = getGame(gameId);
         game.setGameStatus(GameStatus.RUNNING);
         //set Role of players if there are more than minPlayers player
-        Set<RealPlayer> players = game.getPlayers();
+        List<RealPlayer> players = game.getPlayers();
         int minPlayers = 2;
         if(players.size() < minPlayers){
             throw new NotEnoughPlayersException(String.valueOf(minPlayers));
