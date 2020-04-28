@@ -37,7 +37,7 @@ public class ClueController {
         //get word, owner, and clue
         String word = DTOMapper.INSTANCE.convertCluePostDTOtoClueEntity(cluePostDTO).getWord();
         RealPlayer owner = playerService.getPlayerByPlayerId(playerId);
-        Clue clue = clueService.getClue(clueId);
+        Clue clue = clueService.getClueById(clueId);
 
         //add word and owner to clue and set to valid
         clue = clueService.submitClue(clue, owner, word);

@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.exceptions;
 
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NotEnoughCluesException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
@@ -211,5 +212,15 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
         log.error(String.format("PlayerNotFoundException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
-    
+
+    /**
+     * ClueNotFoundException
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(ClueNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handleClueNotFoundException(ClueNotFoundException ex) {
+        log.error(String.format("ClueNotFoundException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
