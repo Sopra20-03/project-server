@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -88,6 +87,25 @@ public class ClueService {
 
         return clue;
     }
+    /**
+     * submits a clue for a bot
+     *
+     * @param round
+     * @param word
+     * @return Clue
+     */
+    public Clue submitBotClue(Round round, String word) {
+        Clue clue = new Clue();
+        clue.setRound(round);
+
+        //set owner, word, and valid
+        clue.setVotes(0);
+        clue.setWord(word);
+        clue.setIsValid(true);
+        clueRepository.save(clue);
+        clueRepository.flush();
+        return clue;
+    }
 
     /**
      * gets clue by clueId
@@ -123,7 +141,9 @@ public class ClueService {
         if(selectedWord==null){
             throw new NoWordSelectedException(round.getRoundId().toString());
         }
+
         for(Clue clue : clues){
+            /*
             int numbOfEqualWords = 0;
             //count number of same words
             for(Clue compareClue:clues){
@@ -136,6 +156,8 @@ public class ClueService {
                 clue.setIsValid(false);
 
             }
+
+             */
             //validate clue according to votes
             if(clue.getVotes() < 0){
                 clue.setIsValid(false);
@@ -170,28 +192,26 @@ public class ClueService {
      * @param game
      * @return Game
      */
-    public Game setEmptyClues(Game game) {
-        //get list of rounds and number of players in game
-        List<Round> rounds = game.getRounds();
+    public Game setEmptyClues(Game game, Round round) {
+        //get list of players and number of players in game
         int numPlayers = game.getPlayerCount();
-        Set<RealPlayer> players = game.getPlayers();
+        List<RealPlayer> players = game.getPlayers();
 
         //create new list to return clues
         List<Clue> clues = new ArrayList<>();
 
         //set an empty clue for each clue writer in each round
-        for(Round round: rounds) {
-            for(RealPlayer player : players) {
-                if(player.getRole() == Role.CLUE_WRITER) {
-                    Clue clue = new Clue();
-                    clue.setRound(round);
-                    clue.setOwnerId(player.getPlayerId());
-                    clue.setIsValid(false);
-                    clues.add(clue);
+        for(RealPlayer player : players) {
+            if(player.getRole() == Role.CLUE_WRITER) {
+                Clue clue = new Clue();
+                clue.setRound(round);
+                clue.setOwnerId(player.getPlayerId());
+                clue.setIsValid(false);
+                clue.setVotes(0);
+                clues.add(clue);
 
-                    clueRepository.save(clue);
-                    clueRepository.flush();
-                }
+                clueRepository.save(clue);
+                clueRepository.flush();
             }
         }
         return game;

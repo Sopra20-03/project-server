@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Game Service
@@ -104,7 +103,7 @@ public class GameService {
         Game game = getGame(gameId);
         game.setGameStatus(GameStatus.RUNNING);
         //set Role of players if there are more than minPlayers player
-        Set<RealPlayer> players = game.getPlayers();
+        List<RealPlayer> players = game.getPlayers();
         int minPlayers = 2;
         if(players.size() < minPlayers){
             throw new NotEnoughPlayersException(String.valueOf(minPlayers));

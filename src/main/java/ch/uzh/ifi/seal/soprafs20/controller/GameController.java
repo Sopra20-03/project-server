@@ -110,8 +110,6 @@ public class GameController {
     public GameGetDTO startGame(@PathVariable Long id){
         //start game
         Game game = gameService.startGame(id);
-        //create empty clues
-        game = clueService.setEmptyClues(game);
         //start first round
         game = roundService.startFirstRound(game);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
