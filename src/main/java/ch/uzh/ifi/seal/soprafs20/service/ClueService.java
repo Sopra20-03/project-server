@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,13 @@ public class ClueService {
         this.clueRepository = clueRepository;
     }
 
-    //TODO: don't need this anymore??
+    /**
+     * create a new clue
+     * @param round
+     * @param owner
+     * @param clue
+     * @return
+     */
     public Clue setClue(Round round, RealPlayer owner, Clue clue) {
 
         //check if player is clue_writer
@@ -117,7 +125,6 @@ public class ClueService {
      * @param round
      * @return List<Clue>
      */
-
     public List<Clue> getClues(Round round){
         List<Clue> clues = clueRepository.getCluesByRound(round);
         if(clues.size()==0){
@@ -213,4 +220,43 @@ public class ClueService {
         return game;
     }
 
+    /**
+     * sets startTime for all Clues in round
+     * @param round
+     */
+    public void setStartTime(Round round) {
+
+        if(clueRepository.getCluesByRound(round).isEmpty()) {
+            throw new NoClueException(round.getRoundId().toString());
+        }
+
+        //get all clues in round
+        List<Clue> clues = clueRepository.getCluesByRound(round);
+
+        //get current timestamp
+        LocalDateTime startTime = LocalDateTime.now();
+
+        //set startTime for all clues in round
+        for(Clue clue : clues) {
+            clue.setStartTime(startTime);
+        }
+    }
+
+    /**
+     * sets endTime and calculate totalTime in seconds for Clue
+     * @param clue
+     */
+    public void setEndTime(Clue clue) {
+        //get current timestamp
+        LocalDateTime endTime = LocalDateTime.now();
+
+        //set endTime for clue
+        clue.setEndTime(endTime);
+
+        //calculate totalTime
+        long totalTime = ChronoUnit.SECONDS.between(clue.getStartTime(), endTime);
+
+        //set totalTime
+        clue.setTotalTime(totalTime);
+    }
 }

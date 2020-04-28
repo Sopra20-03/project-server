@@ -12,6 +12,8 @@ public class ClueGetDTO {
 
     private Long ownerId;
 
+    private long totalTime;
+
     public Long getClueId() {
         return clueId;
     }
@@ -47,4 +49,8 @@ public class ClueGetDTO {
     public Long getOwnerId() { return ownerId; }
 
     public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
+
+    public long getTotalTime() { return totalTime; }
+
+    public void setTotalTime(long totalTime) { this.totalTime = totalTime; }
 }

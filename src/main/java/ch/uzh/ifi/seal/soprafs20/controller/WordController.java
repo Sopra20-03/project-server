@@ -44,6 +44,9 @@ public class WordController {
         //set selectedWord
         round = wordCardService.setSelectedWord(round, wordCard.getSelectedWord());
 
+        //set startTime in each clue of round
+        clueService.setStartTime(round);
+
         //create empty clues
         game = clueService.setEmptyClues(game, round);
 
