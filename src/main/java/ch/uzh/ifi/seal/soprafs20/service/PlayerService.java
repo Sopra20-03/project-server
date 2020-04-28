@@ -38,13 +38,17 @@ public class PlayerService {
 
 
     public RealPlayer getPlayer(Long id) {
-        return playerRepository.findRealPlayerByUserId(id);
+        RealPlayer player = playerRepository.findRealPlayerByUserId(id);
+        if(player==null){
+            throw new PlayerNotFoundException(" with UserId:"+id.toString());
+        }
+        return player;
     }
 
     public RealPlayer getPlayerByPlayerId(Long playerId) {
         RealPlayer player = playerRepository.findRealPlayerByPlayerId(playerId);
         if(player==null){
-            throw new PlayerNotFoundException(playerId.toString());
+            throw new PlayerNotFoundException(" with PlayerId:"+playerId.toString());
         }
         return player;
     }

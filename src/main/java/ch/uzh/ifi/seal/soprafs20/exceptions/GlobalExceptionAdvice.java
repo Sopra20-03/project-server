@@ -8,6 +8,7 @@ import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Player.PlayerNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
@@ -165,7 +166,7 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(NotEnoughPlayersException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNotEnoughPlayersException(PlayerAlreadyInGameException ex) {
+    public ResponseEntity handleNotEnoughPlayersException(NotEnoughPlayersException ex) {
         log.error(String.format("NotEnoughPlayersException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
@@ -200,6 +201,15 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
         log.error(String.format("NoWordSelectedException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
-
+    /**
+     * PlayerNotFoundException
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(PlayerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handlePlayerNotFoundException(PlayerNotFoundException ex) {
+        log.error(String.format("PlayerNotFoundException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    
 }

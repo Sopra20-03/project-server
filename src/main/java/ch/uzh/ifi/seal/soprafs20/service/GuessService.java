@@ -32,14 +32,14 @@ public class GuessService {
      */
     public Guess setGuess(Round round, Guess guess) {
     if(guessRepository.getGuessByRound(round) != null ){
-        throw new RoundHasAlreadyGuessException(round.toString());
+        throw new RoundHasAlreadyGuessException("Round with Round Number: "+ round.getRoundNum());
     }
         guess.setRound(round);
         //validate guess
         WordCard wordCard = round.getWordCard();
         //throw exception if WordCard is null
         if (wordCard == null) {
-            throw new NoWordCardException(round.toString());
+            throw new NoWordCardException("Round with Round Number: "+ round.getRoundNum());
         }
         guess.setIsValid(correctGuess(wordCard, guess));
         guessRepository.save(guess);
@@ -55,7 +55,7 @@ public class GuessService {
     public Guess getGuess(Round round){
         Guess guess = guessRepository.getGuessByRound(round);
         if(guess == null){
-            throw new NoGuessException(round.toString());
+            throw new NoGuessException("Round Number:"+round.getRoundNum());
         }
         return guess;
     }
