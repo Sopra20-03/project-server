@@ -47,8 +47,9 @@ public class GuessController {
      Round round = roundService.getRunningRound(game);
      guess = guessService.setGuess(round,guess);
 
-     // when all rounds are finished, finish the game
-     if(roundService.lastRoundFinished(game)){
+     // if its last round, finish the game
+     if(roundService.isLastRound(round)){
+         roundService.finishRound(round);
          game = gameService.finishGame(game);
      }
      //else start the next round
