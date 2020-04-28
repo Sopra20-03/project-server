@@ -217,5 +217,22 @@ public class RoundService {
         return round.getRoundStatus()==RoundStatus.FINISHED;
     }
 
+    /**
+     * true if its last round
+     * @param round
+     */
+    public boolean isLastRound(Round round){
+        return round.getRoundNum() == NUMBER_OF_ROUNDS;
+    }
 
+    /**
+     * finishes round
+     * @param round
+     */
+    public Round finishRound(Round round){
+        round.setRoundStatus(RoundStatus.FINISHED);
+        roundRepository.save(round);
+        roundRepository.flush();
+        return round;
+    }
 }

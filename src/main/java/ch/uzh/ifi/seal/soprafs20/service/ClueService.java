@@ -65,6 +65,9 @@ public class ClueService {
      */
     public Clue submitClue(Clue clue, RealPlayer owner, String word) {
 
+
+
+
         //check if player is clue_writer
         if(owner.getRole() != Role.CLUE_WRITER) {
             throw new PlayerIsNotClueWriterException(owner.toString());
@@ -112,10 +115,12 @@ public class ClueService {
      * @param clueId
      * @return Clue
      */
-    public Clue getClue(Long clueId) { return clueRepository.getClueByClueId(clueId); }
-
-
-    public Clue getClueById(long clueId){return clueRepository.getClueByClueId(clueId);}
+    public Clue getClueById(long clueId){
+        Clue clue = clueRepository.getClueByClueId(clueId);
+        if(clue == null){
+            throw new ClueNotFoundException("Clue Id:"+clueId);
+        }
+        return clue;}
 
     /**
      * get all Clues of a round

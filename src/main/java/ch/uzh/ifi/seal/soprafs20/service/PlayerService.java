@@ -7,6 +7,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Player.PlayerNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,19 @@ public class PlayerService {
     }
 
     public RealPlayer getPlayer(Long id) {
-        return playerRepository.findRealPlayerByUserId(id);
+        RealPlayer player = playerRepository.findRealPlayerByUserId(id);
+        if(player==null){
+            throw new PlayerNotFoundException(" with UserId:"+id.toString());
+        }
+        return player;
     }
 
     public RealPlayer getPlayerByPlayerId(Long playerId) {
-        return playerRepository.findRealPlayerByPlayerId(playerId);
+        RealPlayer player = playerRepository.findRealPlayerByPlayerId(playerId);
+        if(player==null){
+            throw new PlayerNotFoundException(" with PlayerId:"+playerId.toString());
+        }
+        return player;
     }
 
     /**

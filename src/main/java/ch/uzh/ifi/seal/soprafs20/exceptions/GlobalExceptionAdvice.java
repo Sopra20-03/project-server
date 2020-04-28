@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.exceptions;
 
+import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NotEnoughCluesException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
@@ -8,10 +9,12 @@ import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Player.PlayerNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UsernameTakenException;
+import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -164,7 +167,7 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(NotEnoughPlayersException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNotEnoughPlayersException(PlayerAlreadyInGameException ex) {
+    public ResponseEntity handleNotEnoughPlayersException(NotEnoughPlayersException ex) {
         log.error(String.format("NotEnoughPlayersException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
@@ -185,8 +188,39 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(NoClueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNoClueException(NotEnoughCluesException ex) {
+    public ResponseEntity handleNoClueException(NoClueException ex) {
         log.error(String.format("NoClueException raised:%s", ex));
         return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    /**
+     * NoWordSelectedException
+     * Throws HTTP 400 BAD REQUEST
+     */
+    @ExceptionHandler(NoWordSelectedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleNoWordSelectedException(NoWordSelectedException ex) {
+        log.error(String.format("NoWordSelectedException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    /**
+     * PlayerNotFoundException
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(PlayerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handlePlayerNotFoundException(PlayerNotFoundException ex) {
+        log.error(String.format("PlayerNotFoundException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * ClueNotFoundException
+     * Throws HTTP 404 NOT FOUND
+     */
+    @ExceptionHandler(ClueNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handleClueNotFoundException(ClueNotFoundException ex) {
+        log.error(String.format("ClueNotFoundException raised:%s", ex));
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
