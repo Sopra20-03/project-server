@@ -44,15 +44,14 @@ public class WordController {
         //set selectedWord
         round = wordCardService.setSelectedWord(round, wordCard.getSelectedWord());
 
-        //set startTime in each clue of round
-        clueService.setStartTime(round);
-
         //create empty clues
-
         game = clueService.setEmptyClues(game, round);
 
-      //submit bot clues
+        //submit bot clues
         botController.submitClues(round);
+
+        //set startTime in each clue of round
+        clueService.setStartTime(round);
 
         //Convert to JSON
         RoundGetDTO roundGetDTO = DTOMapper.INSTANCE.convertRoundEntityToRoundGetDTO(round);
