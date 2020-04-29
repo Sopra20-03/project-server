@@ -2,8 +2,8 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
-import ch.uzh.ifi.seal.soprafs20.entity.*;
-
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,8 @@ class RoundServiceTest {
 
     @BeforeEach
     public void setup(){
-
-
-
     }
+
     @Test
     void createRounds() {
         //init testGame
@@ -45,14 +43,11 @@ class RoundServiceTest {
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
 
-        //check if 2 rounds are created in ROUNDS_T
-        assertEquals(2,roundService.getRoundsOfGame(testGame).size());
+        //check if 13 rounds are created in ROUNDS_T
+        assertEquals(13,roundService.getRoundsOfGame(testGame).size());
         // check if the rounds are stored in GameTable
-        assertEquals(2,testGame.getRounds().size());
+        assertEquals(13,testGame.getRounds().size());
     }
-
-
-
 
     @Test
     void startFirstRound(){
@@ -69,6 +64,7 @@ class RoundServiceTest {
         //check if RoundNum of running Round is 1
         assertEquals(1,roundService.getRunningRound(testGame).getRoundNum());
     }
+
 /**
     @Test
     void NoRunningRoundException() {

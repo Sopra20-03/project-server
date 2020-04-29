@@ -112,6 +112,9 @@ public class PlayerService {
             }
         }
 
+        List<RealPlayer> players = game.getPlayers();
+        players.add(player);
+        game.setPlayers(players);
         int initialPlayerCount = game.getPlayerCount();
         game.setPlayerCount(initialPlayerCount+1);
         player.setGame(game);

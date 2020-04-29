@@ -1,6 +1,9 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.constant.*;
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
+import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.Role;
+import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
@@ -68,18 +71,22 @@ class GameServiceTest {
         testUser.setDateCreated(LocalDate.now());
         testUser.setId(1L);
 
+
         Game testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
 
         //create Player
-
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
-        testPlayer = playerService.createPlayer(testPlayer, testGame);
+
         //add player to game
-        testGame =playerService.addPlayer(testGame,testPlayer, testUser);
+        testGame = playerService.addPlayer(testGame,testPlayer, testUser);
+
+        //add game to player
+        testPlayer = playerService.createPlayer(testPlayer, testGame);
+
         //Assertions
         assertTrue((testGame.getPlayers()).contains(testPlayer));
         assertFalse(testGame.getPlayers().isEmpty());
