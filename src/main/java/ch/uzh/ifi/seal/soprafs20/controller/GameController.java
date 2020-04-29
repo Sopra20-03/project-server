@@ -111,7 +111,7 @@ public class GameController {
         //start game
         Game game = gameService.startGame(id);
         //start first round
-        //game = roundService.startFirstRound(game);
+        game = roundService.startFirstRound(game);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);
         return gameGetDTO;
     }
