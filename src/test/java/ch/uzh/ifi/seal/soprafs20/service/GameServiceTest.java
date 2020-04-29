@@ -7,6 +7,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class GameServiceTest {
 
-
-
-
     @Autowired
     private GameService gameService;
 
@@ -31,8 +29,13 @@ class GameServiceTest {
     @BeforeEach
     public void setup(){
         //init testGame
+    }
+
+    @AfterEach
+    public void tearDown() {
 
     }
+
     @Test
     void getGames() {
     }
@@ -69,9 +72,9 @@ class GameServiceTest {
         testUser.setToken("testToken");
         testUser.setStatus(UserStatus.OFFLINE);
         testUser.setDateCreated(LocalDate.now());
-        testUser.setId(1L);
+        testUser.setId(5L);
 
-
+        //create game
         Game testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
@@ -79,7 +82,7 @@ class GameServiceTest {
 
         //create Player
         RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setUserId(1L);
+        testPlayer.setUserId(5L);
 
         //add player to game
         testGame = playerService.addPlayer(testGame,testPlayer, testUser);
@@ -113,12 +116,14 @@ class GameServiceTest {
         //add two players, so the game can be started
         RealPlayer testPlayer1 = new RealPlayer();
         testPlayer1.setUserId(1L);
+        testPlayer1.setUserName("testPlayer1");
+        playerService.addPlayer(testGame,testPlayer1, testUser);
         testPlayer1 = playerService.createPlayer(testPlayer1, testGame);
         RealPlayer testPlayer2 = new RealPlayer();
-        testPlayer2.setUserId(1L);
-        testPlayer2= playerService.createPlayer(testPlayer2, testGame);
-        playerService.addPlayer(testGame,testPlayer1, testUser);
+        testPlayer2.setUserId(2L);
+        testPlayer2.setUserName("testPlayer2");
         playerService.addPlayer(testGame,testPlayer2, testUser);
+        testPlayer2= playerService.createPlayer(testPlayer2, testGame);
 
         // check if game is running after starting it
         assertEquals(1L,testGame.getGameId());

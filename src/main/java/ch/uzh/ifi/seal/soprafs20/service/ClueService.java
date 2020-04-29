@@ -65,9 +65,6 @@ public class ClueService {
      */
     public Clue submitClue(Clue clue, RealPlayer owner, String word) {
 
-
-
-
         //check if player is clue_writer
         if(owner.getRole() != Role.CLUE_WRITER) {
             throw new PlayerIsNotClueWriterException(owner.toString());
@@ -193,7 +190,7 @@ public class ClueService {
     }
 
     /**
-     * creates an empty clue for each player and each round in a game
+     * creates an empty clue for each clue writer in a round
      * @param game
      * @return Game
      */
