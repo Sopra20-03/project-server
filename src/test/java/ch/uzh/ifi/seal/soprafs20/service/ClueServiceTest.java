@@ -69,7 +69,9 @@ public class ClueServiceTest {
         clue = clueService.setClue(activeRound, testPlayer, clue);
 
         //check if guess is stored in repo and accessible from the game
-        //assertEquals("testClue",clueService.getClue(clue.getClueId()).getWord());
+
+        assertEquals("testClue",clueService.getClueById(clue.getClueId()).getWord());
+
 
     }
 
@@ -203,6 +205,7 @@ public class ClueServiceTest {
 
     }
 
+    /*
     @Test
     void validateSameClues() {
         //init testGame
@@ -254,4 +257,5 @@ public class ClueServiceTest {
             assertEquals(false, clueToCheck.getIsValid());
         }
     }
+     */
 }

@@ -30,7 +30,6 @@ public class WordCardServiceTest {
         //add 2 wordCards
     }
 
-
     @Test
     public void whenReadWithScanner_thenCorrect()
             throws IOException {
