@@ -225,8 +225,8 @@ public class GameControllerTest {
      */
 
     //TODO: test does not work because Rounds are not created at the same time as game
+/**
 
-    /**
     @Test
     @WithMockUser(username = "testUsername")
     public void createGameSuccess() throws Exception {
@@ -248,10 +248,13 @@ public class GameControllerTest {
         MvcResult result = mockMvc.perform(postRequest)
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$[0].gameName", is(testGame.getGameName())))
-                .andExpect(jsonPath("$[0].gameStatus", is(testGame.getGameStatus().toString())))
-                .andExpect(jsonPath("$[0].gameMode", is(testGame.getGameMode().toString())))
-                .andExpect(jsonPath("$[0].score", is(testGame.getScore())))
+                .andExpect(jsonPath("$.gameName", is(testGame.getGameName())))
+                .andExpect(jsonPath("$.dateCreated", is(testGame.getDateCreated().toString())))
+                .andExpect(jsonPath("$.creatorUsername", is(testGame.getCreatorUsername())))
+                .andExpect(jsonPath("$.playerCount", is(testGame.getPlayerCount())))
+                .andExpect(jsonPath("$.gameStatus", is(testGame.getGameStatus().toString())))
+                .andExpect(jsonPath("$.gameMode", is(testGame.getGameMode().toString())))
+                .andExpect(jsonPath("$.score", is(testGame.getScore())))
                 .andReturn();
         //Assertions
         //Check Correct HTTP Response Status
@@ -265,7 +268,7 @@ public class GameControllerTest {
         //Check Correct HTTP Request Data Passing
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
     }
-    */
+*/
 
 
     /**
