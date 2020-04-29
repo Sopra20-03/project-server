@@ -278,12 +278,9 @@ public class GameControllerTest {
      Result: 204 Game started
      */
 
-    /**
+
     @Test
     public void startGameSuccess() throws Exception {
-
-
-
 
         //given(gameService.startGame(Mockito.any())).willReturn(testGame);
         given(roundService.startFirstRound(Mockito.any())).willReturn(testGame);
@@ -310,7 +307,7 @@ public class GameControllerTest {
         assertEquals(HttpMethod.PUT.name(), result.getRequest().getMethod());
 
     }
-*/
+
 
     /**
      * Helper Method to convert gamePostDTO into a JSON string such that the input can be processed

@@ -4,6 +4,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +26,28 @@ class RoundServiceTest {
     private WordCardService wordCardService;
     @MockBean
     private Game testGame;
+    private Game testGame2;
+    private Game testGame3;
     private List<WordCard> cards;
 
     @BeforeEach
     public void setup(){
+
+
+
     }
 
     @Test
     void createRounds() {
-        //init testGame
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
-        cards = wordCardService.getWordCards(12);
+        cards = wordCardService.getWordCards(13);
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame,cards);
         //loads testGame again out of Database
         testGame = gameService.getGame(1L);
+
 
         //check if 13 rounds are created in ROUNDS_T
         assertEquals(13,roundService.getRoundsOfGame(testGame).size());
@@ -51,19 +57,22 @@ class RoundServiceTest {
 
     @Test
     void startFirstRound(){
-        //init testGame
-        testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        cards = wordCardService.getWordCards(12);
-        testGame = gameService.createGame(testGame);
-        testGame = roundService.createRounds(testGame,cards);
-        testGame = roundService.startFirstRound(testGame);
+        testGame2 = new Game();
+        testGame2.setGameId(2L);
+        testGame2.setGameName("testGame");
+        cards = wordCardService.getWordCards(13);
+        testGame2 = gameService.createGame(testGame2);
+        testGame2 = roundService.createRounds(testGame2,cards);
+
+        testGame2 = roundService.startFirstRound(testGame2);
+        testGame2 = gameService.getGame(2L);
+
         //check if first round is running
-        assertEquals(RoundStatus.RUNNING, gameService.getGame(1L).getRounds().get(0).getRoundStatus());
-        //check if RoundNum of running Round is 1
-        assertEquals(1,roundService.getRunningRound(testGame).getRoundNum());
+        assertEquals(RoundStatus.RUNNING, testGame2.getRounds().get(0).getRoundStatus());
+        //test getRunning Round
+        assertEquals(1,roundService.getRunningRound(testGame2).getRoundNum());
     }
+
 
 /**
     @Test
