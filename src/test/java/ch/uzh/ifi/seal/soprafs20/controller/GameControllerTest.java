@@ -2,11 +2,13 @@ package ch.uzh.ifi.seal.soprafs20.controller;
 
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
+import ch.uzh.ifi.seal.soprafs20.service.WordCardService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +29,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +62,10 @@ public class GameControllerTest {
     private GameService gameService;
     private Game testGame;
     private Date dateNow;
+    private WordCardService wordCardService;
     private RoundService roundService;
+    private List<RealPlayer> players;
+    private List<Round> rounds;
 
     @BeforeEach
     public void setup(){
@@ -69,7 +76,22 @@ public class GameControllerTest {
         testGame.setGameName("testGame");
         testGame.setGameMode(GameMode.RIVAL);
         testGame.setGameStatus(GameStatus.INITIALIZED);
+        testGame.setDateCreated(LocalDate.now());
         testGame.setScore(0);
+        testGame.setPlayerCount(0);
+
+        players = new ArrayList<>();
+        players.add(new RealPlayer());
+        players.add(new RealPlayer());
+        testGame.setPlayers(players);
+
+        rounds = new ArrayList<>();
+        for(int i = 0; i<13;i++){
+        rounds.add(new Round());}
+
+        testGame.setRounds(rounds);
+
+
 
     }
 
@@ -83,7 +105,7 @@ public class GameControllerTest {
      * assertEquals(Expected, Actual)
      */
 
-    //Test case 5 : GET /lobby/games
+
     /**
      GET /games
      Test: GET /games
@@ -108,6 +130,9 @@ public class GameControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].gameName", is(testGame.getGameName())))
+                .andExpect(jsonPath("$[0].dateCreated", is(testGame.getDateCreated().toString())))
+                .andExpect(jsonPath("$[0].creatorUsername", is(testGame.getCreatorUsername())))
+                .andExpect(jsonPath("$[0].playerCount", is(testGame.getPlayerCount())))
                 .andExpect(jsonPath("$[0].gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$[0].gameMode", is(testGame.getGameMode().toString())))
                 .andExpect(jsonPath("$[0].score", is(testGame.getScore())))
@@ -145,7 +170,9 @@ public class GameControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.gameName", is(testGame.getGameName())))
+                .andExpect(jsonPath("$.dateCreated", is(testGame.getDateCreated().toString())))
                 .andExpect(jsonPath("$.creatorUsername", is(testGame.getCreatorUsername())))
+                .andExpect(jsonPath("$.playerCount", is(testGame.getPlayerCount())))
                 .andExpect(jsonPath("$.gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$.gameMode", is(testGame.getGameMode().toString())))
                 .andExpect(jsonPath("$.score", is(testGame.getScore())))
@@ -157,7 +184,7 @@ public class GameControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"creatorUsername\":null,\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"score\":0}", result.getResponse().getContentAsString());
+        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"dateCreated\":\""+LocalDate.now()+"\",\"creatorUsername\":null,\"playerCount\":0,\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"score\":0}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
@@ -250,16 +277,23 @@ public class GameControllerTest {
     public void startGameSuccess() throws Exception {
 
 
-        testGame = gameService.createGame(testGame);
+
+
         given(gameService.startGame(Mockito.any())).willReturn(testGame);
+
         // when
-        MockHttpServletRequestBuilder putRequest = put("/games/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8");
+        MockHttpServletRequestBuilder putRequest = put("/games/1");
         // then
         MvcResult result = mockMvc.perform(putRequest)
                 .andDo(print())
                 .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$.gameName", is(testGame.getGameName())))
+                .andExpect(jsonPath("$.dateCreated", is(testGame.getDateCreated().toString())))
+                .andExpect(jsonPath("$.creatorUsername", is(testGame.getCreatorUsername())))
+                .andExpect(jsonPath("$.playerCount", is(testGame.getPlayerCount())))
+                .andExpect(jsonPath("$.gameStatus", is(testGame.getGameStatus().toString())))
+                .andExpect(jsonPath("$.gameMode", is(testGame.getGameMode().toString())))
+                .andExpect(jsonPath("$.score", is(testGame.getScore())))
                 .andReturn();
         //Assertions
         //Check Correct HTTP Response Status
