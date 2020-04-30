@@ -58,12 +58,12 @@ public class ClueServiceTest {
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
-        activeRound = new Round();
-        activeRound.setGame(testGame);
-        activeRound.setRoundNum(1);
+        testGame = roundService.createRounds(testGame,cards);
+        List<Round> rounds = roundService.getRoundsOfGame(testGame);
+        activeRound = rounds.get(0);
         activeRound.setRoundStatus(RoundStatus.RUNNING);
-        activeRound.setWordCard(cards.get(0));
-        }
+
+    }
 
     @AfterEach
     void tearDown() {
