@@ -37,60 +37,9 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
 
     private final Logger log = LoggerFactory.getLogger(GlobalExceptionAdvice.class);
 
-    /**
-     * UserNotFound Exception
-     * Throws HTTP 404 NOT FOUND
-     */
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handleUserNotFoundException(UserNotFoundException ex) {
-        log.error(String.format("UserNotFoundException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
 
-    /**
-     * UsernameTaken Exception
-     * Throws HTTP 409 CONFLICT
-     */
-    @ExceptionHandler(UsernameTakenException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity handleUsernameTakenException(UsernameTakenException ex) {
-        log.error(String.format("UsernameTakenException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
-    }
 
-    /**
-     * UserAlreadyExists Exception
-     * Throws HTTP 409 CONFLICT
-     */
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
-        log.error(String.format("UserAlreadyExistsException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
-    }
 
-    /**
-     * EmptyField Exception
-     * Throws HTTP 400 BAD REQUEST
-     */
-    @ExceptionHandler(EmptyFieldException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleEmptyFieldException(EmptyFieldException ex) {
-        log.error(String.format("EmptyFieldException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * GameNotFound Exception
-     * Throws HTTP 404 NOT FOUND
-     */
-    @ExceptionHandler(GameNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handleGameNotFoundException(GameNotFoundException ex) {
-        log.error(String.format("GameNotFoundException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
 
     @ExceptionHandler(value = {IllegalArgumentException.class, IllegalStateException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
@@ -111,116 +60,7 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
         return new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
     }
 
-    /**
-     * No Guess found Exception
-     * Throws HTTP 404 NOT FOUND
-     */
-    @ExceptionHandler(NoGuessException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handleNoGuessException(NoGuessException ex) {
-        log.error(String.format("NoGuessException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-    /**
-     * Round has already Guess Exception
-     * Throws HTTP 409 CONFLICT
-     */
-    @ExceptionHandler(RoundHasAlreadyGuessException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity handleRoundHasAlreadyGuessException(RoundHasAlreadyGuessException ex) {
-        log.error(String.format("RoundHasAlreadyGuessException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
-    }
-    /**
-     * No Guess found Exception
-     * Throws HTTP 404 NOT FOUND
-     */
-    @ExceptionHandler(PlayerNotInGameException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handlePlayerNotInGameException(PlayerNotInGameException ex) {
-        log.error(String.format("PlayerNotInGameException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-    /**
-     * PlayerAlreadyInGame Exception
-     * Throws HTTP 400 BAD REQUEST
-     */
-    @ExceptionHandler(PlayerAlreadyInGameException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handlePlayerAlreadyInGameException(PlayerAlreadyInGameException ex) {
-        log.error(String.format("PlayerAlreadyInGameException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-    /**
-     * No Round found Exception
-     * Throws HTTP 404 NOT FOUND
-     */
-    @ExceptionHandler(RoundNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handleRoundNotFoundException(RoundNotFoundException ex) {
-        log.error(String.format("RoundNotFoundException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-    /**
-     * NotEnoughPlayer Exception
-     * Throws HTTP 400 BAD REQUEST
-     */
-    @ExceptionHandler(NotEnoughPlayersException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNotEnoughPlayersException(NotEnoughPlayersException ex) {
-        log.error(String.format("NotEnoughPlayersException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 
-    /**
-     * NotEnoughClues Exception
-     * Throws HTTP 400 BAD REQUEST
-     */
-    @ExceptionHandler(NotEnoughCluesException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNotEnoughCluesException(NotEnoughCluesException ex) {
-        log.error(String.format("NotEnoughCluesException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-    /**
-     * NoClueException Exception
-     * Throws HTTP 400 BAD REQUEST
-     */
-    @ExceptionHandler(NoClueException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNoClueException(NoClueException ex) {
-        log.error(String.format("NoClueException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-    /**
-     * NoWordSelectedException
-     * Throws HTTP 400 BAD REQUEST
-     */
-    @ExceptionHandler(NoWordSelectedException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleNoWordSelectedException(NoWordSelectedException ex) {
-        log.error(String.format("NoWordSelectedException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-    /**
-     * PlayerNotFoundException
-     * Throws HTTP 404 NOT FOUND
-     */
-    @ExceptionHandler(PlayerNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handlePlayerNotFoundException(PlayerNotFoundException ex) {
-        log.error(String.format("PlayerNotFoundException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
 
-    /**
-     * ClueNotFoundException
-     * Throws HTTP 404 NOT FOUND
-     */
-    @ExceptionHandler(ClueNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity handleClueNotFoundException(ClueNotFoundException ex) {
-        log.error(String.format("ClueNotFoundException raised:%s", ex));
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
+
 }
