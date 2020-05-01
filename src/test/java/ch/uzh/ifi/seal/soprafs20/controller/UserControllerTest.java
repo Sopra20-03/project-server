@@ -303,7 +303,7 @@ public class UserControllerTest {
 
         //Assertions
         //Check Correct HTTP Response Status
-        assertEquals(400, result.getResponse().getStatus());
+        assertEquals(409, result.getResponse().getStatus());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
