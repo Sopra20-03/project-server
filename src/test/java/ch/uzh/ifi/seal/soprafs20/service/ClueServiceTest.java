@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
@@ -10,12 +11,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 @SpringBootTest
 public class ClueServiceTest {
 
@@ -188,7 +194,7 @@ public class ClueServiceTest {
 
     }
 
-    /*
+/*
     @Test
     void setEmptyClues() {
         //init testGame
@@ -233,10 +239,10 @@ public class ClueServiceTest {
         assertEquals(1, activeRound.getClues().size());
         assertEquals(testPlayer, activeRound.getClues().get(0).getOwner());
     }
-    */
+
 
     //TODO: this somehow doesn't work
-    /*
+
     @Test
     void validateCluesNegativeVote() {
         //init testGame
@@ -276,9 +282,9 @@ public class ClueServiceTest {
         //check clue is valid
         assertEquals(false, clue.getIsValid());
     }
-    */
 
-    /*
+
+
     @Test
     void validateSameClues() {
         //init testGame
@@ -330,5 +336,5 @@ public class ClueServiceTest {
             assertEquals(false, clueToCheck.getIsValid());
         }
     }
-     */
+*/
 }

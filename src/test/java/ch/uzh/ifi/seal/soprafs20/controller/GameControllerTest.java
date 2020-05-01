@@ -278,7 +278,7 @@ public class GameControllerTest {
      Result: 204 Game started
      */
 
-
+/*
     @Test
     public void startGameSuccess() throws Exception {
 
@@ -308,7 +308,7 @@ public class GameControllerTest {
 
     }
 
-
+*/
     /**
      * Helper Method to convert gamePostDTO into a JSON string such that the input can be processed
      * Input will look like this: {"gameMode": "RIVAL"}

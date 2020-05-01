@@ -4,17 +4,22 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Round.NoRunningRoundException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 
 @SpringBootTest
 class RoundServiceTest {
@@ -58,31 +63,30 @@ class RoundServiceTest {
     @Test
     void startFirstRound(){
         testGame2 = new Game();
-        testGame2.setGameId(2L);
+        testGame2.setGameId(1L);
         testGame2.setGameName("testGame");
         cards = wordCardService.getWordCards(13);
         testGame2 = gameService.createGame(testGame2);
         testGame2 = roundService.createRounds(testGame2,cards);
 
         testGame2 = roundService.startFirstRound(testGame2);
-        testGame2 = gameService.getGame(2L);
+        testGame2 = gameService.getGame(1L);
 
         //check if first round is running
-        assertEquals(RoundStatus.RUNNING, testGame2.getRounds().get(0).getRoundStatus());
+        assertEquals(RoundStatus.RUNNING, roundService.getRunningRound(testGame2).getRoundStatus());
         //test getRunning Round
         assertEquals(1,roundService.getRunningRound(testGame2).getRoundNum());
     }
 
 
-/**
+/*
     @Test
     void NoRunningRoundException() {
         //init testGame
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
-        wordCardService.addAllWordCards();
-        cards = wordCardService.getShuffledWordCards();
+        cards = wordCardService.getWordCards(13);
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame,cards);
         //check if exception is thrown when game is not started
@@ -90,5 +94,5 @@ class RoundServiceTest {
         roundService.getRunningRound(testGame);
 
     }
-    */
+*/
 }
