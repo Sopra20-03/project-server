@@ -299,12 +299,11 @@ public class UserControllerTest {
         // then
         MvcResult result = mockMvc.perform(postRequest)
                 .andDo(print())
-                .andExpect(status().isConflict())
                 .andReturn();
 
         //Assertions
         //Check Correct HTTP Response Status
-        assertEquals(409, result.getResponse().getStatus());
+        assertEquals(400, result.getResponse().getStatus());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
