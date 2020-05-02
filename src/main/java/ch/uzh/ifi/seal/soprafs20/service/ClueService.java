@@ -220,7 +220,7 @@ public class ClueService {
                 }
             }
             //if there are more than 1 times the same word or the word is the same as the selected word, set valid to false
-            if (numbOfEqualWords > 1 || numbOfSubstringWords > 1 || clue.getWord().equalsIgnoreCase(selectedWord)) {
+            if (numbOfEqualWords > 1 || numbOfSubstringWords > 1 || (clue.getWord() != null && clue.getWord().equalsIgnoreCase(selectedWord))) {
                 clue.setIsValid(false);
                 clueRepository.save(clue);
                 clueRepository.flush();
