@@ -211,19 +211,31 @@ public class ClueService {
         for (Clue clue : clues) {
             int numbOfEqualWords = 0;
             int numbOfSubstringWords = 0;
+            List<Integer> substrings = new ArrayList<>();
             for (Clue compareClue : clues) {
                 if (clue.getWord() != null && compareClue.getWord() != null && clue.getWord().equalsIgnoreCase(compareClue.getWord())) {
                     numbOfEqualWords++;
                 }
-                else if (clue.getWord() != null && compareClue.getWord() != null && clue.getWord().toLowerCase().contains(compareClue.getWord().toLowerCase())) {
+                if (clue.getWord() != null && compareClue.getWord() != null && clue.getWord().toLowerCase().contains(compareClue.getWord().toLowerCase())) {
                     numbOfSubstringWords++;
+                    substrings.add(clues.indexOf(compareClue));
                 }
             }
             //if there are more than 1 times the same word or the word is the same as the selected word, set valid to false
-            if (numbOfEqualWords > 1 || numbOfSubstringWords > 1 || (clue.getWord() != null && clue.getWord().equalsIgnoreCase(selectedWord))) {
+            if (numbOfEqualWords > 1 || (clue.getWord() != null && clue.getWord().equalsIgnoreCase(selectedWord))) {
                 clue.setIsValid(false);
                 clueRepository.save(clue);
                 clueRepository.flush();
+            }
+            if(numbOfSubstringWords > 1) {
+                clue.setIsValid(false);
+                clueRepository.save(clue);
+                clueRepository.flush();
+                for(Integer substring : substrings) {
+                    clues.get(substring).setIsValid(false);
+                    clueRepository.save(clues.get(substring));
+                    clueRepository.flush();
+                }
             }
         }
     }
