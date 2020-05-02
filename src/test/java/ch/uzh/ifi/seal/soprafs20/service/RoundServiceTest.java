@@ -20,6 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 
 @SpringBootTest
 class RoundServiceTest {
@@ -41,7 +42,7 @@ class RoundServiceTest {
 
 
     }
-
+/*
     @Test
     void createRounds() {
         testGame = new Game();
@@ -59,7 +60,7 @@ class RoundServiceTest {
         // check if the rounds are stored in GameTable
         assertEquals(13,testGame.getRounds().size());
     }
-
+*/
     @Test
     void startFirstRound(){
         testGame2 = new Game();
