@@ -190,6 +190,45 @@ public class ClueService {
     }
 
     /**
+     * invalidates clues if string or substring is equal
+     * @param round
+     * @return
+     */
+    public void autoValidateClues(Round round) {
+        List<Clue> clues = getClues(round);
+        String selectedWord = round.getWordCard().getSelectedWord();
+
+        //exception if no word is selected yet for the round
+        if (selectedWord == null) {
+            throw new NoWordSelectedException(round.getRoundId().toString());
+        }
+
+        if(clues.isEmpty()) {
+            throw new NoClueException(round.getRoundId().toString());
+        }
+
+        //count number of same words and substrings
+        for (Clue clue : clues) {
+            int numbOfEqualWords = 0;
+            int numbOfSubstringWords = 0;
+            for (Clue compareClue : clues) {
+                if (clue.getWord() != null && compareClue.getWord() != null && clue.getWord().equalsIgnoreCase(compareClue.getWord())) {
+                    numbOfEqualWords++;
+                }
+                else if (clue.getWord() != null && compareClue.getWord() != null && clue.getWord().toLowerCase().contains(compareClue.getWord().toLowerCase())) {
+                    numbOfSubstringWords++;
+                }
+            }
+            //if there are more than 1 times the same word or the word is the same as the selected word, set valid to false
+            if (numbOfEqualWords > 1 || numbOfSubstringWords > 1 || clue.getWord().equalsIgnoreCase(selectedWord)) {
+                clue.setIsValid(false);
+                clueRepository.save(clue);
+                clueRepository.flush();
+            }
+        }
+    }
+
+    /**
      * creates an empty clue for each clue writer in a round
      * @param game
      * @return Game
