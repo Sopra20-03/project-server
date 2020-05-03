@@ -2,7 +2,6 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerAlreadySubmittedClueException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
@@ -14,11 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
@@ -45,6 +42,8 @@ public class ClueServiceTest {
     public RealPlayer testPlayer5;
     public RealPlayer testPlayer6;
     public RealPlayer testPlayer8;
+    public RealPlayer testPlayer9;
+    public RealPlayer testPlayer10;
     public Clue clue;
     public Clue clue1;
     public Clue clue2;
@@ -54,6 +53,8 @@ public class ClueServiceTest {
     public Clue clue6;
     public Clue clue7;
     public Clue clue8;
+    public Clue clue9;
+    public Clue clue10;
     public Round activeRound;
 
     @BeforeEach
@@ -129,6 +130,7 @@ public class ClueServiceTest {
         PlayerAlreadySubmittedClueException thrown = assertThrows(
                 PlayerAlreadySubmittedClueException.class, () -> clueService.setClue(activeRound, testPlayer3, clue4)
         );
+        assertFalse(activeRound.getClues().contains(clue4));
     }
 
     @Test
@@ -192,6 +194,38 @@ public class ClueServiceTest {
         //check clue is valid
         assertEquals(true, clue8.getIsValid());
 
+    }
+
+    /**
+     * integration test: (i think?)
+     * checks whole process of submitting a clue to calculating the individual score
+     */
+    @Test
+    void scoreCalculationWithTimer() {
+        //create two players
+        testPlayer9 = new RealPlayer();
+        testPlayer9.setUserName("testUser9");
+        testPlayer9.setUserId(9L);
+        testPlayer9.setRole(Role.CLUE_WRITER);
+        testPlayer9 = playerService.createPlayer(testPlayer9, testGame);
+        testPlayer10 = new RealPlayer();
+        testPlayer10.setUserName("testUser10");
+        testPlayer10.setUserId(10L);
+        testPlayer10.setRole(Role.CLUE_WRITER);
+        testPlayer10 = playerService.createPlayer(testPlayer10, testGame);
+        //set two clues
+        Clue clue9 = new Clue();
+        clue9 = clueService.setClue(activeRound, testPlayer9, clue9);
+        Clue clue10 = new Clue();
+        clue10 = clueService.setClue(activeRound, testPlayer10, clue10);
+        //set start and end time for clues and calculate the individual score
+        clueService.setStartTime(activeRound);
+        clueService.setEndTime(clue9);
+        clueService.setEndTime(clue10);
+        int score9 = clueService.calculateIndividualScore(activeRound, clue9);
+        int score10 = clueService.calculateIndividualScore(activeRound, clue10);
+        //assert that clue10 has a lower score than clue9
+        assertTrue(score9 > score10);
     }
 
 /*

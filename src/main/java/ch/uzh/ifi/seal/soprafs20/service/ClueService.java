@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -269,14 +270,15 @@ public class ClueService {
     public int calculateIndividualScore(Round round, Clue clue) {
 
         //get clues of round in ascending order by total time
-        List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeDesc(round);
+        List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeAsc(round);
 
         if(!clues.contains(clue)) {
             throw new ClueNotInRoundException(clue.getClueId().toString(), round.getRoundId().toString());
         }
 
         //calculate score by index in list
-        int score = clues.indexOf(clue);
+        Collections.reverse(clues);
+        int score = clues.indexOf(clue)+1;
 
         return score;
     }
