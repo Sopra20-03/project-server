@@ -77,7 +77,6 @@ public class ClueServiceTest {
         List<Round> rounds = roundService.getRoundsOfGame(testGame);
         activeRound = rounds.get(0);
         activeRound.setRoundStatus(RoundStatus.RUNNING);
-
     }
 
     @AfterEach
