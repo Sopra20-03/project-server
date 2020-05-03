@@ -44,6 +44,8 @@ public class ClueServiceTest {
     public RealPlayer testPlayer8;
     public RealPlayer testPlayer9;
     public RealPlayer testPlayer10;
+    public RealPlayer testPlayer11;
+    public RealPlayer testPlayer12;
     public Clue clue;
     public Clue clue1;
     public Clue clue2;
@@ -55,6 +57,8 @@ public class ClueServiceTest {
     public Clue clue8;
     public Clue clue9;
     public Clue clue10;
+    public Clue clue11;
+    public Clue clue12;
     public Round activeRound;
 
     @BeforeEach
@@ -130,7 +134,6 @@ public class ClueServiceTest {
         PlayerAlreadySubmittedClueException thrown = assertThrows(
                 PlayerAlreadySubmittedClueException.class, () -> clueService.setClue(activeRound, testPlayer3, clue4)
         );
-        assertFalse(activeRound.getClues().contains(clue4));
     }
 
     @Test
@@ -196,36 +199,115 @@ public class ClueServiceTest {
 
     }
 
-    /**
-     * integration test: (i think?)
-     * checks whole process of submitting a clue to calculating the individual score
-     */
     @Test
-    void scoreCalculationWithTimer() {
+    void autoValidateDifferentClues() {
         //create two players
         testPlayer9 = new RealPlayer();
-        testPlayer9.setUserName("testUser9");
+        testPlayer9.setUserName("testUser8");
         testPlayer9.setUserId(9L);
         testPlayer9.setRole(Role.CLUE_WRITER);
         testPlayer9 = playerService.createPlayer(testPlayer9, testGame);
         testPlayer10 = new RealPlayer();
-        testPlayer10.setUserName("testUser10");
+        testPlayer10.setUserName("testUser8");
         testPlayer10.setUserId(10L);
         testPlayer10.setRole(Role.CLUE_WRITER);
         testPlayer10 = playerService.createPlayer(testPlayer10, testGame);
-        //set two clues
-        Clue clue9 = new Clue();
+        //add active round to game
+        List<Round> rounds = testGame.getRounds();
+        rounds.add(activeRound);
+        testGame.setRounds(rounds);
+        //select word from WordCard
+        wordCardService.selectWord(activeRound, "Alcatraz");
+        //create two clues that are different
+        clue9 = new Clue();
+        clue9.setWord("testClue1");
+        activeRound.addClue(clue9);
         clue9 = clueService.setClue(activeRound, testPlayer9, clue9);
-        Clue clue10 = new Clue();
+        //clue9 = clueService.submitClue(clue9, testPlayer9, "testClue1");
+        clue10 = new Clue();
+        clue10.setWord("testClue2");
+        activeRound.addClue(clue10);
         clue10 = clueService.setClue(activeRound, testPlayer10, clue10);
-        //set start and end time for clues and calculate the individual score
-        clueService.setStartTime(activeRound);
-        clueService.setEndTime(clue9);
-        clueService.setEndTime(clue10);
-        int score9 = clueService.calculateIndividualScore(activeRound, clue9);
-        int score10 = clueService.calculateIndividualScore(activeRound, clue10);
-        //assert that clue10 has a lower score than clue9
-        assertTrue(score9 > score10);
+        //clue10 = clueService.submitClue(clue10, testPlayer10, "testClue2");
+        //auto validate
+        clueService.autoValidateClues(activeRound);
+        //check that both clues are valid
+        assertTrue(clue9.getIsValid());
+        assertTrue(clue10.getIsValid());
+    }
+
+    @Test
+    void autoValidateSameClues() {
+        //create two players
+        testPlayer9 = new RealPlayer();
+        testPlayer9.setUserName("testUser8");
+        testPlayer9.setUserId(9L);
+        testPlayer9.setRole(Role.CLUE_WRITER);
+        testPlayer9 = playerService.createPlayer(testPlayer9, testGame);
+        testPlayer10 = new RealPlayer();
+        testPlayer10.setUserName("testUser8");
+        testPlayer10.setUserId(10L);
+        testPlayer10.setRole(Role.CLUE_WRITER);
+        testPlayer10 = playerService.createPlayer(testPlayer10, testGame);
+        //add active round to game
+        List<Round> rounds = testGame.getRounds();
+        rounds.add(activeRound);
+        testGame.setRounds(rounds);
+        //select word from WordCard
+        wordCardService.selectWord(activeRound, "Alcatraz");
+        //create two clues that are the same
+        clue9 = new Clue();
+        clue9.setWord("testClue");
+        activeRound.addClue(clue9);
+        clue9 = clueService.setClue(activeRound, testPlayer9, clue9);
+        //clue9 = clueService.submitClue(clue9, testPlayer9, "testClue1");
+        clue10 = new Clue();
+        clue10.setWord("testClue");
+        activeRound.addClue(clue10);
+        clue10 = clueService.setClue(activeRound, testPlayer10, clue10);
+        //clue10 = clueService.submitClue(clue10, testPlayer10, "testClue2");
+        //auto validate
+        clueService.autoValidateClues(activeRound);
+        //check that both clues are invalid
+        assertFalse(clue9.getIsValid());
+        assertFalse(clue10.getIsValid());
+    }
+
+    @Test
+    void autoValidateSubstring() {
+        //create two players
+        testPlayer11 = new RealPlayer();
+        testPlayer11.setUserName("testUser11");
+        testPlayer11.setUserId(11L);
+        testPlayer11.setRole(Role.CLUE_WRITER);
+        testPlayer11 = playerService.createPlayer(testPlayer11, testGame);
+        testPlayer12 = new RealPlayer();
+        testPlayer12.setUserName("testUser12");
+        testPlayer12.setUserId(12L);
+        testPlayer12.setRole(Role.CLUE_WRITER);
+        testPlayer12 = playerService.createPlayer(testPlayer12, testGame);
+        //add active round to game
+        List<Round> rounds = testGame.getRounds();
+        rounds.add(activeRound);
+        testGame.setRounds(rounds);
+        //select word from WordCard
+        wordCardService.selectWord(activeRound, "Alcatraz");
+        //create two clues that are the same
+        clue11 = new Clue();
+        clue11.setWord("testClues");
+        activeRound.addClue(clue11);
+        clue11 = clueService.setClue(activeRound, testPlayer11, clue11);
+        //clue9 = clueService.submitClue(clue9, testPlayer9, "testClue1");
+        clue12 = new Clue();
+        clue12.setWord("testClue");
+        activeRound.addClue(clue12);
+        clue12 = clueService.setClue(activeRound, testPlayer12, clue12);
+        //clue10 = clueService.submitClue(clue10, testPlayer10, "testClue2");
+        //auto validate
+        clueService.autoValidateClues(activeRound);
+        //check that both clues are invalid
+        assertFalse(clue11.getIsValid());
+        assertFalse(clue12.getIsValid());
     }
 
 /*
