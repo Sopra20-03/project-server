@@ -165,9 +165,11 @@ public class ClueServiceTest {
 
     }
 
+    /**
+     * checks if two different clues are valid by auto validation
+     */
     @Test
     void autoValidateDifferentClues() {
-
         //select word from WordCard
         wordCardService.selectWord(activeRound, "Alcatraz");
         //create two clues that are different
@@ -187,7 +189,9 @@ public class ClueServiceTest {
         assertTrue(clue1.getIsValid());
         assertTrue(clue2.getIsValid());
     }
-
+    /**
+     * checks if two similar clues are invalid by auto validation
+     */
     @Test
     void autoValidateSameClues() {
 
@@ -210,7 +214,9 @@ public class ClueServiceTest {
         assertFalse(clue1.getIsValid());
         assertFalse(clue2.getIsValid());
     }
-
+    /**
+     * checks if two substrings are invalid by auto validation
+     */
     @Test
     void autoValidateSubstring() {
 
