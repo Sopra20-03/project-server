@@ -39,10 +39,13 @@ public class ClueServiceTest {
     public RealPlayer testPlayer1;
     public RealPlayer testPlayer2;
 
+
     public Clue clue1;
     public Clue clue2;
 
     public List<Round> rounds;
+
+
     public Round activeRound;
 
     @BeforeEach

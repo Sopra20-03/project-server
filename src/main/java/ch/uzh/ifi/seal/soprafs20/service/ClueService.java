@@ -321,7 +321,7 @@ public class ClueService {
     public int calculateIndividualScore(Round round, Clue clue) {
 
         //get clues of round in ascending order by total time
-        List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeDesc(round);
+        List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeAsc(round);
 
         if(!clues.contains(clue)) {
             throw new ClueNotInRoundException(clue.getClueId().toString(), round.getRoundId().toString());
