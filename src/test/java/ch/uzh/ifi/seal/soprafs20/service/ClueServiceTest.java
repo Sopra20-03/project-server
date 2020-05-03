@@ -46,6 +46,8 @@ public class ClueServiceTest {
     public RealPlayer testPlayer10;
     public RealPlayer testPlayer11;
     public RealPlayer testPlayer12;
+    public RealPlayer testPlayer13;
+    public RealPlayer testPlayer14;
     public Clue clue;
     public Clue clue1;
     public Clue clue2;
@@ -59,6 +61,8 @@ public class ClueServiceTest {
     public Clue clue10;
     public Clue clue11;
     public Clue clue12;
+    public Clue clue13;
+    public Clue clue14;
     public Round activeRound;
 
     @BeforeEach
@@ -308,6 +312,38 @@ public class ClueServiceTest {
         //check that both clues are invalid
         assertFalse(clue11.getIsValid());
         assertFalse(clue12.getIsValid());
+    }
+
+    /**
+     * integration test: (i think?)
+     * checks whole process of submitting a clue to calculating the individual score
+     */
+    @Test
+    void scoreCalculationWithTimer() {
+        //create two players
+        testPlayer13 = new RealPlayer();
+        testPlayer13.setUserName("testUser13");
+        testPlayer13.setUserId(13L);
+        testPlayer13.setRole(Role.CLUE_WRITER);
+        testPlayer13 = playerService.createPlayer(testPlayer13, testGame);
+        testPlayer14 = new RealPlayer();
+        testPlayer14.setUserName("testUser14");
+        testPlayer14.setUserId(14L);
+        testPlayer14.setRole(Role.CLUE_WRITER);
+        testPlayer14 = playerService.createPlayer(testPlayer14, testGame);
+        //set two clues
+        Clue clue13 = new Clue();
+        clue13 = clueService.setClue(activeRound, testPlayer13, clue13);
+        Clue clue14 = new Clue();
+        clue14 = clueService.setClue(activeRound, testPlayer14, clue14);
+        //set start and end time for clues and calculate the individual score
+        clueService.setStartTime(activeRound);
+        clueService.setEndTime(clue13);
+        clueService.setEndTime(clue14);
+        int score13 = clueService.calculateIndividualScore(activeRound, clue13);
+        int score14 = clueService.calculateIndividualScore(activeRound, clue14);
+        //assert that clue10 has a lower score than clue9
+        assertTrue(score13 > score14);
     }
 
 /*
