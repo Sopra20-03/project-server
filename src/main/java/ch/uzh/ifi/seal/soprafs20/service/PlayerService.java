@@ -142,4 +142,17 @@ public class PlayerService {
 
         return player;
     }
+
+    /**
+     * removes all player from a game
+     * @param game
+     * @return game without players
+     */
+    public Game removeAllPlayer(Game game) {
+        List<RealPlayer> players = getPlayersByGame(game);
+        for(RealPlayer player : players){
+            removePlayer(game,player.getUserId());
+        }
+        return game;
+    }
 }
