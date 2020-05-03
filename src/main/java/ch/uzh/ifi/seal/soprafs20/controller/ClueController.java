@@ -46,11 +46,11 @@ public class ClueController {
         Game game = gameService.getGame(gameId);
         Round round = roundService.getRunningRound(game);
 
-        //validate all clues
-        //clueService.validateClues(round);
-
         //set endTime and calculate totalTime of clue
         clueService.setEndTime(clue);
+
+        //auto validate clue
+        clueService.autoValidateClues(round);
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }

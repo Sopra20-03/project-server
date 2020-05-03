@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -190,6 +191,57 @@ public class ClueService {
     }
 
     /**
+     * invalidates clues if string or substring is equal
+     * @param round
+     * @return
+     */
+    public void autoValidateClues(Round round) {
+        List<Clue> clues = getClues(round);
+        String selectedWord = round.getWordCard().getSelectedWord();
+
+        //exception if no word is selected yet for the round
+        if (selectedWord == null) {
+            throw new NoWordSelectedException(round.getRoundId().toString());
+        }
+
+        if(clues.isEmpty()) {
+            throw new NoClueException(round.getRoundId().toString());
+        }
+
+        //count number of same words and substrings
+        for (Clue clue : clues) {
+            int numbOfEqualWords = 0;
+            int numbOfSubstringWords = 0;
+            List<Integer> substrings = new ArrayList<>();
+            for (Clue compareClue : clues) {
+                if (clue.getWord() != null && compareClue.getWord() != null && clue.getWord().equalsIgnoreCase(compareClue.getWord())) {
+                    numbOfEqualWords++;
+                }
+                if (clue.getWord() != null && compareClue.getWord() != null && clue.getWord().toLowerCase().contains(compareClue.getWord().toLowerCase())) {
+                    numbOfSubstringWords++;
+                    substrings.add(clues.indexOf(compareClue));
+                }
+            }
+            //if there are more than 1 times the same word or the word is the same as the selected word, set valid to false
+            if (numbOfEqualWords > 1 || (clue.getWord() != null && clue.getWord().equalsIgnoreCase(selectedWord))) {
+                clue.setIsValid(false);
+                clueRepository.save(clue);
+                clueRepository.flush();
+            }
+            if(numbOfSubstringWords > 1) {
+                clue.setIsValid(false);
+                clueRepository.save(clue);
+                clueRepository.flush();
+                for(Integer substring : substrings) {
+                    clues.get(substring).setIsValid(false);
+                    clueRepository.save(clues.get(substring));
+                    clueRepository.flush();
+                }
+            }
+        }
+    }
+
+    /**
      * creates an empty clue for each clue writer in a round
      * @param game
      * @return Game
@@ -269,14 +321,15 @@ public class ClueService {
     public int calculateIndividualScore(Round round, Clue clue) {
 
         //get clues of round in ascending order by total time
-        List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeDesc(round);
+        List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeAsc(round);
 
         if(!clues.contains(clue)) {
             throw new ClueNotInRoundException(clue.getClueId().toString(), round.getRoundId().toString());
         }
 
         //calculate score by index in list
-        int score = clues.indexOf(clue);
+        Collections.reverse(clues);
+        int score = clues.indexOf(clue)+1;
 
         return score;
     }

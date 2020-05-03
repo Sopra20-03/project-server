@@ -3,6 +3,8 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,6 +39,7 @@ public class RealPlayer implements Serializable {
     private int score;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Guess> guessList = new ArrayList<>();
 

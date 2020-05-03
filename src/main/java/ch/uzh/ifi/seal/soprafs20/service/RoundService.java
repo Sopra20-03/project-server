@@ -29,7 +29,7 @@ public class RoundService {
     private final Logger log = LoggerFactory.getLogger(RoundService.class);
 
     private final RoundRepository roundRepository;
-    private final int NUMBER_OF_ROUNDS = 13;
+    private final int NUMBER_OF_ROUNDS = 3;
 
     @Autowired
     public RoundService(@Qualifier("roundRepository") RoundRepository roundRepository) {
