@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -327,7 +328,8 @@ public class ClueService {
         }
 
         //calculate score by index in list
-        int score = clues.indexOf(clue);
+        Collections.reverse(clues);
+        int score = clues.indexOf(clue)+1;
 
         return score;
     }
