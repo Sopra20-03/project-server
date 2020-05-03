@@ -1,14 +1,19 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.constant.Role;
+import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
 @SpringBootTest
@@ -27,80 +32,86 @@ class GuessServiceTest {
 
     public Game testGame;
     public List<WordCard> cards;
-
-
-
+    public Round activeRound;
+    public RealPlayer testPlayer1;
+    public RealPlayer testPlayer2;
+    public Guess guess1;
+    public Guess guess2;
 
     @BeforeEach
     void setup(){
-
-        cards = wordCardService.getWordCards(12);
-    }
-/*
-    @Test
-    void setGuess() {
-
-        //create 2 Users
-        User testUser = new User();
-        testUser.setName("testName");
-        testUser.setUsername("testUsername");
-        testUser.setPassword("testPassword");
-        testUser.setToken("testToken");
-        testUser.setStatus(UserStatus.OFFLINE);
-        testUser.setDateCreated(LocalDate.now());
-        testUser.setId(1L);
-        User testUser2 = new User();
-        testUser2.setName("testName2");
-        testUser2.setUsername("testUsername2");
-        testUser2.setPassword("testPassword");
-        testUser2.setToken("testToken2");
-        testUser2.setStatus(UserStatus.OFFLINE);
-        testUser2.setDateCreated(LocalDate.now());
-        testUser2.setId(2L);
-
-        //create Game
-        Game testGame = new Game();
+        cards = wordCardService.getWordCards(13);
+        //init testGame
+        testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
-        List<WordCard> cards = wordCardService.getWordCards(13);
         testGame = gameService.createGame(testGame);
-        testGame = roundService.createRounds(testGame, cards);
-
-        //create player and add to game
-        RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setUserId(1L);
-        RealPlayer testPlayer2 = new RealPlayer();
-        testPlayer2.setUserId(2L);
-        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
-        testPlayer = playerService.createPlayer(testPlayer, testGame);
-        testGame = playerService.addPlayer(testGame, testPlayer2, testUser2);
-        testPlayer2 = playerService.createPlayer(testPlayer2, testGame);
-
-        //start Game
-        testGame = gameService.startGame(testGame.getGameId());
-        testGame = roundService.startFirstRound(testGame);
-
-        //get current round and select word
-        Round round = roundService.getRunningRound(testGame);
-        round.setRoundStatus(RoundStatus.RUNNING);
-        //wordCardService.selectWord(round, "testWord");
-
-        //select word
-        cards.get(0).setSelectedWord("testWord");
-        round.setWordCard(cards.get(0));
-
-        //add guess
-        Guess guess = new Guess();
-        guess.setWord("testGuess");
-        guess.setOwner(testPlayer);
-
-        guess = guessService.setGuess(round,guess);
-        //check if guess is stored in repo and accessible from the game
-        assertEquals("testGuess",guessService.getGuess(round).getWord());
-
+        testGame = roundService.createRounds(testGame,cards);
+        List<Round> rounds = roundService.getRoundsOfGame(testGame);
+        activeRound = rounds.get(0);
+        activeRound.setRoundStatus(RoundStatus.RUNNING);
     }
+
     @Test
-    void validateGuess(){
+    void setGuess() {
+        //create player
+        testPlayer1 = new RealPlayer();
+        testPlayer1.setUserName("testUser1");
+        testPlayer1.setUserId(1L);
+        testPlayer1.setRole(Role.GUESSER);
+        testPlayer1 = playerService.createPlayer(testPlayer1, testGame);
+        //select word from wordcard
+        wordCardService.selectWord(activeRound, "testWord");
+        //create guess
+        guess1 = new Guess();
+        guess1.setWord("testGuess1");
+        guess1.setOwner(testPlayer1);
+        guess1 = guessService.setGuess(activeRound, guess1);
+        //check if guess is stored in repo and accessible from the game
+        assertEquals("testGuess1",guessService.getGuess(activeRound).getWord());
+    }
+
+    @Test
+    void setCorrectGuess() {
+        //create player
+        testPlayer2 = new RealPlayer();
+        testPlayer2.setUserName("testUser2");
+        testPlayer2.setUserId(2L);
+        testPlayer2.setRole(Role.GUESSER);
+        testPlayer2 = playerService.createPlayer(testPlayer2, testGame);
+        //select word from wordcard
+        wordCardService.selectWord(activeRound, "testWord");
+        //create guess
+        guess2 = new Guess();
+        guess2.setWord("testWord");
+        guess2.setOwner(testPlayer2);
+        guess2 = guessService.setGuess(activeRound, guess2);
+        //check if guess is stored in repo and accessible from the game
+        assertTrue(guess2.getIsValid());
+    }
+
+    @Test
+    void setIncorrectGuess() {
+        //create player
+        testPlayer2 = new RealPlayer();
+        testPlayer2.setUserName("testUser2");
+        testPlayer2.setUserId(2L);
+        testPlayer2.setRole(Role.GUESSER);
+        testPlayer2 = playerService.createPlayer(testPlayer2, testGame);
+        //select word from wordcard
+        wordCardService.selectWord(activeRound, "testWord");
+        //create guess
+        guess2 = new Guess();
+        guess2.setWord("NotTestWord");
+        guess2.setOwner(testPlayer2);
+        guess2 = guessService.setGuess(activeRound, guess2);
+        //check if guess is stored in repo and accessible from the game
+        assertFalse(guess2.getIsValid());
+    }
+
+    /*
+    @Test
+    void validateGuess() {
         Guess guess = new Guess();
         guess.setWord("testWORD");
 
@@ -108,6 +119,5 @@ class GuessServiceTest {
         wordCard.setSelectedWord("testWord");
         assertTrue(guessService.correctGuess(wordCard, guess));
     }
-    */
-
+     */
 }
