@@ -76,7 +76,6 @@ public class ClueServiceTest {
         rounds = testGame.getRounds();
         rounds.add(activeRound);
         testGame.setRounds(rounds);
-
     }
 
     @AfterEach
