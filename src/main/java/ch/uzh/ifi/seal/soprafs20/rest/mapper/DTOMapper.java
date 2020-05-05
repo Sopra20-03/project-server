@@ -52,6 +52,7 @@ public interface DTOMapper {
     @Mapping(source = "status", target = "status")
     @Mapping(source = "dateCreated", target = "dateCreated")
     @Mapping(source = "token", target = "token")
+    @Mapping(source = "icon", target = "icon")
     UserGetDTO convertUserEntityToUserGetDTO(User user);
 
     //these properties are ignored because they are not set by the user
@@ -63,6 +64,7 @@ public interface DTOMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(source = "username", target = "username")
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "icon", target = "icon")
     User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
     @Mapping(source = "gameId", target = "gameId")

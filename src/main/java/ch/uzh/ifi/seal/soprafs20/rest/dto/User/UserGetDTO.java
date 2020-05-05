@@ -2,7 +2,6 @@ package ch.uzh.ifi.seal.soprafs20.rest.dto.User;
 
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 
-
 import java.time.LocalDate;
 
 
@@ -14,6 +13,7 @@ public class UserGetDTO {
     private UserStatus status;
     private LocalDate dateCreated;
     private String token;
+    private String icon;
 
     public String getToken() {
         return token;
@@ -63,4 +63,7 @@ public class UserGetDTO {
         this.dateCreated = dateCreated;
     }
 
+    public String getIcon() { return icon; }
+
+    public void setIcon(String icon) { this.icon = icon; }
 }
