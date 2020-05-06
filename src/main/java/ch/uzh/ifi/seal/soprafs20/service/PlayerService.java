@@ -142,6 +142,8 @@ public class PlayerService {
         int currentScore = player.getScore();
         currentScore = currentScore + score;
         player.setScore(currentScore);
+        playerRepository.save(player);
+        playerRepository.flush();
 
         return player;
     }
