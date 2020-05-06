@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -90,6 +91,9 @@ public class UserService {
         user.setStatus(UserStatus.OFFLINE);
         user.setDateCreated(LocalDate.now());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setNrOfPlayedGames(0);
+        user.setTotalGameScore(0);
+        user.setTotalIndividualScore(0);
 
         //Check if username is available
         checkIfUserAlreadyExists(user);
@@ -177,5 +181,15 @@ public class UserService {
     private void checkIfUsernameTaken(String username){
         if(userRepository.findUserByUsername(username)!=null)
             throw new UsernameTakenException(username);
+    }
+
+    public User updateUserScore(long userId, int nrOfPlayedGames, int totalGameScore, int totalIndividualScore){
+        User user = getUser(userId);
+        user.setNrOfPlayedGames(nrOfPlayedGames);
+        user.setTotalGameScore(totalGameScore);
+        user.setTotalIndividualScore(totalIndividualScore);
+        userRepository.save(user);
+        userRepository.flush();
+        return user;
     }
 }

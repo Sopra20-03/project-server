@@ -36,6 +36,8 @@ public class PlayerService {
         return playerRepository.findRealPlayersByGame(game);
     }
 
+
+    //don't use this because there are more than one player with one UserID
     public RealPlayer getPlayer(Long id) {
         RealPlayer player = playerRepository.findRealPlayerByUserId(id);
         if(player==null){
@@ -155,4 +157,34 @@ public class PlayerService {
         }
         return game;
     }
+    /**
+     * sum up all individual scores from players with one UserId
+     */
+    public int getTotalIndividualScore(long userId){
+        List<RealPlayer> players = playerRepository.findRealPlayersByUserId(userId);
+        int totalScore = 0;
+        for(RealPlayer player: players){
+            totalScore = totalScore + player.getScore();
+        }
+        return totalScore;
+    }
+    /**
+     * get number of games from players with one UserId
+     */
+    public int getNumberOfPlayedGames(long userId){
+        List<RealPlayer> players = playerRepository.findRealPlayersByUserId(userId);
+        return players.size();
+    }
+    /**
+     * sum up all game scores from players with one UserId
+     */
+    public int getTotalGameScore(long userId){
+        List<RealPlayer> players = playerRepository.findRealPlayersByUserId(userId);
+        int totalScore = 0;
+        for(RealPlayer player: players){
+            totalScore = totalScore + player.getGame().getScore();
+        }
+        return totalScore;
+    }
+
 }

@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
+import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PlayerService playerService;
 
-    UserController(UserService userService) {
+    UserController(UserService userService, PlayerService playerService) {
         this.userService = userService;
+        this.playerService = playerService;
     }
 
     @GetMapping("/users")
@@ -82,6 +85,9 @@ public class UserController {
     select #gamesPlayed, #totalGamescore & #individualScore from the database and store to user
      */
     private User updateUserScores(User user){
+        int nrOfPlayedGames = playerService.getNumberOfPlayedGames(user.getId());
+        int totalGameScore = playerService.getTotalGameScore(user.getId());
+        int totalIndividualScore = playerService.getTotalIndividualScore(user.getId());
         return user;
     }
 }
