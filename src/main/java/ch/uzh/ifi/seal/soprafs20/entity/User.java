@@ -42,6 +42,15 @@ public class User implements Serializable {
     @Column(nullable = false)
     private LocalDate dateCreated;
 
+    @Column(nullable = false)
+    private int nrOfPlayedGames;
+
+    @Column(nullable = false)
+    private int totalGameScore;
+
+    @Column(nullable = false)
+    private int totalIndividualScore;
+
     public LocalDate getDateCreated() {
         return dateCreated;
     }
@@ -96,5 +105,29 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getNrOfPlayedGames() {
+        return nrOfPlayedGames;
+    }
+
+    public void setNrOfPlayedGames(int nrOfPlayedGames) {
+        this.nrOfPlayedGames = nrOfPlayedGames;
+    }
+
+    public int getTotalGameScore() {
+        return totalGameScore;
+    }
+
+    public void setTotalGameScore(int totalGameScore) {
+        this.totalGameScore = totalGameScore;
+    }
+
+    public int getTotalIndividualScore() {
+        return totalIndividualScore;
+    }
+
+    public void setTotalIndividualScore(int totalIndividualScore) {
+        this.totalIndividualScore = totalIndividualScore;
     }
 }

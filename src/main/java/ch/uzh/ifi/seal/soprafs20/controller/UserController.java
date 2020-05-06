@@ -78,4 +78,10 @@ public class UserController {
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertUserEntityToUserGetDTO(user);
     }
+    /*
+    select #gamesPlayed, #totalGamescore & #individualScore from the database and store to user
+     */
+    private User updateUserScores(User user){
+        return user;
+    }
 }
