@@ -105,8 +105,8 @@ public class PlayerService {
         //exception if player is already in a game
         List<RealPlayer> playersOfUser = playerRepository.findRealPlayersByUserId(player.getUserId());
         //check if one of the players of this user is in an game with status != finished
-        while(playersOfUser.iterator().hasNext()){
-            Game gameOfPlayer = playersOfUser.iterator().next().getGame();
+        for(RealPlayer playerOfUser : playersOfUser){
+            Game gameOfPlayer = playerOfUser.getGame();
             if(gameOfPlayer.getGameStatus() != GameStatus.FINISHED) {
                 throw new PlayerAlreadyInGameException(" User with UserId: " + player.getUserId().toString()+" is in Game with GameId: "+gameOfPlayer.getGameId());
             }
