@@ -39,6 +39,8 @@ public class UserController {
 
         // Convert each user POJO to JSON
         for (User user : users) {
+            //update score before returning
+            user = updateUserScores(user);
             userGetDTOs.add(DTOMapper.INSTANCE.convertUserEntityToUserGetDTO(user));
         }
         return userGetDTOs;
@@ -63,6 +65,8 @@ public class UserController {
     @ResponseBody
     public UserGetDTO getUser(@PathVariable Long id) {
         User user = userService.getUser(id);
+        //update score before returning
+        user = updateUserScores(user);
         UserGetDTO userGetDTO = DTOMapper.INSTANCE.convertUserEntityToUserGetDTO(user);
         return userGetDTO;
     }
@@ -81,13 +85,19 @@ public class UserController {
         // Convert POJO to JSON
         return DTOMapper.INSTANCE.convertUserEntityToUserGetDTO(user);
     }
-    /*
-    select #gamesPlayed, #totalGamescore & #individualScore from the database and store to user
+
+    /**
+     * collect all scores and stores into user
+     * @param user
+     * @return user with updated score
      */
     private User updateUserScores(User user){
+        //get all scores from player Repository
         int nrOfPlayedGames = playerService.getNumberOfPlayedGames(user.getId());
         int totalGameScore = playerService.getTotalGameScore(user.getId());
         int totalIndividualScore = playerService.getTotalIndividualScore(user.getId());
+        //store scores in User object and persist
+        user = userService.updateUserScore(user.getId(),nrOfPlayedGames,totalGameScore,totalIndividualScore);
         return user;
     }
 }

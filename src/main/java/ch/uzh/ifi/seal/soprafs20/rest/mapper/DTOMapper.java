@@ -65,8 +65,10 @@ public interface DTOMapper {
     @Mapping(target = "token", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "dateCreated", ignore = true)
-
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "nrOfPlayedGames", ignore = true)
+    @Mapping(target = "totalGameScore", ignore = true)
+    @Mapping(target = "totalIndividualScore", ignore = true)
     @Mapping(source = "username", target = "username")
     @Mapping(source = "name", target = "name")
     User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);

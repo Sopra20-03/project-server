@@ -61,6 +61,7 @@ public class PlayerService {
      * @param game the user wants to join
      * @return Player
      */
+    //TODO: this method is only used in tests, maybe remove?
     public RealPlayer createPlayer(RealPlayer player, Game game) {
 
         //CompleteDetails
