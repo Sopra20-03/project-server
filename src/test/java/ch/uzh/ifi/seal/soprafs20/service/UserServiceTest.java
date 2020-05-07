@@ -92,6 +92,8 @@ class UserServiceTest {
         rounds = testGame.getRounds();
         rounds.add(activeRound);
         testGame.setRounds(rounds);
+        testGame.setScore(11);
+        testGame = gameService.finishGame(testGame);
     }
     @Test
     void getUsers() {
@@ -123,11 +125,10 @@ class UserServiceTest {
 
     @Test
     void updateUserScore() {
-        assertEquals(0,testUser1.getNrOfPlayedGames());
-        testUser1 = userService.updateUserScore(1L,3,4,5);
-        assertEquals(3,testUser1.getNrOfPlayedGames());
-        assertEquals(4,testUser1.getTotalGameScore());
-        assertEquals(5,testUser1.getTotalIndividualScore());
+        testUser1 = userService.updateUserScore(testUser1);
+        assertEquals(1,testUser1.getNrOfPlayedGames());
+        assertEquals(11,testUser1.getTotalGameScore());
+        assertEquals(0,testUser1.getTotalIndividualScore());
 
     }
 }

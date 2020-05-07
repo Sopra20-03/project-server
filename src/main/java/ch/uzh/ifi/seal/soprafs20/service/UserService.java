@@ -32,13 +32,15 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final PlayerService playerService;
 
     //Password Encoding
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(@Qualifier("userRepository") UserRepository userRepository) {
+    public UserService(@Qualifier("userRepository") UserRepository userRepository, PlayerService playerService) {
         this.userRepository = userRepository;
+        this.playerService = playerService;
     }
 
     /**
@@ -46,7 +48,12 @@ public class UserService {
      * @return List<User>
      */
     public List<User> getUsers() {
-        return this.userRepository.findAll();
+        List<User> users = this.userRepository.findAll();
+        //update scores
+        for(User user: users){
+            user = this.updateUserScore(user);
+        }
+        return users;
     }
 
     /**
@@ -56,7 +63,7 @@ public class UserService {
      */
     public User getUser(Long id){
         User user = userRepository.findUserById(id);
-
+        user = this.updateUserScore(user);
         if(user == null)
             throw new UserNotFoundException("Id: "+id.toString());
 
@@ -183,13 +190,13 @@ public class UserService {
             throw new UsernameTakenException(username);
     }
 
-    public User updateUserScore(long userId, int nrOfPlayedGames, int totalGameScore, int totalIndividualScore){
-        User user = getUser(userId);
-        user.setNrOfPlayedGames(nrOfPlayedGames);
-        user.setTotalGameScore(totalGameScore);
-        user.setTotalIndividualScore(totalIndividualScore);
+    public User updateUserScore(User user){
+        user.setNrOfPlayedGames(playerService.getNumberOfPlayedGames(user.getId()));
+        user.setTotalGameScore(playerService.getTotalGameScore(user.getId()));
+        user.setTotalIndividualScore(playerService.getTotalIndividualScore(user.getId()));
         userRepository.save(user);
         userRepository.flush();
         return user;
     }
+
 }
