@@ -97,9 +97,11 @@ public class UserControllerTest {
         testUser.setStatus(UserStatus.OFFLINE);
         testUser.setId(1L);
         testUser.setDateCreated(LocalDate.now());
+        testUser.setNrOfPlayedGames(0);
+        testUser.setTotalGameScore(0);
+        testUser.setTotalIndividualScore(0);
 
         List<User> allUsers = Collections.singletonList(testUser);
-
         given(userService.getUsers()).willReturn(allUsers);
 
         // when
@@ -116,6 +118,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].name", is(testUser.getName().toString())))
                 .andExpect(jsonPath("$[0].dateCreated", is(testUser.getDateCreated().toString())))
                 .andExpect(jsonPath("$[0].status", is(testUser.getStatus().toString())))
+                .andExpect(jsonPath("$[0].nrOfPlayedGames", is(testUser.getNrOfPlayedGames())))
+                .andExpect(jsonPath("$[0].totalGameScore", is(testUser.getTotalGameScore())))
+                .andExpect(jsonPath("$[0].totalIndividualScore", is(testUser.getTotalIndividualScore())))
                 .andReturn();
 
         //Assertions
@@ -147,6 +152,9 @@ public class UserControllerTest {
         testUser.setStatus(UserStatus.OFFLINE);
         testUser.setId(1L);
         testUser.setDateCreated(LocalDate.now());
+        testUser.setNrOfPlayedGames(1);
+        testUser.setTotalGameScore(2);
+        testUser.setTotalIndividualScore(3);
 
         given(userService.getUser(Mockito.any())).willReturn(testUser);
 
@@ -161,6 +169,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name", is(testUser.getName().toString())))
                 .andExpect(jsonPath("$.dateCreated", is(testUser.getDateCreated().toString())))
                 .andExpect(jsonPath("$.status", is(testUser.getStatus().toString())))
+                .andExpect(jsonPath("$.nrOfPlayedGames", is(testUser.getNrOfPlayedGames())))
+                .andExpect(jsonPath("$.totalGameScore", is(testUser.getTotalGameScore())))
+                .andExpect(jsonPath("$.totalIndividualScore", is(testUser.getTotalIndividualScore())))
                 .andReturn();
 
         //Assertions
@@ -169,7 +180,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\",\"nrOfPlayedGames\":1,\"totalGameScore\":2,\"totalIndividualScore\":3}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
@@ -230,6 +241,9 @@ public class UserControllerTest {
         testUser.setStatus(UserStatus.OFFLINE);
         testUser.setId(1L);
         testUser.setDateCreated(LocalDate.now());
+        testUser.setNrOfPlayedGames(1);
+        testUser.setTotalGameScore(2);
+        testUser.setTotalIndividualScore(3);
 
         //User from Post
         UserPostDTO userPostDTO = new UserPostDTO();
@@ -253,6 +267,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name", is(testUser.getName().toString())))
                 .andExpect(jsonPath("$.dateCreated", is(testUser.getDateCreated().toString())))
                 .andExpect(jsonPath("$.status", is(testUser.getStatus().toString())))
+                .andExpect(jsonPath("$.nrOfPlayedGames", is(testUser.getNrOfPlayedGames())))
+                .andExpect(jsonPath("$.totalGameScore", is(testUser.getTotalGameScore())))
+                .andExpect(jsonPath("$.totalIndividualScore", is(testUser.getTotalIndividualScore())))
                 .andReturn();
 
         //Assertions
@@ -261,7 +278,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\",\"nrOfPlayedGames\":1,\"totalGameScore\":2,\"totalIndividualScore\":3}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
@@ -273,7 +290,7 @@ public class UserControllerTest {
      Test: POST /users with details but already used username
      Result: 409 Conflict and Error in adding the user
      */
-    /*
+
     @Test
     @WithMockUser(username = "testUsername")
     public void createUserError() throws Exception {
@@ -308,14 +325,14 @@ public class UserControllerTest {
 
         //Assertions
         //Check Correct HTTP Response Status
-        assertEquals(400, result.getResponse().getStatus());
+        assertEquals(409, result.getResponse().getStatus());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
 
     }
-*/
+
     //Test case 4 : PUT /users/{id}
     /**
      PUT /users/{id}
