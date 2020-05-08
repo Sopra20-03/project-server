@@ -31,6 +31,7 @@ class ChatServiceTest {
 
     private Game testGame;
     private Message testMessage;
+    private Message testMessage2;
     private List<Message> messages;
 
     @BeforeEach
@@ -71,5 +72,26 @@ class ChatServiceTest {
     void getMessagesEmpty(){
         messages = chatService.getMessages(1L);
         assertEquals(0, messages.size());
+    }
+    /**
+     * check if getMessages is ordered by dateCreated in ascending order
+     */
+    @Test
+    void checkOrderGetMessages(){
+        //create first message
+        testMessage = new Message();
+        testMessage.setText("text");
+        testMessage.setUsername("testUser");
+        testMessage.setMessageId(1L);
+        chatService.createMessage(1L,testMessage);
+        //create second message
+        testMessage2 = new Message();
+        testMessage2.setText("text2");
+        testMessage2.setUsername("testUser2");
+        testMessage.setMessageId(2L);
+        chatService.createMessage(1L,testMessage2);
+        //check if message is stored in db
+        messages = chatService.getMessages(1L);
+        assertEquals(2,messages.size());
     }
 }

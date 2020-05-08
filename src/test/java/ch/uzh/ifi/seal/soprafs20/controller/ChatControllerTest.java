@@ -70,22 +70,25 @@ class ChatControllerTest {
     private GameService gameService;
 
 
-
-
-
     @BeforeEach
     public void setup(){
 
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+
+    }
+
+    /**
+     * POST game/1/message with existing game
+     * Result: 201 Created
+     */
+    @Test
+    @WithMockUser(username = "testUsername")
+    void createMessageSuccess() throws Exception{
         //init testGame
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame = gameService.createGame(testGame);
-    }
-    @Test
-    @WithMockUser(username = "testUsername")
-    void createMessageSuccess() throws Exception{
         //given
         testMessage = new Message();
         testMessage.setUsername("testUsername");
@@ -128,11 +131,59 @@ class ChatControllerTest {
         //Check Correct HTTP Request Data Passing
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
     }
+    /**
+     * GET game/1/message with existing game
+     * Result: 200 List of all Messages
+     */
+    @Test
+    @WithMockUser(username = "testUsername")
+    void getMessagesSuccess() throws Exception{
+        //init testGame
+        testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame = gameService.createGame(testGame);
+        //given
+        testMessage = new Message();
+        testMessage.setUsername("testUsername");
+        testMessage.setText("text");
+        testMessage.setTimeCreated(time);
+        testMessage.setGame(testGame);
+        testMessage.setMessageId(1L);
+
+        List<Message> allMessages = Collections.singletonList(testMessage);
+
+        given(chatService.getMessages(eq(1L))).willReturn(allMessages);
+
+        //when
+        MockHttpServletRequestBuilder getRequest = get("/games/1/message")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8");
+
+        // then
+        MvcResult result = mockMvc.perform(getRequest)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].username", is(testMessage.getUsername())))
+                .andExpect(jsonPath("$[0].text", is(testMessage.getText())))
+                .andExpect(jsonPath("$[0].timeCreated", is(time.toString())))
+                .andReturn();
+
+        //Assertions
+        //Check Correct HTTP Response Status
+        assertEquals(200, result.getResponse().getStatus());
+        //Check Correct HTTP Response Content-Type (Data Format)
+        assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
+        //Check Correct HTTP Request Method
+        assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
+        //Check Correct HTTP Request Data Passing
+        assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
+    }
 
 
     /**
      * Helper Method to convert userPostDTO into a JSON string such that the input can be processed
-     * Input will look like this: {"name": "Test User", "username": "testUsername"}
+     * Input will look like this: {"username": "testUsername"}
      * @param object
      * @return string
      */

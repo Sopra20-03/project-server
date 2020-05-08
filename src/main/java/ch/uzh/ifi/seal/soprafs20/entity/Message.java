@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 @Table(name = "T_MESSAGE")
 @SequenceGenerator(name="messageSeq", initialValue=1, allocationSize=100)
 public class Message implements Serializable {
-    private static final long serialVersionUID = 17L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "messageSeq")
-    private long messageId;
+    private Long messageId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gameId", nullable = false)
@@ -27,11 +27,11 @@ public class Message implements Serializable {
     @Column(nullable = false)
     private LocalDateTime timeCreated;
 
-    public long getMessageId() {
+    public Long getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(long messageId) {
+    public void setMessageId(Long messageId) {
         this.messageId = messageId;
     }
 

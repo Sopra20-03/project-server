@@ -9,6 +9,9 @@ import ch.uzh.ifi.seal.soprafs20.service.ChatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class ChatController {
     private final ChatService chatService;
@@ -16,7 +19,7 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @PostMapping("/games/{gameId}/message")
+    @PostMapping("/games/{gameId}/messages")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public MessageGetDTO createMessage(@PathVariable long gameId, @RequestBody MessagePostDTO messagePostDTO){
@@ -24,5 +27,17 @@ public class ChatController {
         message = chatService.createMessage(gameId,message);
         return DTOMapper.INSTANCE.convertMessageEntityToMessageGetDTO(message);
 
+    }
+
+    @GetMapping("/games/{gameId}/messages")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MessageGetDTO> getMessages(@PathVariable long gameId){
+        List<Message> messages = chatService.getMessages(gameId);
+        List<MessageGetDTO> messagesGetDTOs = new ArrayList<>();
+        for(Message message : messages){
+            messagesGetDTOs.add(DTOMapper.INSTANCE.convertMessageEntityToMessageGetDTO(message));
+        }
+        return messagesGetDTOs;
     }
 }
