@@ -78,7 +78,7 @@ class ChatControllerTest {
     }
 
     /**
-     * POST game/1/message with existing game
+     * POST game/1/messages with existing game
      * Result: 201 Created
      */
     @Test
@@ -105,7 +105,7 @@ class ChatControllerTest {
         given(chatService.createMessage(eq(1L),Mockito.any())).willReturn(testMessage);
 
         //when
-        MockHttpServletRequestBuilder postRequest = post("/games/1/message")
+        MockHttpServletRequestBuilder postRequest = post("/games/1/messages")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(messagePostDTO))
                 .characterEncoding("utf-8");
@@ -132,7 +132,7 @@ class ChatControllerTest {
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getRequest().getContentType());
     }
     /**
-     * GET game/1/message with existing game
+     * GET game/1/messages with existing game
      * Result: 200 List of all Messages
      */
     @Test
@@ -156,7 +156,7 @@ class ChatControllerTest {
         given(chatService.getMessages(eq(1L))).willReturn(allMessages);
 
         //when
-        MockHttpServletRequestBuilder getRequest = get("/games/1/message")
+        MockHttpServletRequestBuilder getRequest = get("/games/1/messages")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8");
 
