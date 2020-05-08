@@ -7,6 +7,8 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Guess.GuessPostDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Message.MessageGetDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Message.MessagePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
@@ -18,6 +20,8 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -92,6 +96,7 @@ public interface DTOMapper {
     @Mapping(target = "rounds", ignore = true)
     @Mapping(target = "players", ignore = true)
     @Mapping(target = "dateCreated", ignore = true)
+    @Mapping(target = "messages", ignore = true)
     @Mapping(source = "gameName", target = "gameName")
     @Mapping(source = "gameMode", target = "gameMode")
     Game convertGamePostDTOtoGameEntity(GamePostDTO gamePostDTO);
@@ -169,5 +174,21 @@ public interface DTOMapper {
 
     @Mapping(source = "vote", target = "vote")
     Vote convertVotePutDTOtoVoteEntity(VotePutDTO votePutDTO);
+
+    @Mapping(target = "messageId", ignore = true)
+    @Mapping(source = "username",target = "username")
+    @Mapping(source = "text", target = "text")
+    @Mapping(target = "timeCreated", ignore = true)
+    @Mapping(target = "game", ignore = true)
+    Message convertMessagePostDTOtoMessageEntity(MessagePostDTO messagePostDTO);
+
+
+    @Mapping(source = "messageId", target = "messageId")
+    @Mapping(source = "username",target = "username")
+    @Mapping(source = "text", target = "text")
+    @Mapping(source = "timeCreated", target = "timeCreated")
+    MessageGetDTO convertMessageEntityToMessageGetDTO(Message message);
+
+
 
 }

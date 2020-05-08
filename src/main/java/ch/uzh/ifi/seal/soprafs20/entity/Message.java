@@ -8,20 +8,20 @@ import java.time.LocalDateTime;
 @Table(name = "T_MESSAGE")
 @SequenceGenerator(name="messageSeq", initialValue=1, allocationSize=100)
 public class Message implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 17L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "messageSeq")
     private long messageId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gameId", nullable = true)
+    @JoinColumn(name = "gameId", nullable = false)
     private Game game;
 
-    @Column(nullable = false)
+    @Column
     private String username;
 
-    @Column(nullable = false)
+    @Column
     private String text;
 
     @Column(nullable = false)
