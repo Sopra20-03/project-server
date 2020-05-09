@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.ClueGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Clue.CluePostDTO;
@@ -51,6 +52,12 @@ public class ClueController {
 
         //auto validate clue
         clueService.autoValidateClues(round);
+
+        //calculate individual score if game is in rival mode
+        if(game.getGameMode() == GameMode.RIVAL) {
+            int score = clueService.calculateIndividualScore(round, clue);
+            playerService.setScore(playerId, score);
+        }
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }
