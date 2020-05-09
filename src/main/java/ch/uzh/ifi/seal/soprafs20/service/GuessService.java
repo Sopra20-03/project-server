@@ -114,4 +114,22 @@ public class GuessService {
         guess.setTotalTime(totalTime);
     }
 
+    /**
+     * calculates individual score for a guess
+     * @param guess
+     * @return
+     */
+    public int calculateIndividualScore(Guess guess) {
+
+        int score;
+
+        //20 points if guess is correct; else 0
+        if(guess.getIsValid()) {
+            score = 20;
+        }
+        else { score = 0; }
+
+        return score;
+    }
+
 }
