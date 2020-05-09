@@ -320,15 +320,15 @@ public class ClueService {
     public int calculateIndividualScore(Round round, Clue clue) {
 
         //get clues of round in ascending order by total time
-        List<Clue> clues = clueRepository.findAllByRoundOrderByTotalTimeAsc(round);
+        List<Clue> clues = clueRepository.getCluesByRound(round);
 
         if(!clues.contains(clue)) {
             throw new ClueNotInRoundException(clue.getClueId().toString(), round.getRoundId().toString());
         }
 
-        //calculate score depending on how many clues were already submitted
-        int clueCount = clues.size();
-        int score = 10 - (clueCount-1)*2;
+        //calculate score depending on how long they took to submit
+        long timeToSubmit = clue.getTotalTime();
+        int score = 60 - ((int) timeToSubmit);
 
         return score;
     }
