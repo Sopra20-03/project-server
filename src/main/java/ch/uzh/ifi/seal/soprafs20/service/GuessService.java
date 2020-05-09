@@ -1,19 +1,21 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
 
-
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordCardException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
 import ch.uzh.ifi.seal.soprafs20.repository.GuessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @Transactional
@@ -72,4 +74,44 @@ public class GuessService {
         }
         return selectedWord.equalsIgnoreCase(guessedWord);
     }
+
+    /**
+     * sets startTime for Guess in round
+     * @param round
+     */
+    public void setStartTime(Round round) {
+
+        //exception if no guess was submitted
+        if(guessRepository.getGuessByRound(round) == null) {
+            throw new NoGuessException(round.getRoundId().toString());
+        }
+
+        //get guess in round
+        Guess guess = guessRepository.getGuessByRound(round);
+
+        //get current timestamp
+        LocalDateTime startTime = LocalDateTime.now();
+
+        //set startTime for guess in round
+        guess.setStartTime(startTime);
+    }
+
+    /**
+     * sets endTime and calculate totalTime in seconds for Guess
+     * @param guess
+     */
+    public void setEndTime(Guess guess) {
+        //get current timestamp
+        LocalDateTime endTime = LocalDateTime.now();
+
+        //set endTime for guess
+        guess.setEndTime(endTime);
+
+        //calculate totalTime
+        long totalTime = ChronoUnit.SECONDS.between(guess.getStartTime(), endTime);
+
+        //set totalTime
+        guess.setTotalTime(totalTime);
+    }
+
 }

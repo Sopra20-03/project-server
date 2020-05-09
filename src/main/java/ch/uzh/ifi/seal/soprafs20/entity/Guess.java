@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "T_GUESS")
@@ -27,6 +28,15 @@ public class Guess implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerId")
     private RealPlayer owner;
+
+    @Column
+    private LocalDateTime startTime;
+
+    @Column
+    private LocalDateTime endTime;
+
+    @Column
+    private long totalTime;
 
     public Long getGuessId() {
         return guessId;
@@ -67,4 +77,29 @@ public class Guess implements Serializable {
     public void setRound(Round round) {
         this.round = round;
     }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(long totalTime) {
+        this.totalTime = totalTime;
+    }
+
 }
