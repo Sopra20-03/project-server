@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -327,9 +326,9 @@ public class ClueService {
             throw new ClueNotInRoundException(clue.getClueId().toString(), round.getRoundId().toString());
         }
 
-        //calculate score by index in list
-        Collections.reverse(clues);
-        int score = clues.indexOf(clue)+1;
+        //calculate score depending on how many clues were already submitted
+        int clueCount = clues.size();
+        int score = 10 - (clueCount-1)*2;
 
         return score;
     }
