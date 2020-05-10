@@ -79,6 +79,7 @@ public interface DTOMapper {
     @Mapping(source = "playerCount", target = "playerCount")
     @Mapping(source = "gameStatus", target = "gameStatus")
     @Mapping(source = "gameMode", target = "gameMode")
+    @Mapping(source = "botMode", target = "botMode")
     @Mapping(source = "score", target = "score")
     GameGetDTO convertGameEntityToGameGetDTO(Game game);
 
@@ -94,6 +95,7 @@ public interface DTOMapper {
     @Mapping(target = "dateCreated", ignore = true)
     @Mapping(source = "gameName", target = "gameName")
     @Mapping(source = "gameMode", target = "gameMode")
+    @Mapping(source = "botMode", target = "botMode")
     Game convertGamePostDTOtoGameEntity(GamePostDTO gamePostDTO);
 
 

@@ -1,14 +1,10 @@
 package ch.uzh.ifi.seal.soprafs20.rest.dto.Game;
 
+import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-import ch.uzh.ifi.seal.soprafs20.entity.Round;
 
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 
 public class GameGetDTO {
@@ -20,6 +16,7 @@ public class GameGetDTO {
     private int playerCount;
     private GameStatus gameStatus;
     private GameMode gameMode;
+    private BotMode botMode;
     private int score;
 
     public long getGameId() {
@@ -68,6 +65,9 @@ public class GameGetDTO {
         this.gameMode = gameMode;
     }
 
+    public BotMode getBotMode() { return botMode; }
+
+    public void setBotMode(BotMode botMode) { this.botMode = botMode; }
 
     public int getScore() {
         return score;
