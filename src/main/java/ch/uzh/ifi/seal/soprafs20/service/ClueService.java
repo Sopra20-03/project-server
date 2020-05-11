@@ -175,12 +175,14 @@ public class ClueService {
 
     public Clue manuallyValidateClues(Clue clue, Vote vote) {
         int currentVotes = clue.getVotes();
+        int currentVoteCount = clue.getVoteCount();
         if(vote.getVote()){
             clue.setVotes(currentVotes+1);
         }
         else {
             clue.setVotes(currentVotes-1);
         }
+        clue.setVoteCount(currentVoteCount+1);
         Round round = clue.getRound();
         validateClues(round);
         //save changes
