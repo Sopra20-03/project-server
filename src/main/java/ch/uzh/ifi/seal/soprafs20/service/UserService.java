@@ -135,6 +135,9 @@ public class UserService {
             findUserById.setUsername(user.getUsername() == null ? findUserById.getUsername() : user.getUsername());
         }
 
+        //update Icon
+        findUserById.setIcon(user.getIcon());
+
         userRepository.save(findUserById);
         userRepository.flush();
 

@@ -1,12 +1,9 @@
 package ch.uzh.ifi.seal.soprafs20.rest.dto.User;
 
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
-
-import java.time.LocalDate;
-
 public class UserPutDTO {
     private String name;
     private String username;
+    private String icon;
 
     public String getName() {
         return name;
@@ -23,4 +20,8 @@ public class UserPutDTO {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getIcon() { return icon; }
+
+    public void setIcon(String icon) { this.icon = icon; }
 }
