@@ -22,11 +22,9 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final PlayerService playerService;
 
-    UserController(UserService userService, PlayerService playerService) {
+    UserController(UserService userService) {
         this.userService = userService;
-        this.playerService = playerService;
     }
 
     @GetMapping("/users")

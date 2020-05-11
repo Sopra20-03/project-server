@@ -51,6 +51,10 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private int score;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.MERGE)
+    private List<Message> messages = new ArrayList<>();
+
     public Game() {
     }
 
@@ -134,4 +138,11 @@ public class Game implements Serializable {
         this.dateCreated = dateCreated;
     }
 
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 }
