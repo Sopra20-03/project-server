@@ -88,4 +88,78 @@ public class PlayerServiceTest {
         assertEquals(0,playerService.getPlayersByGame(testGame).size());
     }
 
+    @Test
+    void getTotalIndividualScore(){
+        //create test User
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setToken("testToken");
+        testUser.setStatus(UserStatus.OFFLINE);
+        testUser.setDateCreated(LocalDate.now());
+        testUser.setId(1L);
+        testUser = userService.createUser(testUser);
+
+        //create test Game
+        Game testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame = gameService.createGame(testGame);
+        //create test Player and add to Game
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setUserId(1L);
+        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
+        assertEquals(0, playerService.getTotalIndividualScore(testUser.getId()));
+    }
+
+    @Test
+    void getTotalNumberOfGames(){
+        //create test User
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setToken("testToken");
+        testUser.setStatus(UserStatus.OFFLINE);
+        testUser.setDateCreated(LocalDate.now());
+        testUser.setId(1L);
+        testUser = userService.createUser(testUser);
+
+        //create test Game
+        Game testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame = gameService.createGame(testGame);
+        //create test Player and add to Game
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setUserId(1L);
+        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
+        assertEquals(1, playerService.getNumberOfPlayedGames(testUser.getId()));
+    }
+    @Test
+    void getTotalGameScore(){
+        //create test User
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setToken("testToken");
+        testUser.setStatus(UserStatus.OFFLINE);
+        testUser.setDateCreated(LocalDate.now());
+        testUser.setId(1L);
+        testUser = userService.createUser(testUser);
+
+        //create test Game
+        Game testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame = gameService.createGame(testGame);
+        //create test Player and add to Game
+        RealPlayer testPlayer = new RealPlayer();
+        testPlayer.setUserId(1L);
+        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
+        assertEquals(0, playerService.getTotalGameScore(testUser.getId()));
+    }
+
 }

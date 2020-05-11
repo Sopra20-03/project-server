@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.rest.dto.User;
 
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 
@@ -14,6 +15,9 @@ public class UserGetDTO {
     private LocalDate dateCreated;
     private String token;
     private String icon;
+    private int nrOfPlayedGames;
+    private int totalGameScore;
+    private int totalIndividualScore;
 
     public String getToken() {
         return token;
@@ -66,4 +70,27 @@ public class UserGetDTO {
     public String getIcon() { return icon; }
 
     public void setIcon(String icon) { this.icon = icon; }
+
+    public int getTotalIndividualScore() {
+        return totalIndividualScore;
+    }
+
+    public void setTotalIndividualScore(int totalIndividualScore) {
+        this.totalIndividualScore = totalIndividualScore;
+    }
+
+    public int getTotalGameScore() {
+        return totalGameScore;
+    }
+    public void setTotalGameScore(int totalGameScore) {
+        this.totalGameScore = totalGameScore;
+    }
+
+    public int getNrOfPlayedGames() {
+        return nrOfPlayedGames;
+    }
+
+    public void setNrOfPlayedGames(int nrOfPlayedGames) {
+        this.nrOfPlayedGames = nrOfPlayedGames;
+    }
 }

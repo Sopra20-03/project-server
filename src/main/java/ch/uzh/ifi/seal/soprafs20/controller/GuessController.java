@@ -46,7 +46,6 @@ public class GuessController {
      if(roundService.isLastRound(round)){
          roundService.finishRound(round);
          game = gameService.finishGame(game);
-         playerService.removeAllPlayer(game);
      }
      //else start the next round
      else {
