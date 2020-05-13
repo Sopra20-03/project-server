@@ -118,6 +118,7 @@ public class WordCardService {
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
+            log.error("FileNotFoundException thrown", e);
         }
 
         return wordCards;
