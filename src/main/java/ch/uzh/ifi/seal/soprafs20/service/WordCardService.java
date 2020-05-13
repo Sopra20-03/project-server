@@ -97,32 +97,39 @@ public class WordCardService {
     public List<WordCard> getWordCards(int numberOfCards) {
         List<WordCard> wordCards = new ArrayList<>();
         //read words into array
-        try{
-        String file = "src/main/resources/cards-EN.txt";
-        Scanner scanner = new Scanner(new File(file));
-        List<String> words = new ArrayList<>();
-        while(scanner.hasNext()){
-            words.add(scanner.next());
-        }
+        Scanner scanner = null;
+        try {
+            String file = "src/main/resources/cards-EN.txt";
+            scanner = new Scanner(new File(file));
+
+            List<String> words = new ArrayList<>();
+            while (scanner.hasNext()) {
+                words.add(scanner.next());
+            }
 /*
         //TODO: shuffle Removed for Testing
         Collections.shuffle(words);
 */
 
-        //read every 4 word out of array and create a WordCard
-        for(int i = 0; i< 5* numberOfCards; i = i+5) {
-            WordCard wordCard = createWordCard(words.get(i), words.get(i + 1), words.get(i + 2), words.get(i + 3), words.get(i + 4));
-            wordCards.add(wordCard);
-        }
-        scanner.close();
+            //read every 4 word out of array and create a WordCard
+            for (int i = 0; i < 5 * numberOfCards; i = i + 5) {
+                WordCard wordCard = createWordCard(words.get(i), words.get(i + 1), words.get(i + 2), words.get(i + 3), words.get(i + 4));
+                wordCards.add(wordCard);
+            }
+            scanner.close();
+
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
             log.error("FileNotFoundException thrown", e);
         }
+        finally {
+            if (scanner != null) {
+                scanner.close();
+            }
 
-        return wordCards;
+            return wordCards;
+        }
+
     }
-
-
 }
