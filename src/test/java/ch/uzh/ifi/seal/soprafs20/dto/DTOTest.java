@@ -14,6 +14,11 @@ import ch.uzh.ifi.seal.soprafs20.rest.dto.Message.MessagePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Round.RoundGetDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserGetDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPostDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.User.UserPutDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.Vote.VotePutDTO;
+import ch.uzh.ifi.seal.soprafs20.rest.dto.WordCard.WordCardPutDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -195,5 +200,77 @@ public class DTOTest {
         WordCard wordCard = new WordCard();
         testRoundGetDTO.setWordCard(wordCard);
         assertEquals(wordCard,testRoundGetDTO.getWordCard());
+    }
+    @Test
+    void UserGetDTOTest(){
+        UserGetDTO testUserGetDTO = new UserGetDTO();
+        testUserGetDTO.setId(1L);
+        assertEquals(1L, testUserGetDTO.getId());
+
+        testUserGetDTO.setName("name");
+        assertEquals("name", testUserGetDTO.getName());
+
+        testUserGetDTO.setUsername("userName");
+        assertEquals("userName", testUserGetDTO.getUsername());
+
+        testUserGetDTO.setStatus(UserStatus.ONLINE);
+        assertEquals(UserStatus.ONLINE, testUserGetDTO.getStatus());
+
+        LocalDate date = LocalDate.now();
+        testUserGetDTO.setDateCreated(date);
+        assertEquals(date,testUserGetDTO.getDateCreated());
+
+        testUserGetDTO.setToken("token");
+        assertEquals("token", testUserGetDTO.getToken());
+
+        testUserGetDTO.setIcon("icon");
+        assertEquals("icon", testUserGetDTO.getIcon());
+
+        testUserGetDTO.setNrOfPlayedGames(1);
+        assertEquals(1, testUserGetDTO.getNrOfPlayedGames());
+
+        testUserGetDTO.setTotalGameScore(1);
+        assertEquals(1,testUserGetDTO.getTotalGameScore());
+
+        testUserGetDTO.setTotalIndividualScore(1);
+        assertEquals(1,testUserGetDTO.getTotalIndividualScore());
+    }
+
+    @Test
+    void UserPostDTOTest(){
+        UserPostDTO testUserPostDTO = new UserPostDTO();
+        testUserPostDTO.setName("name");
+        assertEquals("name", testUserPostDTO.getName());
+
+        testUserPostDTO.setPassword("123");
+        assertEquals("123", testUserPostDTO.getPassword());
+
+        testUserPostDTO.setUsername("userName");
+        assertEquals("userName", testUserPostDTO.getUsername());
+    }
+    @Test
+    void UserPutDTOTest(){
+        UserPutDTO testUserPutDTO = new UserPutDTO();
+        testUserPutDTO.setName("name");
+        assertEquals("name", testUserPutDTO.getName());
+
+        testUserPutDTO.setUsername("userName");
+        assertEquals("userName", testUserPutDTO.getUsername());
+
+        testUserPutDTO.setIcon("icon");
+        assertEquals("icon", testUserPutDTO.getIcon());
+    }
+
+    @Test
+    void VotePutDTOTest(){
+        VotePutDTO testVotePutDTO = new VotePutDTO();
+        testVotePutDTO.setVote(true);
+        assertTrue(testVotePutDTO.getVote());
+    }
+    @Test
+    void WordCardPutDTO(){
+        WordCardPutDTO testWordCardPutDTO = new WordCardPutDTO();
+        testWordCardPutDTO.setSelectedWord("selectedWord");
+        assertEquals("selectedWord", testWordCardPutDTO.getSelectedWord());
     }
 }

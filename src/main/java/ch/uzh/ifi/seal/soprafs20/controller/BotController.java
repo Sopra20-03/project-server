@@ -62,7 +62,7 @@ public class BotController {
         String word = round.getWordCard().getSelectedWord();
         //get word that is not selected to use for malicious bot
         String notWord;
-        if(round.getWordCard().getWord5() == word) { notWord = round.getWordCard().getWord3(); }
+        if(round.getWordCard().getWord5().equals(word)) { notWord = round.getWordCard().getWord3(); }
         else { notWord = round.getWordCard().getWord5(); }
 
         //if bot is malicious: create clues with similar words for not selected word
