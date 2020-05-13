@@ -46,6 +46,7 @@ public interface DTOMapper {
     @Mapping(target = "nrOfPlayedGames", ignore = true)
     @Mapping(target = "totalGameScore", ignore = true)
     @Mapping(target = "totalIndividualScore", ignore = true)
+    @Mapping(target = "icon", ignore = true)
     @Mapping(source = "name", target = "name")
     @Mapping(source = "username", target = "username")
     @Mapping(source = "password", target = "password")
@@ -136,6 +137,9 @@ public interface DTOMapper {
     @Mapping(target = "isValid", ignore = true)
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "round", ignore = true)
+    @Mapping(target = "startTime", ignore = true)
+    @Mapping(target = "endTime", ignore = true)
+    @Mapping(target = "totalTime", ignore = true)
     Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
     
     @Mapping(source = "guessId", target = "guessId")
@@ -164,6 +168,7 @@ public interface DTOMapper {
     @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "endTime", ignore = true)
     @Mapping(target = "totalTime", ignore = true)
+    @Mapping(target = "voteCount", ignore = true)
     Clue convertCluePostDTOtoClueEntity(CluePostDTO cluePostDTO);
 
     @Mapping(source = "clueId", target = "clueId")
