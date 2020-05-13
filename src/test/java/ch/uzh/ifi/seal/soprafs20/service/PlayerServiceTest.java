@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
@@ -27,8 +29,20 @@ public class PlayerServiceTest {
     @Autowired
     private UserService userService;
 
+    public Game testGame;
 
 
+    @BeforeEach
+    void setup(){
+        //create test Game
+        testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
+        testGame = gameService.createGame(testGame);
+}
 
     @Test
     void createPlayer() {
@@ -43,11 +57,8 @@ public class PlayerServiceTest {
         testUser.setId(1L);
         testUser = userService.createUser(testUser);
 
-        //create test Game
-        Game testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame = gameService.createGame(testGame);
+
+
         //create test Player and add to Game
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
@@ -71,11 +82,7 @@ public class PlayerServiceTest {
         testUser.setId(1L);
         testUser = userService.createUser(testUser);
 
-        //create test Game
-        Game testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame = gameService.createGame(testGame);
+
         //create test Player and add to Game
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
@@ -101,11 +108,7 @@ public class PlayerServiceTest {
         testUser.setId(1L);
         testUser = userService.createUser(testUser);
 
-        //create test Game
-        Game testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame = gameService.createGame(testGame);
+
         //create test Player and add to Game
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
@@ -126,11 +129,7 @@ public class PlayerServiceTest {
         testUser.setId(1L);
         testUser = userService.createUser(testUser);
 
-        //create test Game
-        Game testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame = gameService.createGame(testGame);
+
         //create test Player and add to Game
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
@@ -149,12 +148,7 @@ public class PlayerServiceTest {
         testUser.setDateCreated(LocalDate.now());
         testUser.setId(1L);
         testUser = userService.createUser(testUser);
-
-        //create test Game
-        Game testGame = new Game();
-        testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame = gameService.createGame(testGame);
+        
         //create test Player and add to Game
         RealPlayer testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);

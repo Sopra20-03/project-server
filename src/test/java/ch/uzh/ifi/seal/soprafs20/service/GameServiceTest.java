@@ -1,9 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
-import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
-import ch.uzh.ifi.seal.soprafs20.constant.Role;
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.*;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
@@ -48,6 +45,10 @@ class GameServiceTest {
     void getGame() {
         Game testGame = new Game();
         testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
         testGame = gameService.createGame(testGame);
         assertEquals(testGame.getGameId(),gameService.getGame(1L).getGameId());
     }
@@ -57,6 +58,9 @@ class GameServiceTest {
         Game testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
 
         testGame = gameService.createGame(testGame);
         //check if Game Status is set to INITIALIZED when created
@@ -82,6 +86,9 @@ class GameServiceTest {
         Game testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
         testGame = gameService.createGame(testGame);
 
         //create Player

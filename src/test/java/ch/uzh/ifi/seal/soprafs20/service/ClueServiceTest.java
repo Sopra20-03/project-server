@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
+import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.Role;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
@@ -14,6 +16,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -55,6 +58,9 @@ public class ClueServiceTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame, cards);
         List<Round> rounds = roundService.getRoundsOfGame(testGame);
@@ -248,7 +254,7 @@ public class ClueServiceTest {
      * checks whole process of submitting a clue to calculating the individual score
      */
     @Test
-    void scoreCalculationWithTimer() {
+    void scoreCalculationWithTimer() throws InterruptedException {
         //set two clues
         Clue clue1 = new Clue();
         clue1 = clueService.setClue(activeRound, testPlayer1, clue1);
@@ -258,6 +264,8 @@ public class ClueServiceTest {
         //set start and end time for clues and calculate the individual score
         clueService.setStartTime(activeRound);
         clueService.setEndTime(clue1);
+        //make system wait some time
+        TimeUnit.SECONDS.sleep(10);
         clueService.setEndTime(clue2);
         int score1 = clueService.calculateIndividualScore(activeRound, clue1);
         int score2 = clueService.calculateIndividualScore(activeRound, clue2);

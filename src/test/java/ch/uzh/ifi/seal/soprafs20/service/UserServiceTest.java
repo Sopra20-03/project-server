@@ -1,8 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.service;
 
-import ch.uzh.ifi.seal.soprafs20.constant.Role;
-import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
-import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.*;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,6 +69,9 @@ class UserServiceTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame, cards);
         List<Round> rounds = roundService.getRoundsOfGame(testGame);

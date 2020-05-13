@@ -149,6 +149,7 @@ public class UserControllerTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("testToken");
+        testUser.setIcon("testIcon");
         testUser.setStatus(UserStatus.OFFLINE);
         testUser.setId(1L);
         testUser.setDateCreated(LocalDate.now());
@@ -169,6 +170,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name", is(testUser.getName().toString())))
                 .andExpect(jsonPath("$.dateCreated", is(testUser.getDateCreated().toString())))
                 .andExpect(jsonPath("$.status", is(testUser.getStatus().toString())))
+                .andExpect(jsonPath("$.icon", is(testUser.getIcon())))
                 .andExpect(jsonPath("$.nrOfPlayedGames", is(testUser.getNrOfPlayedGames())))
                 .andExpect(jsonPath("$.totalGameScore", is(testUser.getTotalGameScore())))
                 .andExpect(jsonPath("$.totalIndividualScore", is(testUser.getTotalIndividualScore())))
@@ -180,7 +182,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\",\"nrOfPlayedGames\":1,\"totalGameScore\":2,\"totalIndividualScore\":3}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\",\"icon\":\"testIcon\",\"nrOfPlayedGames\":1,\"totalGameScore\":2,\"totalIndividualScore\":3}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 
@@ -238,6 +240,7 @@ public class UserControllerTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("testToken");
+        testUser.setIcon("testIcon");
         testUser.setStatus(UserStatus.OFFLINE);
         testUser.setId(1L);
         testUser.setDateCreated(LocalDate.now());
@@ -267,6 +270,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name", is(testUser.getName().toString())))
                 .andExpect(jsonPath("$.dateCreated", is(testUser.getDateCreated().toString())))
                 .andExpect(jsonPath("$.status", is(testUser.getStatus().toString())))
+                .andExpect(jsonPath("$.icon", is(testUser.getIcon())))
                 .andExpect(jsonPath("$.nrOfPlayedGames", is(testUser.getNrOfPlayedGames())))
                 .andExpect(jsonPath("$.totalGameScore", is(testUser.getTotalGameScore())))
                 .andExpect(jsonPath("$.totalIndividualScore", is(testUser.getTotalIndividualScore())))
@@ -278,7 +282,7 @@ public class UserControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\",\"nrOfPlayedGames\":1,\"totalGameScore\":2,\"totalIndividualScore\":3}", result.getResponse().getContentAsString());
+        assertEquals("{\"id\":1,\"name\":\"testName\",\"username\":\"testUsername\",\"status\":\"OFFLINE\",\"dateCreated\":\""+LocalDate.now()+"\",\"token\":\"testToken\",\"icon\":\"testIcon\",\"nrOfPlayedGames\":1,\"totalGameScore\":2,\"totalIndividualScore\":3}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
