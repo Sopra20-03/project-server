@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
+import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
@@ -79,6 +80,8 @@ public class GameControllerTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setBotMode(BotMode.FRIENDLY);
         testGame.setGameMode(GameMode.RIVAL);
         testGame.setGameStatus(GameStatus.INITIALIZED);
         testGame.setDateCreated(LocalDate.now());
@@ -140,6 +143,7 @@ public class GameControllerTest {
                 .andExpect(jsonPath("$[0].playerCount", is(testGame.getPlayerCount())))
                 .andExpect(jsonPath("$[0].gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$[0].gameMode", is(testGame.getGameMode().toString())))
+                .andExpect(jsonPath("$[0].botMode", is(testGame.getBotMode().toString())))
                 .andExpect(jsonPath("$[0].score", is(testGame.getScore())))
                 .andReturn();
 
@@ -180,6 +184,7 @@ public class GameControllerTest {
                 .andExpect(jsonPath("$.playerCount", is(testGame.getPlayerCount())))
                 .andExpect(jsonPath("$.gameStatus", is(testGame.getGameStatus().toString())))
                 .andExpect(jsonPath("$.gameMode", is(testGame.getGameMode().toString())))
+                .andExpect(jsonPath("$.botMode", is(testGame.getBotMode().toString())))
                 .andExpect(jsonPath("$.score", is(testGame.getScore())))
                 .andReturn();
 
@@ -189,7 +194,7 @@ public class GameControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"dateCreated\":\""+LocalDate.now()+"\",\"creatorUsername\":null,\"playerCount\":0,\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"score\":0}", result.getResponse().getContentAsString());
+        assertEquals("{\"gameId\":1,\"gameName\":\"testGame\",\"dateCreated\":\""+LocalDate.now()+"\",\"creatorUsername\":\"testUser\",\"playerCount\":0,\"gameStatus\":\"INITIALIZED\",\"gameMode\":\"RIVAL\",\"botMode\":\"FRIENDLY\",\"score\":0}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.GET.name(), result.getRequest().getMethod());
 

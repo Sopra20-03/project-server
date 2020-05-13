@@ -14,4 +14,5 @@ public interface PlayerRepository extends JpaRepository<RealPlayer, Long> {
     List<RealPlayer> findRealPlayersByUserId(Long userId);
     List<RealPlayer> findRealPlayersByGameAndUserId(Game game , Long userId);
     RealPlayer findRealPlayerByPlayerId(Long playerId);
+
 }

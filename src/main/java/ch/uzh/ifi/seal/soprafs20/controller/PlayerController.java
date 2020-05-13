@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
-import ch.uzh.ifi.seal.soprafs20.entity.*;
+import ch.uzh.ifi.seal.soprafs20.entity.Game;
+import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
+import ch.uzh.ifi.seal.soprafs20.entity.User;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Player.PlayerPutDTO;
@@ -72,6 +74,8 @@ public class PlayerController {
         playerService.removePlayer(game, userId);
     }
 
+    //I put the setIndividualScore inside submitClue
+    /*
     @PutMapping("games/{gameId}/rounds/{roundNum}/score")
     @ResponseStatus(HttpStatus.OK)
     public List<PlayerGetDTO> setIndividualScore(@PathVariable Long gameId, @PathVariable int roundNum) {
@@ -91,4 +95,5 @@ public class PlayerController {
         }
         return playerGetDTOs;
     }
+    */
 }

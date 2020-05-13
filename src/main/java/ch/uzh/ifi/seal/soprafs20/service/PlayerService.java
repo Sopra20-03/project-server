@@ -36,6 +36,8 @@ public class PlayerService {
         return playerRepository.findRealPlayersByGame(game);
     }
 
+
+    //don't use this because there are more than one player with one UserID
     public RealPlayer getPlayer(Long id) {
         RealPlayer player = playerRepository.findRealPlayerByUserId(id);
         if(player==null){
@@ -59,6 +61,7 @@ public class PlayerService {
      * @param game the user wants to join
      * @return Player
      */
+    //TODO: this method is only used in tests, maybe remove?
     public RealPlayer createPlayer(RealPlayer player, Game game) {
 
         //CompleteDetails
@@ -105,8 +108,8 @@ public class PlayerService {
         //exception if player is already in a game
         List<RealPlayer> playersOfUser = playerRepository.findRealPlayersByUserId(player.getUserId());
         //check if one of the players of this user is in an game with status != finished
-        while(playersOfUser.iterator().hasNext()){
-            Game gameOfPlayer = playersOfUser.iterator().next().getGame();
+        for(RealPlayer playerOfUser : playersOfUser){
+            Game gameOfPlayer = playerOfUser.getGame();
             if(gameOfPlayer.getGameStatus() != GameStatus.FINISHED) {
                 throw new PlayerAlreadyInGameException(" User with UserId: " + player.getUserId().toString()+" is in Game with GameId: "+gameOfPlayer.getGameId());
             }
@@ -139,6 +142,8 @@ public class PlayerService {
         int currentScore = player.getScore();
         currentScore = currentScore + score;
         player.setScore(currentScore);
+        playerRepository.save(player);
+        playerRepository.flush();
 
         return player;
     }
@@ -155,4 +160,34 @@ public class PlayerService {
         }
         return game;
     }
+    /**
+     * sum up all individual scores from players with one UserId
+     */
+    public int getTotalIndividualScore(long userId){
+        List<RealPlayer> players = playerRepository.findRealPlayersByUserId(userId);
+        int totalScore = 0;
+        for(RealPlayer player: players){
+            totalScore = totalScore + player.getScore();
+        }
+        return totalScore;
+    }
+    /**
+     * get number of games from players with one UserId
+     */
+    public int getNumberOfPlayedGames(long userId){
+        List<RealPlayer> players = playerRepository.findRealPlayersByUserId(userId);
+        return players.size();
+    }
+    /**
+     * sum up all game scores from players with one UserId
+     */
+    public int getTotalGameScore(long userId){
+        List<RealPlayer> players = playerRepository.findRealPlayersByUserId(userId);
+        int totalScore = 0;
+        for(RealPlayer player: players){
+            totalScore = totalScore + player.getGame().getScore();
+        }
+        return totalScore;
+    }
+
 }

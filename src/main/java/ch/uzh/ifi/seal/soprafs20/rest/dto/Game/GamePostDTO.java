@@ -1,11 +1,13 @@
 package ch.uzh.ifi.seal.soprafs20.rest.dto.Game;
 
+import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 
 public class GamePostDTO {
     private String gameName;
     private String creatorUsername;
     private GameMode gameMode;
+    private BotMode botMode;
 
     public void setGameName(String gameName) {
         this.gameName = gameName;
@@ -30,4 +32,8 @@ public class GamePostDTO {
     public GameMode getGameMode() {
         return gameMode;
     }
+
+    public void setBotMode(BotMode botMode) { this.botMode = botMode; }
+
+    public BotMode getBotMode() { return botMode; }
 }

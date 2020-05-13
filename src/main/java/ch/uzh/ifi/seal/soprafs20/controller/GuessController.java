@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Guess;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
@@ -46,15 +47,20 @@ public class GuessController {
      if(roundService.isLastRound(round)){
          roundService.finishRound(round);
          game = gameService.finishGame(game);
-         playerService.removeAllPlayer(game);
      }
      //else start the next round
      else {
          game = roundService.startNextRound(game);
      }
 
-     //increase score if guess was correct
+     //increase game score if guess was correct
      if(guess.getIsValid()){ gameService.increaseScore(game); }
+
+     //calculate and set individual score if game is in rival mode
+         if(game.getGameMode() == GameMode.RIVAL) {
+             int score = guessService.calculateIndividualScore(guess);
+             playerService.setScore(playerId, score);
+         }
 
      return DTOMapper.INSTANCE.convertGuessEntityToGuessGetDTO(guess);
      }

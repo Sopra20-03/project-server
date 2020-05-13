@@ -10,6 +10,8 @@ public class ClueGetDTO {
 
     private int votes;
 
+    private int voteCount;
+
     private Long ownerId;
 
     private long totalTime;
@@ -44,6 +46,14 @@ public class ClueGetDTO {
 
     public void setVotes(int votes) {
         this.votes = votes;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
     public Long getOwnerId() { return ownerId; }

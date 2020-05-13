@@ -37,6 +37,9 @@ public class Clue implements Serializable {
     private int votes;
 
     @Column
+    private int voteCount;
+
+    @Column
     private LocalDateTime startTime;
 
     @Column
@@ -92,6 +95,10 @@ public class Clue implements Serializable {
     public void setVotes(int votes) {
         this.votes = votes;
     }
+
+    public int getVoteCount() { return voteCount; }
+
+    public void setVoteCount(int voteCount) { this.voteCount = voteCount; }
 
     public Long getOwnerId() {
         return ownerId;
