@@ -127,9 +127,8 @@ public class WordCardService {
             if (scanner != null) {
                 scanner.close();
             }
-
-            return wordCards;
         }
+        return wordCards;
 
     }
 }
