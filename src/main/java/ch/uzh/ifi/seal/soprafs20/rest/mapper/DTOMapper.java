@@ -21,8 +21,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDateTime;
-
 
 /**
  * DTOMapper
@@ -172,7 +170,7 @@ public interface DTOMapper {
     @Mapping(source = "word", target = "word")
     @Mapping(source = "isValid", target = "isValid")
     @Mapping(source = "votes", target = "votes")
-    @Mapping(source = "voteCount", target = "voteCount")
+    //@Mapping(source = "voteCount", target = "voteCount")
     @Mapping(source = "ownerId", target = "ownerId")
     @Mapping(source = "totalTime", target = "totalTime")
     ClueGetDTO convertClueEntityToClueGetDTO(Clue clue);
