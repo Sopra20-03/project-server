@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.soprafs20.controller;
 
 
+import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
+import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.Message;
@@ -88,6 +90,9 @@ class ChatControllerTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
         testGame = gameService.createGame(testGame);
         //given
         testMessage = new Message();
@@ -142,6 +147,9 @@ class ChatControllerTest {
         testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
         testGame = gameService.createGame(testGame);
         //given
         testMessage = new Message();

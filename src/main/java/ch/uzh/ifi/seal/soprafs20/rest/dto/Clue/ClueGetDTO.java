@@ -48,9 +48,13 @@ public class ClueGetDTO {
         this.votes = votes;
     }
 
-    public int getVoteCount() { return voteCount; }
+    public int getVoteCount() {
+        return voteCount;
+    }
 
-    public void setVoteCount() { this.voteCount = voteCount; }
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
 
     public Long getOwnerId() { return ownerId; }
 
