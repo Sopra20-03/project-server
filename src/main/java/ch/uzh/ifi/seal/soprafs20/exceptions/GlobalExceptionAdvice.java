@@ -1,20 +1,6 @@
 package ch.uzh.ifi.seal.soprafs20.exceptions;
 
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NoClueException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.NotEnoughCluesException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NotEnoughPlayersException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerNotInGameException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Player.PlayerNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Round.RoundNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.User.UsernameTakenException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.context.request.WebRequest;

@@ -6,5 +6,7 @@ public class PlayerPutDTO {
 
     public Long getUserId() { return userId; }
 
-    public void setUserId() { this.userId = userId; }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }
