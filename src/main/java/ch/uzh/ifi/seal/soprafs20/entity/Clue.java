@@ -48,6 +48,9 @@ public class Clue implements Serializable {
     @Column
     private long totalTime;
 
+    @Column
+    private int score;
+
     public Long getClueId() {
         return clueId;
     }
@@ -131,4 +134,8 @@ public class Clue implements Serializable {
     public void setTotalTime(long totalTime) {
         this.totalTime = totalTime;
     }
+
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
 }

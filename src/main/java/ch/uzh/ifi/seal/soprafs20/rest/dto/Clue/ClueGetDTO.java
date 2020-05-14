@@ -16,6 +16,8 @@ public class ClueGetDTO {
 
     private long totalTime;
 
+    private int score;
+
     public Long getClueId() {
         return clueId;
     }
@@ -63,4 +65,8 @@ public class ClueGetDTO {
     public long getTotalTime() { return totalTime; }
 
     public void setTotalTime(long totalTime) { this.totalTime = totalTime; }
+
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
 }
