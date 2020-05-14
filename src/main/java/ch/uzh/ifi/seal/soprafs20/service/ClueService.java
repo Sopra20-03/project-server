@@ -341,4 +341,10 @@ public class ClueService {
         clueRepository.flush();
     }
 
+    public Clue removeClueScore(Clue clue) {
+        clue.setScore(0);
+        clueRepository.save(clue);
+        clueRepository.flush();
+        return clue;
+    }
 }
