@@ -53,10 +53,11 @@ public class ClueController {
         //auto validate clue
         clueService.autoValidateClues(round);
 
-        //calculate individual score if game is in rival mode
+        //calculate individual score if game is in rival mode and set it in clue and player
         if(game.getGameMode() == GameMode.RIVAL) {
             int score = clueService.calculateIndividualScore(round, clue);
             playerService.setScore(playerId, score);
+            clueService.setClueScore(clue, score);
         }
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);

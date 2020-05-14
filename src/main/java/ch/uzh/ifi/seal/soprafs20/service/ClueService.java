@@ -335,4 +335,10 @@ public class ClueService {
         return score;
     }
 
+    public void setClueScore(Clue clue, int score) {
+        clue.setScore(score);
+        clueRepository.save(clue);
+        clueRepository.flush();
+    }
+
 }
