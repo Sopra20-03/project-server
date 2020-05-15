@@ -95,6 +95,9 @@ public class DTOTest {
         
         testGameGetDTO.setScore(0);
         assertEquals(0,testGameGetDTO.getScore());
+
+        testGameGetDTO.setDuration(Duration.SHORT);
+        assertEquals(Duration.SHORT,testGameGetDTO.getDuration());
         
     }
     
@@ -112,6 +115,9 @@ public class DTOTest {
 
         testGamePostDTO.setBotMode(BotMode.FRIENDLY);
         assertEquals(BotMode.FRIENDLY, testGamePostDTO.getBotMode());
+
+        testGamePostDTO.setDuration(Duration.SHORT);
+        assertEquals(Duration.SHORT,testGamePostDTO.getDuration());
     }
 
     @Test

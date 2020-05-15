@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
 import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
+import ch.uzh.ifi.seal.soprafs20.constant.Duration;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 import org.hibernate.annotations.LazyCollection;
@@ -43,6 +44,9 @@ public class Game implements Serializable {
 
     @Column(nullable = false)
     private BotMode botMode;
+
+    @Column
+    private Duration duration;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "game", cascade = CascadeType.MERGE)
@@ -150,5 +154,13 @@ public class Game implements Serializable {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }

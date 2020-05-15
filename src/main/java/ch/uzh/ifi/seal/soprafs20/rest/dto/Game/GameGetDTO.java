@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.rest.dto.Game;
 
 import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
+import ch.uzh.ifi.seal.soprafs20.constant.Duration;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameStatus;
 
@@ -17,6 +18,7 @@ public class GameGetDTO {
     private GameStatus gameStatus;
     private GameMode gameMode;
     private BotMode botMode;
+    private Duration duration;
     private int score;
 
     public long getGameId() {
@@ -83,5 +85,13 @@ public class GameGetDTO {
 
     public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }
