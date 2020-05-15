@@ -32,6 +32,7 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper
 public interface DTOMapper {
+    //This is not bad practice referring to mapstruct.org, although sonar cube complains
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 

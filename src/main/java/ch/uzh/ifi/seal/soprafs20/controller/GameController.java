@@ -27,13 +27,12 @@ public class GameController {
     private final GameService gameService;
     private final RoundService roundService;
     private final WordCardService wordCardService;
-    private final ClueService clueService;
 
-    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService, ClueService clueService) {
+
+    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.wordCardService = wordCardService;
-        this.clueService = clueService;
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)

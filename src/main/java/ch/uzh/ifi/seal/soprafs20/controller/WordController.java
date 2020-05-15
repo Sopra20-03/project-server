@@ -45,7 +45,7 @@ public class WordController {
         round = wordCardService.setSelectedWord(round, wordCard.getSelectedWord());
 
         //create empty clues
-        game = clueService.setEmptyClues(game, round);
+        clueService.setEmptyClues(game, round);
 
         //submit bot clues
         botController.submitClues(round);

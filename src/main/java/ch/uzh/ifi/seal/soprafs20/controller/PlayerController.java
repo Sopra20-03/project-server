@@ -20,15 +20,13 @@ public class PlayerController {
     private final PlayerService playerService;
     private final GameService gameService;
     private final UserService userService;
-    private final RoundService roundService;
-    private final ClueService clueService;
 
-    public PlayerController(PlayerService playerService, GameService gameService, UserService userService, RoundService roundService, ClueService clueService) {
+
+    public PlayerController(PlayerService playerService, GameService gameService, UserService userService) {
         this.gameService = gameService;
         this.playerService = playerService;
         this.userService = userService;
-        this.roundService = roundService;
-        this.clueService = clueService;
+
     }
 
     @GetMapping("/games/{id}/players")
