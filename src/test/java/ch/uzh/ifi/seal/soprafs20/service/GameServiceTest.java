@@ -38,10 +38,6 @@ class GameServiceTest {
     }
 
     @Test
-    void getGames() {
-    }
-
-    @Test
     void getGame() {
         Game testGame = new Game();
         testGame.setGameId(1L);

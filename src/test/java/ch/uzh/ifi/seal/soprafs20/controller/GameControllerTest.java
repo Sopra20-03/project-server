@@ -103,10 +103,6 @@ public class GameControllerTest {
 
     }
 
-    @Test
-    public void test() throws Exception {
-        System.out.println("Test");
-    }
 
     /*
      * Assertions
