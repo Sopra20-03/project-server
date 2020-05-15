@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "T_MESSAGE")
 @SequenceGenerator(name="messageSeq", initialValue=1, allocationSize=100)
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;

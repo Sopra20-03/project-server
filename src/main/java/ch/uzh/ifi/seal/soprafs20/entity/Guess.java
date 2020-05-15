@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "T_GUESS")
 @SequenceGenerator(name="guessSeq", initialValue=1, allocationSize=100)
 public class Guess implements Serializable {
 

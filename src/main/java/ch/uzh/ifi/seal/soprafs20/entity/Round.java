@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "T_ROUNDS")
 @SequenceGenerator(name="roundSeq", initialValue=1, allocationSize=100)
 public class Round implements Serializable {
 

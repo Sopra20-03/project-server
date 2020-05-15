@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "T_CLUES")
 @SequenceGenerator(name="clueSeq", initialValue=1, allocationSize=100)
 public class Clue implements Serializable {
 

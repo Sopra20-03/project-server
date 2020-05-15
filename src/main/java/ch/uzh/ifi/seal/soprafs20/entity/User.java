@@ -14,6 +14,7 @@ import java.time.LocalDate;
  * - unique = true -> this value must be unqiue across the database -> composes the primary key
  */
 @Entity
+@Table(name = "T_USERS")
 @SequenceGenerator(name="userSeq", initialValue=1, allocationSize=100)
 public class User implements Serializable {
 
