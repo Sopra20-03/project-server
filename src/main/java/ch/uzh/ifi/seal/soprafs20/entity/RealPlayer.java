@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "T_Players")
 @SequenceGenerator(name="playerSeq", initialValue=1, allocationSize=100)
 public class RealPlayer implements Serializable {
 

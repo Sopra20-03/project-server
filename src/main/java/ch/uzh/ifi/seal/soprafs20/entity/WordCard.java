@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "T_WordCards")
 @SequenceGenerator(name="wordCardSeq", initialValue=1, allocationSize=100)
 public class WordCard implements Serializable {
 

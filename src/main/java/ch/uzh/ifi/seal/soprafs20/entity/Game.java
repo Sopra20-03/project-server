@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "T_GAMES")
 @SequenceGenerator(name="gameSeq", initialValue=1, allocationSize=100)
 public class Game implements Serializable {
 
@@ -59,8 +58,6 @@ public class Game implements Serializable {
     @OneToMany(mappedBy = "game", cascade = CascadeType.MERGE)
     private List<Message> messages = new ArrayList<>();
 
-    public Game() {
-    }
 
     public String getGameName() {
         return gameName;

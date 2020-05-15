@@ -2,7 +2,6 @@ package ch.uzh.ifi.seal.soprafs20.entity;
 
 public class Vote {
     private boolean vote;
-    public Vote(){}
 
     public void setVote(boolean vote) {
         this.vote = vote;
