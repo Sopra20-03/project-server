@@ -30,6 +30,12 @@ public class BotControllerTest {
     public void removeEqualWordsTest(){
         BotController botController = new BotController(clueService);
         List<Synonym> synonymsOfDiamond = botController.getSimilarWords("diamond");
+        //assume diamonds get return as synonym of diamond
+        Synonym diamondsSynonym = new Synonym();
+        diamondsSynonym.setWord("diamonds");
+        diamondsSynonym.setScore(1000);
+        synonymsOfDiamond.add(diamondsSynonym);
+
         List<String> synonymsBeforeRemoving = new ArrayList<>();
         for(Synonym synonym: synonymsOfDiamond){
             synonymsBeforeRemoving.add(synonym.getWord());
@@ -39,6 +45,7 @@ public class BotControllerTest {
         for(Synonym synonym: synonymsOfDiamond){
             synonymsAfterRemoving.add(synonym.getWord());
         }
+
         assertTrue(synonymsBeforeRemoving.contains("diamonds"));
         assertFalse(synonymsAfterRemoving.contains("diamonds"));
 
