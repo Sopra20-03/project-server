@@ -109,9 +109,9 @@ public interface DTOMapper {
     //@Mapping(source = "game", target = "gameId")
     @Mapping(source = "roundNum", target = "roundNum")
     @Mapping(source = "roundStatus", target = "roundStatus")
-    //@Mapping(source = "guess", target = "guess")
-
-    @Mapping(source ="wordCard", target = "wordCard")
+    @Mapping(source = "guess", target = "guess")
+    @Mapping(source = "wordCard", target = "wordCard")
+    @Mapping(source = "clues", target = "clues")
     RoundGetDTO convertRoundEntityToRoundGetDTO(Round round);
 
     @Mapping(source = "playerId", target = "playerId")

@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,7 +17,7 @@ public class Clue implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "clueSeq")
     private Long clueId;
 
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roundId")
     private Round round;
@@ -26,6 +28,7 @@ public class Clue implements Serializable {
     @Column
     private boolean isValid;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerId")
     private RealPlayer owner;

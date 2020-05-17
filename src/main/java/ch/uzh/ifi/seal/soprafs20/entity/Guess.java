@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.soprafs20.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,7 +16,7 @@ public class Guess implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "guessSeq")
     private Long guessId;
 
-
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="guessId", nullable = true)
     private Round round;
@@ -25,6 +27,7 @@ public class Guess implements Serializable {
     @Column
     private boolean isValid;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerId")
     private RealPlayer owner;
