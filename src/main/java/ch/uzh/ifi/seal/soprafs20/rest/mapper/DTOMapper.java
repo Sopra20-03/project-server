@@ -188,6 +188,7 @@ public interface DTOMapper {
 
     @Mapping(target = "messageId", ignore = true)
     @Mapping(source = "username",target = "username")
+    @Mapping(source = "icon", target = "icon")
     @Mapping(source = "text", target = "text")
     @Mapping(target = "timeCreated", ignore = true)
     @Mapping(target = "game", ignore = true)
@@ -196,6 +197,7 @@ public interface DTOMapper {
 
     @Mapping(source = "messageId", target = "messageId")
     @Mapping(source = "username",target = "username")
+    @Mapping(source = "icon", target = "icon")
     @Mapping(source = "text", target = "text")
     @Mapping(source = "timeCreated", target = "timeCreated")
     MessageGetDTO convertMessageEntityToMessageGetDTO(Message message);

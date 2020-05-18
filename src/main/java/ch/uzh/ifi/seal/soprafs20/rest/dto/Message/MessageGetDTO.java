@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 public class MessageGetDTO {
     private Long messageId;
     private String username;
+    private String icon;
     private String text;
     private LocalDateTime timeCreated;
+
 
     public Long getMessageId() {
         return messageId;
@@ -38,5 +40,13 @@ public class MessageGetDTO {
 
     public void setTimeCreated(LocalDateTime timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
