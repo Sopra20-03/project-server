@@ -5,10 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
-import ch.uzh.ifi.seal.soprafs20.service.ClueService;
-import ch.uzh.ifi.seal.soprafs20.service.GameService;
-import ch.uzh.ifi.seal.soprafs20.service.RoundService;
-import ch.uzh.ifi.seal.soprafs20.service.WordCardService;
+import ch.uzh.ifi.seal.soprafs20.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +24,13 @@ public class GameController {
     private final GameService gameService;
     private final RoundService roundService;
     private final WordCardService wordCardService;
-    private final ClueService clueService;
+    private final PlayerService playerService;
 
-    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService, ClueService clueService) {
+    public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService, PlayerService playerService) {
         this.gameService = gameService;
         this.roundService = roundService;
         this.wordCardService = wordCardService;
-        this.clueService = clueService;
+        this.playerService = playerService;
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -83,6 +80,9 @@ public class GameController {
     public GameGetDTO deleteGame(@PathVariable Long id) {
         // Get game details
         Game game = gameService.getGame(id);
+
+        //remove all players from game
+        game= playerService.removeAllPlayer(game);
 
         // Delete rounds from game
         roundService.removeRounds(game);

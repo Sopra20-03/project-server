@@ -22,6 +22,9 @@ public class Message implements Serializable {
     private String username;
 
     @Column
+    private String icon;
+
+    @Column
     private String text;
 
     @Column(nullable = false)
@@ -65,5 +68,13 @@ public class Message implements Serializable {
 
     public LocalDateTime getTimeCreated() {
         return timeCreated;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 }

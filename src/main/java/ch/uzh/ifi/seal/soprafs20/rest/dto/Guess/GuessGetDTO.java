@@ -9,6 +9,8 @@ public class GuessGetDTO {
 
     private boolean isValid;
 
+    private int score;
+
     public Long getGuessId() {
         return guessId;
     }
@@ -31,5 +33,13 @@ public class GuessGetDTO {
 
     public void setIsValid(boolean valid) {
         isValid = valid;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
