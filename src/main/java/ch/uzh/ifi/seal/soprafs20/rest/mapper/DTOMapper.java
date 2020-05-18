@@ -140,11 +140,13 @@ public interface DTOMapper {
     @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "endTime", ignore = true)
     @Mapping(target = "totalTime", ignore = true)
+    @Mapping(target = "score", ignore = true)
     Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
     
     @Mapping(source = "guessId", target = "guessId")
     @Mapping(source = "word", target = "word")
     @Mapping(source = "isValid", target = "isValid")
+    @Mapping(source = "score", target = "score")
     GuessGetDTO convertGuessEntityToGuessGetDTO(Guess guess);
 
 

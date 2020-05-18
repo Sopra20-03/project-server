@@ -41,6 +41,9 @@ public class Guess implements Serializable {
     @Column
     private long totalTime;
 
+    @Column
+    private int score;
+
     public Long getGuessId() {
         return guessId;
     }
@@ -105,4 +108,11 @@ public class Guess implements Serializable {
         this.totalTime = totalTime;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
