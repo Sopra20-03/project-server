@@ -53,10 +53,11 @@ public class ClueController {
         //auto validate clue
         clueService.autoValidateClues(round);
 
-        //calculate individual score if game is in rival mode
+        //calculate individual score if game is in rival mode and set it in clue and player
         if(game.getGameMode() == GameMode.RIVAL) {
             int score = clueService.calculateIndividualScore(round, clue);
             playerService.setScore(playerId, score);
+            clueService.setClueScore(clue, score);
         }
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
@@ -90,6 +91,18 @@ public class ClueController {
 
         Clue clue = clueService.getClueById(clueId);
         clue = clueService.manuallyValidateClues(clue,vote);
+
+        //get number of players
+        Game game = gameService.getGame(gameId);
+        int playerCount = game.getPlayerCount();
+        //get owner of clue and current score
+        RealPlayer owner = clue.getOwner();
+        int score = clue.getScore();
+        //if at least half of all players unvalidated the clue, remove the score
+        if(clue.getVoteCount() >= ((playerCount-1)/2) && !clue.getIsValid()) {
+            clue = clueService.removeClueScore(clue);
+            owner = playerService.removeScore(owner, score);
+        }
 
         return DTOMapper.INSTANCE.convertClueEntityToClueGetDTO(clue);
     }

@@ -178,6 +178,7 @@ public interface DTOMapper {
     @Mapping(source = "voteCount", target = "voteCount")
     @Mapping(source = "ownerId", target = "ownerId")
     @Mapping(source = "totalTime", target = "totalTime")
+    @Mapping(source = "score", target = "score")
     ClueGetDTO convertClueEntityToClueGetDTO(Clue clue);
 
     @Mapping(source = "vote", target = "vote")
