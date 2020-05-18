@@ -335,4 +335,16 @@ public class ClueService {
         return score;
     }
 
+    public void setClueScore(Clue clue, int score) {
+        clue.setScore(score);
+        clueRepository.save(clue);
+        clueRepository.flush();
+    }
+
+    public Clue removeClueScore(Clue clue) {
+        clue.setScore(0);
+        clueRepository.save(clue);
+        clueRepository.flush();
+        return clue;
+    }
 }
