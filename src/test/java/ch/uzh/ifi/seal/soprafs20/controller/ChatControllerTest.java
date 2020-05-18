@@ -101,6 +101,7 @@ class ChatControllerTest {
         testMessage.setTimeCreated(time);
         testMessage.setGame(testGame);
         testMessage.setMessageId(1L);
+        testMessage.setIcon("testIcon.png");
 
         //Message from Post
         MessagePostDTO messagePostDTO = new MessagePostDTO();
@@ -120,6 +121,7 @@ class ChatControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.username", is(testMessage.getUsername())))
+                .andExpect(jsonPath("$.icon", is(testMessage.getIcon())))
                 .andExpect(jsonPath("$.text", is(testMessage.getText())))
                 .andExpect(jsonPath("$.timeCreated", is(time.toString())))
                 .andReturn();
@@ -130,7 +132,7 @@ class ChatControllerTest {
         //Check Correct HTTP Response Content-Type (Data Format)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, result.getResponse().getContentType());
         //Check Correct HTTP Response Data
-        assertEquals("{\"messageId\":1,\"username\":\"testUsername\",\"text\":\"text\",\"timeCreated\":\""+time.toString()+"\"}", result.getResponse().getContentAsString());
+        assertEquals("{\"messageId\":1,\"username\":\"testUsername\",\"icon\":\"testIcon.png\",\"text\":\"text\",\"timeCreated\":\""+time.toString()+"\"}", result.getResponse().getContentAsString());
         //Check Correct HTTP Request Method
         assertEquals(HttpMethod.POST.name(), result.getRequest().getMethod());
         //Check Correct HTTP Request Data Passing
@@ -173,6 +175,7 @@ class ChatControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].username", is(testMessage.getUsername())))
+                .andExpect(jsonPath("$[0].icon", is(testMessage.getIcon())))
                 .andExpect(jsonPath("$[0].text", is(testMessage.getText())))
                 .andExpect(jsonPath("$[0].timeCreated", is(time.toString())))
                 .andReturn();

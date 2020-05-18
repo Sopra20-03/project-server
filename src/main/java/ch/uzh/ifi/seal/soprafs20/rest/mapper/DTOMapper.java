@@ -171,6 +171,7 @@ public interface DTOMapper {
     @Mapping(target = "endTime", ignore = true)
     @Mapping(target = "totalTime", ignore = true)
     @Mapping(target = "voteCount", ignore = true)
+    @Mapping(target = "score", ignore = true)
     Clue convertCluePostDTOtoClueEntity(CluePostDTO cluePostDTO);
 
     @Mapping(source = "clueId", target = "clueId")
