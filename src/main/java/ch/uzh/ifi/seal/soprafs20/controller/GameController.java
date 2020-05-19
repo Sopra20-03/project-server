@@ -24,6 +24,7 @@ public class GameController {
     private final GameService gameService;
     private final RoundService roundService;
     private final WordCardService wordCardService;
+
     private final PlayerService playerService;
 
     public GameController(GameService gameService, RoundService roundService, WordCardService wordCardService, PlayerService playerService) {
@@ -31,6 +32,7 @@ public class GameController {
         this.roundService = roundService;
         this.wordCardService = wordCardService;
         this.playerService = playerService;
+
     }
 
     @GetMapping(value = "", produces = MediaType.TEXT_PLAIN_VALUE)

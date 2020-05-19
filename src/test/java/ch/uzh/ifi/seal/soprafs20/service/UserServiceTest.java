@@ -96,33 +96,7 @@ class UserServiceTest {
         testGame.setScore(11);
         testGame = gameService.finishGame(testGame);
     }
-    @Test
-    void getUsers() {
-    }
 
-    @Test
-    void getUser() {
-    }
-
-    @Test
-    void getUserByToken() {
-    }
-
-    @Test
-    void createUser() {
-    }
-
-    @Test
-    void updateUser() {
-    }
-
-    @Test
-    void loginUser() {
-    }
-
-    @Test
-    void logoutUser() {
-    }
 
     @Test
     void updateUserScore() {

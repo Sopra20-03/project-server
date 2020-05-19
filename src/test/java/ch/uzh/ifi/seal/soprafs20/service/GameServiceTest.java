@@ -38,10 +38,6 @@ class GameServiceTest {
     }
 
     @Test
-    void getGames() {
-    }
-
-    @Test
     void getGame() {
         Game testGame = new Game();
         testGame.setGameId(1L);
@@ -49,6 +45,7 @@ class GameServiceTest {
         testGame.setCreatorUsername("testUser");
         testGame.setGameMode(GameMode.STANDARD);
         testGame.setBotMode(BotMode.FRIENDLY);
+        testGame.setDuration(Duration.SHORT);
         testGame = gameService.createGame(testGame);
         assertEquals(testGame.getGameId(),gameService.getGame(1L).getGameId());
     }
@@ -61,6 +58,7 @@ class GameServiceTest {
         testGame.setCreatorUsername("testUser");
         testGame.setGameMode(GameMode.STANDARD);
         testGame.setBotMode(BotMode.FRIENDLY);
+        testGame.setDuration(Duration.SHORT);
 
         testGame = gameService.createGame(testGame);
         //check if Game Status is set to INITIALIZED when created
