@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class GameFullException extends RuntimeException {
     public GameFullException(String message) {
-        super(" : Game already has five players.");
+        super("Game already has five players.");
     }
 }
