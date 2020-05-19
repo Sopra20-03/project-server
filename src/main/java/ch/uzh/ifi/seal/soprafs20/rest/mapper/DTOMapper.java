@@ -112,9 +112,9 @@ public interface DTOMapper {
     //@Mapping(source = "game", target = "gameId")
     @Mapping(source = "roundNum", target = "roundNum")
     @Mapping(source = "roundStatus", target = "roundStatus")
-    //@Mapping(source = "guess", target = "guess")
-
-    @Mapping(source ="wordCard", target = "wordCard")
+    @Mapping(source = "guess", target = "guess")
+    @Mapping(source = "wordCard", target = "wordCard")
+    @Mapping(source = "clues", target = "clues")
     RoundGetDTO convertRoundEntityToRoundGetDTO(Round round);
 
     @Mapping(source = "playerId", target = "playerId")
@@ -143,11 +143,13 @@ public interface DTOMapper {
     @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "endTime", ignore = true)
     @Mapping(target = "totalTime", ignore = true)
+    @Mapping(target = "score", ignore = true)
     Guess convertGuessPostDTOtoGuessEntity(GuessPostDTO guessPostDTO);
     
     @Mapping(source = "guessId", target = "guessId")
     @Mapping(source = "word", target = "word")
     @Mapping(source = "isValid", target = "isValid")
+    @Mapping(source = "score", target = "score")
     GuessGetDTO convertGuessEntityToGuessGetDTO(Guess guess);
 
 
@@ -172,6 +174,7 @@ public interface DTOMapper {
     @Mapping(target = "endTime", ignore = true)
     @Mapping(target = "totalTime", ignore = true)
     @Mapping(target = "voteCount", ignore = true)
+    @Mapping(target = "score", ignore = true)
     Clue convertCluePostDTOtoClueEntity(CluePostDTO cluePostDTO);
 
     @Mapping(source = "clueId", target = "clueId")
@@ -181,6 +184,7 @@ public interface DTOMapper {
     @Mapping(source = "voteCount", target = "voteCount")
     @Mapping(source = "ownerId", target = "ownerId")
     @Mapping(source = "totalTime", target = "totalTime")
+    @Mapping(source = "score", target = "score")
     ClueGetDTO convertClueEntityToClueGetDTO(Clue clue);
 
     @Mapping(source = "vote", target = "vote")
@@ -188,6 +192,7 @@ public interface DTOMapper {
 
     @Mapping(target = "messageId", ignore = true)
     @Mapping(source = "username",target = "username")
+    @Mapping(source = "icon", target = "icon")
     @Mapping(source = "text", target = "text")
     @Mapping(target = "timeCreated", ignore = true)
     @Mapping(target = "game", ignore = true)
@@ -196,6 +201,7 @@ public interface DTOMapper {
 
     @Mapping(source = "messageId", target = "messageId")
     @Mapping(source = "username",target = "username")
+    @Mapping(source = "icon", target = "icon")
     @Mapping(source = "text", target = "text")
     @Mapping(source = "timeCreated", target = "timeCreated")
     MessageGetDTO convertMessageEntityToMessageGetDTO(Message message);

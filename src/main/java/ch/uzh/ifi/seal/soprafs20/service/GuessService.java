@@ -129,6 +129,10 @@ public class GuessService {
         }
         else { score = 0; }
 
+        //store score in guess
+        guess.setScore(score);
+        guessRepository.save(guess);
+        guessRepository.flush();
         return score;
     }
 

@@ -47,6 +47,8 @@ public class BotController {
         catch (IOException e) {
             e.printStackTrace();
         }
+        //remove to similar synonyms
+        synonyms = this.removeEqualWords(synonyms,word);
         return synonyms;
     }
 
@@ -88,5 +90,15 @@ public class BotController {
 
         return round;
     }
+
+    /**
+     * removes all Synonyms that are to much the same as the selected word
+     */
+
+    public List<Synonym> removeEqualWords(List<Synonym> synonyms, String word){
+        //remove synonyms that contain word
+        synonyms.removeIf(synonym -> synonym.getWord().toLowerCase().contains(word.toLowerCase()));
+        return synonyms;
     }
+}
 

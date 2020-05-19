@@ -190,4 +190,12 @@ public class PlayerService {
         return totalScore;
     }
 
+    public RealPlayer removeScore(RealPlayer player, int score) {
+        int currentScore = player.getScore();
+        int newScore = currentScore - score;
+        player.setScore(newScore);
+        playerRepository.save(player);
+        playerRepository.flush();
+        return player;
+    }
 }
