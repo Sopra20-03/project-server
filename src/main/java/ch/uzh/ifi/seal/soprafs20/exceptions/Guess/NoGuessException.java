@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class NoGuessException extends RuntimeException {
     public NoGuessException(String message) {
-        super("Round with " +message + " : round has no Guess yet.");
+        super("Round with " + message + " has no Guess yet.");
     }
 }

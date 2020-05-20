@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class NotEnoughPlayersException extends RuntimeException {
-    public NotEnoughPlayersException(String message) {super(message + " : is the minimum Number of Player for a game. Add more Player to the game"); }
+    public NotEnoughPlayersException(String message) {super(message + " is the minimum Number of Player for a game. Add more Player to the game"); }
 }
 

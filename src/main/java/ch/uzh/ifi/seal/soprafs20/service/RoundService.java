@@ -172,7 +172,7 @@ public class RoundService {
     public Round getRunningRound(Game game){
         Round round =  roundRepository.findRoundByGameAndRoundStatus(game,RoundStatus.RUNNING);
         if (round == null){
-            throw new NoRunningRoundException(game.toString());
+            throw new NoRunningRoundException("Game with GameId: " + game.getGameId());
         }
         return round;
     }
@@ -202,7 +202,9 @@ public class RoundService {
      */
     public Round getRoundByRoundNum(Game game, int roundNum) {
         Round round = roundRepository.findRoundByGameAndRoundNum(game,roundNum);
-        if(round == null) { throw new RoundNotFoundException(); }
+        if (round == null) {
+            throw new RoundNotFoundException("Round with RoundNum: " + roundNum);
+        }
 
         return round;
 
