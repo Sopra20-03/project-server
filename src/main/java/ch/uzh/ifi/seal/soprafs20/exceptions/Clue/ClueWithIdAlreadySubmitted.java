@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ClueWithIdAlreadySubmitted extends RuntimeException {
-    public ClueWithIdAlreadySubmitted(String message) { super(message + " : clue was already submitted."); }
+    public ClueWithIdAlreadySubmitted(String message) { super("Clue with Id: "+message + " was already submitted."); }
 }

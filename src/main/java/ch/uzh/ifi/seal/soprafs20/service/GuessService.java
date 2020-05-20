@@ -6,7 +6,6 @@ import ch.uzh.ifi.seal.soprafs20.entity.Round;
 import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.NoGuessException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.Guess.RoundHasAlreadyGuessException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordCardException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.WordCard.NoWordSelectedException;
 import ch.uzh.ifi.seal.soprafs20.repository.GuessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +38,7 @@ public class GuessService {
         guess.setRound(round);
         //validate guess
         WordCard wordCard = round.getWordCard();
-        //throw exception if WordCard is null
-        if (wordCard == null) {
-            throw new NoWordCardException("Round with Round Number: "+ round.getRoundNum());
-        }
+
         guess.setIsValid(correctGuess(wordCard, guess));
         guessRepository.save(guess);
         guessRepository.flush();
@@ -57,7 +53,7 @@ public class GuessService {
     public Guess getGuess(Round round){
         Guess guess = guessRepository.getGuessByRound(round);
         if(guess == null){
-            throw new NoGuessException("Round Number:"+round.getRoundNum());
+            throw new NoGuessException("Round Number: " + round.getRoundNum());
         }
         return guess;
     }
@@ -70,7 +66,7 @@ public class GuessService {
         String selectedWord = wordCard.getSelectedWord();
         String guessedWord = guess.getWord();
         if(selectedWord==null){
-            throw new NoWordSelectedException(wordCard.toString());
+            throw new NoWordSelectedException("WordCardId: " + wordCard.getWordCardId());
         }
         return selectedWord.equalsIgnoreCase(guessedWord);
     }

@@ -53,7 +53,6 @@ public class Round implements Serializable {
     @Column
     private boolean correctGuessed;
      */
-    public Round(){}
 
     public Long getRoundId() {
         return roundId;

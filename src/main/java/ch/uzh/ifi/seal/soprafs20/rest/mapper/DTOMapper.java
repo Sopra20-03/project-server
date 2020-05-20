@@ -32,6 +32,7 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper
 public interface DTOMapper {
+    //This is not bad practice referring to mapstruct.org, although sonar cube complains
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
@@ -85,6 +86,7 @@ public interface DTOMapper {
     @Mapping(source = "gameStatus", target = "gameStatus")
     @Mapping(source = "gameMode", target = "gameMode")
     @Mapping(source = "botMode", target = "botMode")
+    @Mapping(source = "duration", target = "duration")
     @Mapping(source = "score", target = "score")
     GameGetDTO convertGameEntityToGameGetDTO(Game game);
 
@@ -102,6 +104,7 @@ public interface DTOMapper {
     @Mapping(source = "gameName", target = "gameName")
     @Mapping(source = "gameMode", target = "gameMode")
     @Mapping(source = "botMode", target = "botMode")
+    @Mapping(source = "duration", target = "duration")
     Game convertGamePostDTOtoGameEntity(GamePostDTO gamePostDTO);
 
 

@@ -69,11 +69,6 @@ public class UserControllerTest {
     }
 
 
-    @Test
-    public void test() throws Exception {
-        System.out.println("Test");
-    }
-
     /*
      * Assertions
      * assertEquals(Expected, Actual)

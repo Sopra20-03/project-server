@@ -106,7 +106,7 @@ public class GameService {
         List<RealPlayer> players = game.getPlayers();
         int minPlayers = 2;
         if(players.size() < minPlayers){
-            throw new NotEnoughPlayersException("There are only"+players.size()+"Players in the Game."+minPlayers);
+            throw new NotEnoughPlayersException("There are only "+players.size()+" Players in the Game."+minPlayers);
         }
         //set all players to ROLE.CLUE_WRITER
         for (RealPlayer player: players){

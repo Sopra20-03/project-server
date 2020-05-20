@@ -99,6 +99,7 @@ public class WordCardService {
         //read words into array
         Scanner scanner = null;
         try {
+
             String file = "src/main/resources/cards-EN.txt";
             scanner = new Scanner(new File(file));
 

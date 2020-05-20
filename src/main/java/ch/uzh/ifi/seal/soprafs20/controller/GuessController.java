@@ -18,14 +18,12 @@ public class GuessController {
     private final GameService gameService;
     private final PlayerService playerService;
     private final GuessService guessService;
-    private final ClueService clueService;
 
-    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService, ClueService clueService){
+    public GuessController(RoundService roundService, GameService gameService, PlayerService playerService, GuessService guessService){
         this.roundService = roundService;
         this.gameService = gameService;
         this.playerService = playerService;
         this.guessService = guessService;
-        this.clueService = clueService;
 
     }
 
