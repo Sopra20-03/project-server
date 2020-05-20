@@ -7,12 +7,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.ClueNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameFullException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.GameNotFoundException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.NotEnoughPlayersException;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Game.PlayerAlreadyInGameException;
-import ch.uzh.ifi.seal.soprafs20.service.ClueService;
+import ch.uzh.ifi.seal.soprafs20.exceptions.Game.*;
 import ch.uzh.ifi.seal.soprafs20.service.GameService;
 import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
 import ch.uzh.ifi.seal.soprafs20.service.UserService;
@@ -22,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +35,9 @@ public class GameExceptionTest {
     private PlayerService playerService;
     @Autowired
     private UserService userService;
-    
+
     public User testUser;
+    public Game testGame;
 
     @Test
     void GameFullExceptionTest() {
@@ -90,7 +85,7 @@ public class GameExceptionTest {
     @Test
     void NotEnoughPlayersExceptionTest(){
         //if not enough players in Game, error is thrown
-        Game testGame = new Game();
+        testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame.setCreatorUsername("testUser");
@@ -111,14 +106,14 @@ public class GameExceptionTest {
     @Test
     void PlayerAlreadyInGameExceptionTest(){
         //if not enough players in Game, error is thrown
-        Game testGame = new Game();
+        testGame = new Game();
         testGame.setGameId(1L);
         testGame.setGameName("testGame");
         testGame.setCreatorUsername("testUser");
         testGame.setGameMode(GameMode.STANDARD);
         testGame.setBotMode(BotMode.FRIENDLY);
         testGame.setDuration(Duration.SHORT);
-        //add player to testGame
+
         testGame = gameService.createGame(testGame);
         //create test User
         testUser = new User();
@@ -143,6 +138,39 @@ public class GameExceptionTest {
         });
 
         String expectedMessage = "Player is already in a game,  User with UserId: 1 is in Game with GameId: 1";
+        String actualMessage = exception.getMessage();
+        System.out.println(actualMessage);
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void PlayerNotInGameExceptionTest() {
+        //create Game
+        testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setGameName("testGame");
+        testGame.setCreatorUsername("testUser");
+        testGame.setGameMode(GameMode.STANDARD);
+        testGame.setBotMode(BotMode.FRIENDLY);
+        testGame.setDuration(Duration.SHORT);
+        testGame = gameService.createGame(testGame);
+        //create test User
+        testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setToken("testToken");
+        testUser.setStatus(UserStatus.OFFLINE);
+        testUser.setDateCreated(LocalDate.now());
+        testUser.setId(1L);
+        testUser = userService.createUser(testUser);
+        //remove player throws error because he is not in game
+
+        Exception exception = assertThrows(PlayerNotInGameException.class, () -> {
+            playerService.removePlayer(testGame, 1L);
+        });
+
+        String expectedMessage = "Player with UserId: 1 is not in the game.";
         String actualMessage = exception.getMessage();
         System.out.println(actualMessage);
         assertTrue(actualMessage.contains(expectedMessage));
