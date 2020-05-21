@@ -1,90 +1,30 @@
-# SoPra RESTful Service Template FS20
+# Just One Game Server (FS 20 Group 3)
 
-## Getting started with Spring Boot
+## Introduction
 
--   Documentation: https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
--   Guides: http://spring.io/guides
-    -   Building a RESTful Web Service: http://spring.io/guides/gs/rest-service/
-    -   Building REST services with Spring: http://spring.io/guides/tutorials/bookmarks/
+(here: the projects aim)
 
-## Setup this Template with your IDE of choice
+Just One is a cooperative board game for 3 to 7 players consisting of 13 rounds. In each round of the game, one of the players plays the role of a ‘guesser’, while the remaining players play the role of ‘clue writers’. The round’s guesser arbitrarily chooses a number which corresponds to a mystery word without taking a look at the word. The other players, ‘clue writers’, write down a one world clue for the round’s guesser who must figure out the mystery word based on the clues provided. But before the clues are given to the ‘guesser’, all duplicates are removed and thus the game becomes more interesting as giving clues which are too obvious may lead to backfire.
 
-Download your IDE of choice: (e.g., [Eclipse](http://www.eclipse.org/downloads/), [IntelliJ](https://www.jetbrains.com/idea/download/)) and make sure Java 13 is installed on your system.
+Our project, titled ‘Just One Game’, is a web implementation of the same board game and our aim is to provide a similar experience to the players from the comfort of their home. Modern web technology allows us to integrate more immersive and collaborative features which not only make the gameplay experience more enjoyable but also allows for the community to grow as players can challenge each other to games and keep track of scores on the leaderboard.
 
-1. File -> Open... -> SoPra Server Template
-2. Accept to import the project as a `gradle project`
 
-To build right click the `build.gradle` file and choose `Run Build`
+## Technologies
 
-## Building with Gradle
+(here: technologies we used (keep it short))
 
-You can use the local Gradle Wrapper to build the application.
+## High-level components
 
-Plattform-Prefix:
+(here: 3-5 main components, their role, their correlation, reference main class with link)
 
--   MAC OS X: `./gradlew`
--   Linux: `./gradlew`
--   Windows: `./gradlew.bat`
+## Launch & Deployment
 
-More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/).
+(here: steps a new developer would have to take to get started with the application: commands to build and run locally, run tests, external dependencies, how to do releases)
 
-### Build
+## Roadmap
 
-```bash
-./gradlew build
-```
+(here: top 2-3 features that new developers could add)
 
-### Run
+## Authors and acknowledgement
 
-```bash
-./gradlew bootRun
-```
-
-### Test
-
-```bash
-./gradlew test
-```
-
-### Development Mode
-
-You can start the backend in development mode, this will automatically trigger a new build and reload the application
-once the content of a file has been changed and you save the file.
-
-Start two terminal windows and run:
-
-`./gradlew build --continuous`
-
-and in the other one:
-
-`./gradlew bootRun`
-
-If you want to avoid running all tests with every change, use the following command instead:
-
-`./gradlew build --continuous -xtest`
-
-## API Endpoint Testing
-
-### Postman
-
--   We highly recommend to use [Postman](https://www.getpostman.com) in order to test your API Endpoints.
-
-## Debugging
-
-If something is not working and/or you don't know what is going on. We highly recommend that you use a debugger and step
-through the process step-by-step.
-
-To configure a debugger for SpringBoot's Tomcat servlet (i.e. the process you start with `./gradlew bootRun` command),
-do the following:
-
-1. Open Tab: **Run**/Edit Configurations
-2. Add a new Remote Configuration and name it properly
-3. Start the Server in Debug mode: `./gradlew bootRun --debug-jvm`
-4. Press `Shift + F9` or the use **Run**/Debug"Name of your task"
-5. Set breakpoints in the application where you need it
-6. Step through the process one step at a time
-
-## Testing
-
-Have a look here: https://www.baeldung.com/spring-boot-testing
-
+## License
