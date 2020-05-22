@@ -114,15 +114,12 @@ class GuessServiceTest {
         assertFalse(guess2.getIsValid());
     }
 
-    /*
     @Test
-    void validateGuess() {
-        Guess guess = new Guess();
-        guess.setWord("testWORD");
-
-        WordCard wordCard = new WordCard();
-        wordCard.setSelectedWord("testWord");
-        assertTrue(guessService.correctGuess(wordCard, guess));
+    void calculateIndividualScoreTest() {
+        guess1 = new Guess();
+        guess1.setIsValid(true);
+        assertEquals(20, guessService.calculateIndividualScore(guess1));
+        guess1.setIsValid(false);
+        assertEquals(0, guessService.calculateIndividualScore(guess1));
     }
-     */
 }

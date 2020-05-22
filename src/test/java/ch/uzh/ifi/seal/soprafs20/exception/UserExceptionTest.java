@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs20.exception;
 
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
+import ch.uzh.ifi.seal.soprafs20.exceptions.User.EmptyFieldException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserAlreadyExistsException;
 import ch.uzh.ifi.seal.soprafs20.exceptions.User.UserNotFoundException;
 import ch.uzh.ifi.seal.soprafs20.service.RoundService;
@@ -74,6 +75,19 @@ public class UserExceptionTest {
         });
 
         String expectedMessage = "User with Id: 3 doesn't exist.";
+        String actualMessage = exception.getMessage();
+        System.out.println(actualMessage);
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void EmptyFieldExceptionTest() {
+        //updateUser() with UserId = null throws error
+        Exception exception = assertThrows(EmptyFieldException.class, () -> {
+            userService.updateUser(null, testUser1);
+        });
+
+        String expectedMessage = "Id field should not be empty.";
         String actualMessage = exception.getMessage();
         System.out.println(actualMessage);
         assertTrue(actualMessage.contains(expectedMessage));

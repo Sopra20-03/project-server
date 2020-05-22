@@ -104,46 +104,48 @@ class GameServiceTest {
         assertFalse(testGame.getPlayers().isEmpty());
     }
 
-/*
     @Test
-    void startGame(){
+    void getGamesTest() {
+        //create game1
+        Game testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setCreatorUsername("testUser");
+        testGame.setBotMode(BotMode.FRIENDLY);
+        gameService.createGame(testGame);
+        //create game2
+        Game testGame2 = new Game();
+        testGame2.setGameId(2L);
+        testGame2.setCreatorUsername("testUser");
+        testGame2.setBotMode(BotMode.FRIENDLY);
+        gameService.createGame(testGame2);
+        //check if getGames() return both created games
+        assertEquals(2, gameService.getGames().size());
+    }
+
+    @Test
+    void removeGameTest() {
         //create game
         Game testGame = new Game();
         testGame.setGameId(1L);
-        testGame.setGameName("testGame");
-        testGame = gameService.createGame(testGame);
-
-        //create player to add
-        User testUser = new User();
-        testUser.setName("testName");
-        testUser.setUsername("testUsername");
-        testUser.setPassword("testPassword");
-        testUser.setToken("testToken");
-        testUser.setStatus(UserStatus.OFFLINE);
-        testUser.setDateCreated(LocalDate.now());
-        testUser.setId(1L);
-
-        //add two players, so the game can be started
-        RealPlayer testPlayer1 = new RealPlayer();
-        testPlayer1.setUserId(1L);
-        testPlayer1.setUserName("testPlayer1");
-        playerService.addPlayer(testGame,testPlayer1, testUser);
-        testPlayer1 = playerService.createPlayer(testPlayer1, testGame);
-        RealPlayer testPlayer2 = new RealPlayer();
-        testPlayer2.setUserId(2L);
-        testPlayer2.setUserName("testPlayer2");
-        playerService.addPlayer(testGame,testPlayer2, testUser);
-        testPlayer2= playerService.createPlayer(testPlayer2, testGame);
-
-        // check if game is running after starting it
-        assertEquals(1L,testGame.getGameId());
-        testGame = gameService.startGame(testGame.getGameId());
-        assertEquals(GameStatus.RUNNING, testGame.getGameStatus());
-        //check if 2 players are stored in the game
-        assertEquals(2,gameService.getGame(testGame.getGameId()).getPlayers().size());
-        //check if one player has ROLE.GUESSER
-        assertEquals(Role.GUESSER,gameService.getGame(testGame.getGameId()).getPlayers().iterator().next().getRole());
-
+        testGame.setCreatorUsername("testUser");
+        testGame.setBotMode(BotMode.FRIENDLY);
+        gameService.createGame(testGame);
+        //remove game
+        gameService.removeGame(testGame);
+        assertEquals(0, gameService.getGames().size());
     }
-*/
+
+    @Test
+    void increaseScoreTest() {
+        //create game
+        Game testGame = new Game();
+        testGame.setGameId(1L);
+        testGame.setCreatorUsername("testUser");
+        testGame.setBotMode(BotMode.FRIENDLY);
+        gameService.createGame(testGame);
+        assertEquals(0, testGame.getScore());
+        //increase GameScore
+        gameService.increaseScore(testGame);
+        assertEquals(1, testGame.getScore());
+    }
 }
