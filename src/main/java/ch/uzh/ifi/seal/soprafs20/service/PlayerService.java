@@ -37,14 +37,7 @@ public class PlayerService {
     }
 
 
-    //don't use this because there are more than one player with one UserID
-    public RealPlayer getPlayer(Long id) {
-        RealPlayer player = playerRepository.findRealPlayerByUserId(id);
-        if(player==null){
-            throw new PlayerNotFoundException(" with UserId: " + id.toString());
-        }
-        return player;
-    }
+
 
     public RealPlayer getPlayerByPlayerId(Long playerId) {
         RealPlayer player = playerRepository.findRealPlayerByPlayerId(playerId);
@@ -61,7 +54,6 @@ public class PlayerService {
      * @param game the user wants to join
      * @return Player
      */
-    //TODO: this method is only used in tests, maybe remove?
     public RealPlayer createPlayer(RealPlayer player, Game game) {
 
         //CompleteDetails
@@ -81,7 +73,7 @@ public class PlayerService {
         List<RealPlayer> players = playerRepository.findRealPlayersByGameAndUserId(game,userId);
 
         //exception if player is not in the game
-        if(players.size() == 0) {
+        if (players.isEmpty()) {
             throw new PlayerNotInGameException("UserId: " + userId.toString());
         }
         for(RealPlayer player:players) {
