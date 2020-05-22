@@ -274,7 +274,47 @@ public class ClueServiceTest {
 
     }
 
+    @Test
+    void manuallyValidateCluesPositiveVote() {
+        //set clue
+        Clue clue3 = new Clue();
+        clue3 = clueService.setClue(activeRound, testPlayer1, clue3);
+        wordCardService.selectWord(activeRound, "testWord");
 
+        //check if clue is valid
+        assertTrue(clue3.getIsValid());
+
+        //create vote
+        Vote vote = new Vote();
+        vote.setVote(false);
+
+        //invalidate clue
+        clueService.manuallyValidateClues(clue3, vote);
+
+        //check if clue is invalid
+        assertFalse(clue3.getIsValid());
+    }
+
+    @Test
+    void manuallyValidateCluesNegativeVote() {
+        //set clue
+        Clue clue3 = new Clue();
+        clue3 = clueService.setClue(activeRound, testPlayer1, clue3);
+        wordCardService.selectWord(activeRound, "testWord");
+
+        //check if clue is valid
+        assertTrue(clue3.getIsValid());
+
+        //create vote
+        Vote vote = new Vote();
+        vote.setVote(true);
+
+        //invalidate clue
+        clueService.manuallyValidateClues(clue3, vote);
+
+        //check if clue is invalid
+        assertTrue(clue3.getIsValid());
+    }
 
 /*
 
