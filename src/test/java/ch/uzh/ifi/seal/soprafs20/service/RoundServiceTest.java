@@ -5,10 +5,7 @@ import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
 import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
-import ch.uzh.ifi.seal.soprafs20.entity.Game;
-import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
-import ch.uzh.ifi.seal.soprafs20.entity.User;
-import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
+import ch.uzh.ifi.seal.soprafs20.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
@@ -60,6 +58,33 @@ class RoundServiceTest {
         testGame = gameService.createGame(testGame);
         testGame = roundService.createRounds(testGame, cards);
         cards = wordCardService.getWordCards(13);
+        //setup game
+        //create test User1 & add to game
+        testUser1 = new User();
+        testUser1.setName("testName");
+        testUser1.setUsername("testUsername");
+        testUser1.setPassword("testPassword");
+        testUser1.setToken("testToken");
+        testUser1.setStatus(UserStatus.OFFLINE);
+        testUser1.setDateCreated(LocalDate.now());
+        testUser1.setId(1L);
+        testUser1 = userService.createUser(testUser1);
+        testPlayer1 = new RealPlayer();
+        testPlayer1.setUserId(1L);
+        testGame = playerService.addPlayer(testGame, testPlayer1, testUser1);
+        //create test User2 & add to game
+        testUser2 = new User();
+        testUser2.setName("testName");
+        testUser2.setUsername("testUsername2");
+        testUser2.setPassword("testPassword");
+        testUser2.setToken("testToken");
+        testUser2.setStatus(UserStatus.OFFLINE);
+        testUser2.setDateCreated(LocalDate.now());
+        testUser2.setId(2L);
+        testUser2 = userService.createUser(testUser2);
+        testPlayer2 = new RealPlayer();
+        testPlayer2.setUserId(2L);
+        testGame = playerService.addPlayer(testGame, testPlayer2, testUser2);
     }
 
     @Test
@@ -92,33 +117,7 @@ class RoundServiceTest {
 
     @Test
     void startNextRoundTest(){
-        //setup game
-        //create test User1 & add to game
-        testUser1 = new User();
-        testUser1.setName("testName");
-        testUser1.setUsername("testUsername");
-        testUser1.setPassword("testPassword");
-        testUser1.setToken("testToken");
-        testUser1.setStatus(UserStatus.OFFLINE);
-        testUser1.setDateCreated(LocalDate.now());
-        testUser1.setId(1L);
-        testUser1 = userService.createUser(testUser1);
-        testPlayer1 = new RealPlayer();
-        testPlayer1.setUserId(1L);
-        testGame = playerService.addPlayer(testGame, testPlayer1, testUser1);
-        //create test User2 & add to game
-        testUser2 = new User();
-        testUser2.setName("testName");
-        testUser2.setUsername("testUsername2");
-        testUser2.setPassword("testPassword");
-        testUser2.setToken("testToken");
-        testUser2.setStatus(UserStatus.OFFLINE);
-        testUser2.setDateCreated(LocalDate.now());
-        testUser2.setId(2L);
-        testUser2 = userService.createUser(testUser2);
-        testPlayer2 = new RealPlayer();
-        testPlayer2.setUserId(2L);
-        testGame = playerService.addPlayer(testGame, testPlayer2, testUser2);
+
         //start game
         testGame = gameService.startGame(testGame);
         testGame = roundService.startFirstRound(testGame);
@@ -129,6 +128,21 @@ class RoundServiceTest {
         //check if next round is running now
         assertEquals(2, roundService.getRunningRound(testGame).getRoundNum());
 
+    }
+
+    @Test
+    void lastRoundFinishedTest() {
+        //start game
+        testGame = gameService.startGame(testGame);
+        testGame = roundService.startFirstRound(testGame);
+        //last round not finished yet
+        assertFalse(roundService.lastRoundFinished(testGame));
+    }
+
+    @Test
+    void isLastRoundTest() {
+        Round firstRound = roundService.getRoundByRoundNum(testGame, 1);
+        assertFalse(roundService.isLastRound(firstRound));
     }
 
 
