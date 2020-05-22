@@ -30,10 +30,12 @@ public class PlayerServiceTest {
     private UserService userService;
 
     public Game testGame;
+    public User testUser;
+    public RealPlayer testPlayer;
 
 
     @BeforeEach
-    void setup(){
+    void setup() {
         //create test Game
         testGame = new Game();
         testGame.setGameId(1L);
@@ -42,12 +44,9 @@ public class PlayerServiceTest {
         testGame.setGameMode(GameMode.STANDARD);
         testGame.setBotMode(BotMode.FRIENDLY);
         testGame = gameService.createGame(testGame);
-}
 
-    @Test
-    void createPlayer() {
         //create test User
-        User testUser = new User();
+        testUser = new User();
         testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -58,35 +57,21 @@ public class PlayerServiceTest {
         testUser = userService.createUser(testUser);
 
 
-
         //create test Player and add to Game
-        RealPlayer testPlayer = new RealPlayer();
+        testPlayer = new RealPlayer();
         testPlayer.setUserId(1L);
         testGame = playerService.addPlayer(testGame, testPlayer, testUser);
-        testPlayer = playerService.createPlayer(testPlayer, testGame);
+    }
 
+    @Test
+    void addPlayerTest() {
         assertEquals(testPlayer.getUserId(), testUser.getId());
         assertEquals(testPlayer.getGame(), testGame);
     }
 
     @Test
     void removePlayer(){
-        //create test User
-        User testUser = new User();
-        testUser.setName("testName");
-        testUser.setUsername("testUsername");
-        testUser.setPassword("testPassword");
-        testUser.setToken("testToken");
-        testUser.setStatus(UserStatus.OFFLINE);
-        testUser.setDateCreated(LocalDate.now());
-        testUser.setId(1L);
-        testUser = userService.createUser(testUser);
 
-
-        //create test Player and add to Game
-        RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setUserId(1L);
-        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
 
 
         //check number of players in game before and after removing
@@ -97,63 +82,44 @@ public class PlayerServiceTest {
 
     @Test
     void getTotalIndividualScore(){
-        //create test User
-        User testUser = new User();
-        testUser.setName("testName");
-        testUser.setUsername("testUsername");
-        testUser.setPassword("testPassword");
-        testUser.setToken("testToken");
-        testUser.setStatus(UserStatus.OFFLINE);
-        testUser.setDateCreated(LocalDate.now());
-        testUser.setId(1L);
-        testUser = userService.createUser(testUser);
 
-
-        //create test Player and add to Game
-        RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setUserId(1L);
-        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
         assertEquals(0, playerService.getTotalIndividualScore(testUser.getId()));
     }
 
     @Test
-    void getTotalNumberOfGames(){
-        //create test User
-        User testUser = new User();
-        testUser.setName("testName");
-        testUser.setUsername("testUsername");
-        testUser.setPassword("testPassword");
-        testUser.setToken("testToken");
-        testUser.setStatus(UserStatus.OFFLINE);
-        testUser.setDateCreated(LocalDate.now());
-        testUser.setId(1L);
-        testUser = userService.createUser(testUser);
+    void getTotalNumberOfGames() {
 
-
-        //create test Player and add to Game
-        RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setUserId(1L);
-        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
         assertEquals(1, playerService.getNumberOfPlayedGames(testUser.getId()));
     }
+
     @Test
-    void getTotalGameScore(){
-        //create test User
-        User testUser = new User();
-        testUser.setName("testName");
-        testUser.setUsername("testUsername");
-        testUser.setPassword("testPassword");
-        testUser.setToken("testToken");
-        testUser.setStatus(UserStatus.OFFLINE);
-        testUser.setDateCreated(LocalDate.now());
-        testUser.setId(1L);
-        testUser = userService.createUser(testUser);
-        
-        //create test Player and add to Game
-        RealPlayer testPlayer = new RealPlayer();
-        testPlayer.setUserId(1L);
-        testGame = playerService.addPlayer(testGame, testPlayer, testUser);
+    void getTotalGameScore() {
+        //check gamescore
         assertEquals(0, playerService.getTotalGameScore(testUser.getId()));
+    }
+
+    @Test
+    void setScoreTest() {
+        //check if score is set
+        playerService.setScore(1L, 1000);
+        assertEquals(1000, playerService.getPlayerByPlayerId(1L).getScore());
+    }
+
+    @Test
+    void removeAllPlayerTest() {
+
+        assertEquals(1, playerService.getPlayersByGame(testGame).size());
+        //check if all players are removed
+        playerService.removeAllPlayer(testGame);
+        assertEquals(0, playerService.getPlayersByGame(testGame).size());
+    }
+
+    @Test
+    void removeScoreTest() {
+        playerService.setScore(1L, 1000);
+        assertEquals(1000, playerService.getPlayerByPlayerId(1L).getScore());
+        playerService.removeScore(testPlayer, 10);
+        assertEquals(990, testPlayer.getScore());
     }
 
 }

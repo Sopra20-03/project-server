@@ -93,23 +93,24 @@ public class GameService {
     public void removeGame(Game game) {
         gameRepository.delete(game);
     }
+
     /**
      * starts a game if it exists
-     * @param gameId of game to be started
+     *
+     * @param game to be started
      * @return Game
      */
-    public Game startGame(Long gameId){
-        //get game by id
-        Game game = getGame(gameId);
+    public Game startGame(Game game) {
+
         game.setGameStatus(GameStatus.RUNNING);
         //set Role of players if there are more than minPlayers player
         List<RealPlayer> players = game.getPlayers();
         int minPlayers = 2;
-        if(players.size() < minPlayers){
-            throw new NotEnoughPlayersException("There are only "+players.size()+" Players in the Game."+minPlayers);
+        if (players.size() < minPlayers) {
+            throw new NotEnoughPlayersException("There are only " + players.size() + " Players in the Game." + minPlayers);
         }
         //set all players to ROLE.CLUE_WRITER
-        for (RealPlayer player: players){
+        for (RealPlayer player : players) {
             player.setRole(Role.CLUE_WRITER);
         }
         //set one player to ROLE.GUESSER

@@ -5,7 +5,10 @@ import ch.uzh.ifi.seal.soprafs20.entity.WordCard;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GameGetDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.dto.Game.GamePostDTO;
 import ch.uzh.ifi.seal.soprafs20.rest.mapper.DTOMapper;
-import ch.uzh.ifi.seal.soprafs20.service.*;
+import ch.uzh.ifi.seal.soprafs20.service.GameService;
+import ch.uzh.ifi.seal.soprafs20.service.PlayerService;
+import ch.uzh.ifi.seal.soprafs20.service.RoundService;
+import ch.uzh.ifi.seal.soprafs20.service.WordCardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -109,9 +112,10 @@ public class GameController {
     @PutMapping("games/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public GameGetDTO startGame(@PathVariable Long id){
+    public GameGetDTO startGame(@PathVariable Long id) {
         //start game
-        Game game = gameService.startGame(id);
+        Game game = gameService.getGame(id);
+        game = gameService.startGame(game);
         //start first round
         game = roundService.startFirstRound(game);
         GameGetDTO gameGetDTO = DTOMapper.INSTANCE.convertGameEntityToGameGetDTO(game);

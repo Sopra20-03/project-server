@@ -2,7 +2,6 @@ package ch.uzh.ifi.seal.soprafs20.service;
 
 import ch.uzh.ifi.seal.soprafs20.constant.*;
 import ch.uzh.ifi.seal.soprafs20.entity.*;
-import ch.uzh.ifi.seal.soprafs20.exceptions.Clue.PlayerIsNotClueWriterException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
 @SpringBootTest
@@ -101,9 +100,52 @@ class UserServiceTest {
     @Test
     void updateUserScore() {
         testUser1 = userService.updateUserScore(testUser1);
-        assertEquals(1,testUser1.getNrOfPlayedGames());
-        assertEquals(11,testUser1.getTotalGameScore());
-        assertEquals(0,testUser1.getTotalIndividualScore());
+        assertEquals(1, testUser1.getNrOfPlayedGames());
+        assertEquals(11, testUser1.getTotalGameScore());
+        assertEquals(0, testUser1.getTotalIndividualScore());
 
+    }
+
+    @Test
+    void getUsersTest() {
+        //check if both created users get returned
+        assertEquals(2, userService.getUsers().size());
+    }
+
+    @Test
+    void getUserTest() {
+        User user = userService.getUser(1L);
+        //check if correct user gets returned with .getUser()
+        assertEquals(testUser1.getId(), user.getId());
+    }
+
+    @Test
+    void updateUserTest() {
+        User updatedUser = userService.getUser(1L);
+        updatedUser.setUsername("newUsername");
+        //change userName
+        userService.updateUser(1L, updatedUser);
+        assertEquals("newUsername", userService.getUser(1L).getUsername());
+    }
+
+    @Test
+    void loginUserTest() {
+        //check if user Offline before login
+        assertEquals(UserStatus.OFFLINE, testUser1.getStatus());
+        //check if user Online after login
+        testUser1 = userService.loginUser("testUsername1");
+        assertEquals(UserStatus.ONLINE, testUser1.getStatus());
+    }
+
+    @Test
+    void logoutUserTest() {
+        //check if user Offline before login
+        assertEquals(UserStatus.OFFLINE, testUser1.getStatus());
+        //check if user Online after login
+        testUser1 = userService.loginUser("testUsername1");
+        assertEquals(UserStatus.ONLINE, testUser1.getStatus());
+        //check if user Offline again after logout
+        testUser1 = userService.logoutUser("testUsername1");
+        assertEquals(UserStatus.OFFLINE, testUser1.getStatus());
     }
 }

@@ -95,7 +95,7 @@ public class GameExceptionTest {
 
         testGame = gameService.createGame(testGame);
         Exception exception = assertThrows(NotEnoughPlayersException.class, () -> {
-            gameService.startGame(1L);
+            gameService.startGame(testGame);
         });
 
         String expectedMessage = "There are only 0 Players in the Game.2 is the minimum Number of Player for a game. Add more Player to the game";
