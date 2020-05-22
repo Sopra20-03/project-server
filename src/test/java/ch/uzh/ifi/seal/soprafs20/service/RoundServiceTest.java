@@ -4,6 +4,7 @@ package ch.uzh.ifi.seal.soprafs20.service;
 import ch.uzh.ifi.seal.soprafs20.constant.BotMode;
 import ch.uzh.ifi.seal.soprafs20.constant.GameMode;
 import ch.uzh.ifi.seal.soprafs20.constant.RoundStatus;
+import ch.uzh.ifi.seal.soprafs20.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs20.entity.Game;
 import ch.uzh.ifi.seal.soprafs20.entity.RealPlayer;
 import ch.uzh.ifi.seal.soprafs20.entity.User;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -87,7 +89,7 @@ class RoundServiceTest {
         //check if game is without rounds
         assertEquals(0, roundService.getRoundsOfGame(testGame).size());
     }
-    /*
+
     @Test
     void startNextRoundTest(){
         //setup game
@@ -117,13 +119,17 @@ class RoundServiceTest {
         testPlayer2 = new RealPlayer();
         testPlayer2.setUserId(2L);
         testGame = playerService.addPlayer(testGame, testPlayer2, testUser2);
-        testGame = gameService.getGame(1L);
-        //gameService.startGame(testGame.getGameId());
+        //start game
+        testGame = gameService.startGame(testGame);
+        testGame = roundService.startFirstRound(testGame);
+
         //check current running Round
         assertEquals(1, roundService.getRunningRound(testGame).getRoundNum());
-        //start next round
+        testGame = roundService.startNextRound(testGame);
+        //check if next round is running now
+        assertEquals(2, roundService.getRunningRound(testGame).getRoundNum());
 
     }
-*/
+
 
 }

@@ -132,31 +132,7 @@ public class RoundService {
             //set next guesser to guesser
             players.get(nextGuesserIndex).setRole(Role.GUESSER);
 
-            /*
-            //set all players to ROLE.CLUE_WRITER and assign a clue to them
-            for (ListIterator<RealPlayer> it = players.listIterator(); it.hasNext();){
-                RealPlayer player = it.next();
-                if (player.getRole() == Role.GUESSER) {
-                    previousGuesserIt = it;
-                }
-                player.setRole(Role.CLUE_WRITER);
-            }
-            //if end of set, reset iterator
-            if (!previousGuesserIt.hasNext()) {
-                previousGuesserIt = players.listIterator();
-            }
-            //set player to guesser
-            previousGuesserIt.next().setRole(Role.GUESSER);
 
-            //get list of clues in this round
-            List<Clue> clues = nextRound.getClues();
-            //assign clues to all players with ROLE.CLUE_WRITER
-            for (RealPlayer player: players){
-                if(player.getRole() != Role.GUESSER) {
-                    clues.listIterator().next().setOwnerId(player.getPlayerId());
-                }
-            }
-            */
         }
         round.setRoundStatus(RoundStatus.FINISHED);
         roundRepository.save(round);
