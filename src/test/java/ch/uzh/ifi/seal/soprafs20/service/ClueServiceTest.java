@@ -316,7 +316,50 @@ public class ClueServiceTest {
         assertTrue(clue3.getIsValid());
     }
 
-/*
+    @Test
+    void setClueScoreTest() {
+        //set clue
+        Clue clue3 = new Clue();
+        clue3 = clueService.setClue(activeRound, testPlayer1, clue3);
+
+        //set score
+        clueService.setClueScore(clue3, 50);
+
+        //assert that score was set
+        assertEquals(50, clue3.getScore());
+    }
+
+    @Test
+    void removeClueScoreTest() {
+        //set clue
+        Clue clue3 = new Clue();
+        clue3 = clueService.setClue(activeRound, testPlayer1, clue3);
+
+        //set score and remov it again
+        clue3.setScore(50);
+        clueService.removeClueScore(clue3);
+
+        //assert that score was set
+        assertEquals(0, clue3.getScore());
+    }
+
+
+    /*
+    @Test
+    void setEmptyClues() {
+        //add players to game
+        List<RealPlayer> players = new ArrayList<>();
+        players.add(testPlayer1);
+        players.add(testPlayer2);
+        testGame.setPlayers(players);
+        testGame.setPlayerCount(2);
+        //select word
+        activeRound = wordCardService.setSelectedWord(activeRound, "testWord");
+        //set empty clues
+        clueService.setEmptyClues(testGame, activeRound);
+        //check that two empty clues were created
+        assertEquals(2, activeRound.getClues().size());
+    }
 
     @Test
     void setEmptyClues() {
