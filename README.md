@@ -15,11 +15,11 @@ Our project, titled ‘Just One Game’, is a web implementation of the same boa
 - ‘Global Leaderboard’ which keeps track of not just the team scores but also the individual player scores.
 ## Technologies
 
-The application is built with the SpringBoot framework.
+The application is built with the [SpringBoot framework](https://spring.io/projects/spring-boot).
 
 It uses RESTful webservices to provide usage to clients. The requests are formatted in JSON.
 
-The bot player utilizes the "Data Muse" API, which is an API for the English language that allows the use of RESTful calls to find words used in the same context as a specified word as well as their frequency
+The bot player utilizes the "Data Muse" API, which is an API for the English language that allows the use of RESTful calls to find words used in the same context as a specified word as well as their frequency (you can find more information on their [website](https://www.datamuse.com/api/)).
 
 ## High-level components
 
@@ -29,7 +29,7 @@ The service classes take care of the functionality of the game. Each service is 
 
 The controller classes contain the REST requests. 
 
-[main class](src/main/java/ch/uzh/ifi/seal/soprafs20/Application.java)
+Start the application from our [main class](src/main/java/ch/uzh/ifi/seal/soprafs20/Application.java).
 
 ## Launch & Deployment
 
@@ -43,25 +43,25 @@ Plattform-Prefix:
 
 More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/).
 
-##### Build
+###### Build
 
 ```bash
 ./gradlew build
 ```
 
-##### Run
+###### Run
 
 ```bash
 ./gradlew bootRun
 ```
 
-##### Test
+###### Test
 
 ```bash
 ./gradlew test
 ```
 
-##### Development Mode
+###### Development Mode
 
 You can start the backend in development mode, this will automatically trigger a new build and reload the application
 once the content of a file has been changed and you save the file.
@@ -78,6 +78,8 @@ If you want to avoid running all tests with every change, use the following comm
 
 `./gradlew build --continuous -xtest`
 
+###### Releases
+To create a release, push a production-ready code base to the master branch and it will automatically deploy to Heroku.
 
 ## Roadmap
 
@@ -88,28 +90,19 @@ Ideas for additional features:
 - [ ] add timer to backend to make it possible to continue the game if a player leaves
 - [ ] mark clues that contain multiple words as invalid
 
+Contributions are welcome. Please open an issue first to discuss further procedure.
+
 ## Authors and acknowledgement
 
+Our developers:
+
+- [Shubhankar Joshi](https://github.com/ShobuXtrme)
+- [Taylor McCants](https://github.com/taylor-mccants)
+- [Hannah Rohe](https://github.com/hanuta27)
+- [Tom Wartmann](https://github.com/TomWartm)
+- [Jonas Wittwer](https://github.com/j94wittwer)
 
 ## License
-MIT License
 
-Copyright (c) [2020] [Shubhankar Joshi, Taylor McCants, Hannah Rohe, Tom Wartmann, Jonas Wittwer]
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+We chose the MIT License for our project.
+Check out the license [here](C:\Users\hanna\IdeaProjects\SoPra Group 03\SoPra03_server\LICENSE)
