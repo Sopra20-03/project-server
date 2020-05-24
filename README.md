@@ -1,23 +1,37 @@
-# SoPra RESTful Service Template FS20
+# Just One Game Server (FS 20 Group 3)
 
-## Getting started with Spring Boot
+## Introduction
 
--   Documentation: https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
--   Guides: http://spring.io/guides
-    -   Building a RESTful Web Service: http://spring.io/guides/gs/rest-service/
-    -   Building REST services with Spring: http://spring.io/guides/tutorials/bookmarks/
-    
+###### The original Game:
+Just One is a cooperative board game for 3 to 7 players consisting of 13 rounds. In each round of the game, one of the players plays the role of a ‘guesser’, while the remaining players play the role of ‘clue writers’. The round’s guesser arbitrarily chooses a number which corresponds to a mystery word without taking a look at the word. The other players, ‘clue writers’, write down a one word clue for the round’s guesser who must figure out the mystery word based on the clues provided. But before the clues are given to the ‘guesser’, all duplicates are removed and thus the game becomes more interesting as giving clues which are too obvious may lead to backfire.
 
-## Setup this Template with your IDE of choice
+###### Our Project
+Our project, titled ‘Just One Game’, is a web implementation of the same board game and our aim is to provide a similar experience to the players from the comfort of their home. Modern web technology allows us to integrate more immersive and collaborative features which make the gameplay experience more enjoyable.
 
-Download your IDE of choice: (e.g., [Eclipse](http://www.eclipse.org/downloads/), [IntelliJ](https://www.jetbrains.com/idea/download/)) and make sure Java 13 is installed on your system.
+###### Additional Features
+- ‘Rival Mode’ where players can challenge each other and configure game settings such as change round timer and score individual points.
+- ‘Clue Validation’ feature which automatically validates the clues provided by the clue writers and eliminates similar clues.
+- ‘Virtual Players’ with configurable intelligence levels (friendly or malicious).
+- ‘Global Leaderboard’ which keeps track of not just the team scores but also the individual player scores.
+## Technologies
 
-1. File -> Open... -> SoPra Server Template
-2. Accept to import the project as a `gradle project`
+The application is built with the [SpringBoot framework](https://spring.io/projects/spring-boot).
 
-To build right click the `build.gradle` file and choose `Run Build`
+It uses RESTful webservices to provide usage to clients. The requests are formatted in JSON.
 
-## Building with Gradle
+The bot player utilizes the "Data Muse" API, which is an API for the English language that allows the use of RESTful calls to find words used in the same context as a specified word as well as their frequency (you can find more information on their [website](https://www.datamuse.com/api/)).
+
+## High-level components
+
+The application contains several entities to store users, players, games, guesses, clues, etc. The entities are connected to each other by relationships.
+
+The service classes take care of the functionality of the game. Each service is responsible for only one entity (single relationship principle).
+
+The controller classes contain the REST requests. 
+
+Start the application from our [main class](src/main/java/ch/uzh/ifi/seal/soprafs20/Application.java).
+
+## Launch & Deployment
 
 You can use the local Gradle Wrapper to build the application.
 
@@ -29,25 +43,25 @@ Plattform-Prefix:
 
 More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/).
 
-### Build
+###### Build
 
 ```bash
 ./gradlew build
 ```
 
-### Run
+###### Run
 
 ```bash
 ./gradlew bootRun
 ```
 
-### Test
+###### Test
 
 ```bash
 ./gradlew test
 ```
 
-### Development Mode
+###### Development Mode
 
 You can start the backend in development mode, this will automatically trigger a new build and reload the application
 once the content of a file has been changed and you save the file.
@@ -64,28 +78,31 @@ If you want to avoid running all tests with every change, use the following comm
 
 `./gradlew build --continuous -xtest`
 
-## API Endpoint Testing
+###### Releases
+To create a release, push a production-ready code base to the master branch and it will automatically deploy to Heroku.
 
-### Postman
+## Roadmap
 
--   We highly recommend to use [Postman](https://www.getpostman.com) in order to test your API Endpoints.
+Ideas for additional features:
 
-## Debugging
+- [ ] add a friendslist to each player and implement possibility to add friends
+- [ ] add possibility to play private games and invite friends
+- [ ] add timer to backend to make it possible to continue the game if a player leaves
+- [ ] mark clues that contain multiple words as invalid
 
-If something is not working and/or you don't know what is going on. We highly recommend that you use a debugger and step
-through the process step-by-step.
+Contributions are welcome. Please open an issue first to discuss further procedure.
 
-To configure a debugger for SpringBoot's Tomcat servlet (i.e. the process you start with `./gradlew bootRun` command),
-do the following:
+## Authors and acknowledgement
 
-1. Open Tab: **Run**/Edit Configurations
-2. Add a new Remote Configuration and name it properly
-3. Start the Server in Debug mode: `./gradlew bootRun --debug-jvm`
-4. Press `Shift + F9` or the use **Run**/Debug"Name of your task"
-5. Set breakpoints in the application where you need it
-6. Step through the process one step at a time
+Our developers:
 
-## Testing
+- [Shubhankar Joshi](https://github.com/ShobuXtrme)
+- [Taylor McCants](https://github.com/taylor-mccants)
+- [Hannah Rohe](https://github.com/hanuta27)
+- [Tom Wartmann](https://github.com/TomWartm)
+- [Jonas Wittwer](https://github.com/j94wittwer)
 
-Have a look here: https://www.baeldung.com/spring-boot-testing
+## License
 
+We chose the MIT License for our project.
+Check out the license [here](C:\Users\hanna\IdeaProjects\SoPra Group 03\SoPra03_server\LICENSE)
